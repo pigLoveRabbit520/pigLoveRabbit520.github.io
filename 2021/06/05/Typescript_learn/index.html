@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="安装 安装TypeScript还是很简单的： 1npm install -g typescript 写个hello.ts 123456function sayHello(person: string) &amp;#123;    return &amp;#x27;Hello, &amp;#x27; + person;&amp;#125;let user &#x3D; &amp;#x27;Tom&amp;#x27;;console.log(sayHello">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Typescript学习">
+<meta property="og:url" content="http://yoursite.com/2021/06/05/Typescript_learn/index.html">
+<meta property="og:site_name" content="pigLoveRabbit的博客">
+<meta property="og:description" content="安装 安装TypeScript还是很简单的： 1npm install -g typescript 写个hello.ts 123456function sayHello(person: string) &amp;#123;    return &amp;#x27;Hello, &amp;#x27; + person;&amp;#125;let user &#x3D; &amp;#x27;Tom&amp;#x27;;console.log(sayHello">
+<meta property="og:locale" content="zh_CN">
+<meta property="article:published_time" content="2021-06-05T08:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-08T08:20:23.612Z">
+<meta property="article:author" content="pigLoveRabbit">
+<meta property="article:tag" content="Typescript">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/06/05/Typescript_learn/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://yoursite.com/2021/06/05/Typescript_learn/","path":"2021/06/05/Typescript_learn/","title":"Typescript学习"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Typescript学习 | pigLoveRabbit的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">pigLoveRabbit的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">pigLoveRabbit的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85"><span class="nav-number">1.</span> <span class="nav-text">安装</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%8D%E6%9D%82%E7%82%B9"><span class="nav-number">2.</span> <span class="nav-text">复杂点</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">pigLoveRabbit</p>
+  <div class="site-description" itemprop="description">一个简单的博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pigLoveRabbit520" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pigLoveRabbit520" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/06/05/Typescript_learn/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="pigLoveRabbit">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pigLoveRabbit的博客">
+      <meta itemprop="description" content="一个简单的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Typescript学习 | pigLoveRabbit的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Typescript学习
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2021-06-05 16:00:00" itemprop="dateCreated datePublished" datetime="2021-06-05T16:00:00+08:00">2021-06-05</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-08 16:20:23" itemprop="dateModified" datetime="2023-09-08T16:20:23+08:00">2023-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Javascript/" itemprop="url" rel="index"><span itemprop="name">Javascript</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><h2 id="安装">安装</h2>
+<p>安装TypeScript还是很简单的： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">npm install -g typescript</span><br></pre></td></tr></table></figure> 写个hello.ts <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">function sayHello(person: string) &#123;</span><br><span class="line">    return &#x27;Hello, &#x27; + person;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">let user = &#x27;Tom&#x27;;</span><br><span class="line">console.log(sayHello(user));</span><br></pre></td></tr></table></figure></p>
+<span id="more"></span>
+<p>然后执行 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">tsc hello.ts</span><br></pre></td></tr></table></figure> 这时候会生成一个编译好的文件 <code>hello.js</code>： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">function sayHello(person) &#123;</span><br><span class="line">    return &#x27;Hello, &#x27; + person;</span><br><span class="line">&#125;</span><br><span class="line">var user = &#x27;Tom&#x27;;</span><br><span class="line">console.log(sayHello(user));</span><br></pre></td></tr></table></figure> 可以看到，编译好后的就是平常的js代码，TS的一个优点在于类型的声明，这样在编译期bug就能及早发现（当然还有其他好处，例如<strong>泛型</strong>，<strong>Enum</strong>，<strong>装饰器</strong>）。<br />
+注意： <strong>TypeScript</strong> 只会在编译时对类型进行静态检查，如果发现有错误，编译的时候就会报错。而在运行时，与普通的 JavaScript 文件一样，不会对类型进行检查。</p>
+<h2 id="复杂点">复杂点</h2>
+<p>构建一个TypeScript的项目就需要<code>tsconfig.json</code>文件了。如果一个目录下存在一个<code>tsconfig.json</code>文件，那么它意味着这个目录是TypeScript项目的根目录。</p>
+<p>创建一个简单的项目，目录结构如下： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">MyProj</span><br><span class="line">├── src</span><br><span class="line">│   ├── index.ts</span><br><span class="line">│   ├── person.ts</span><br><span class="line">│   ├── animal.js</span><br><span class="line">├── package.json</span><br><span class="line">├── tsconfig.json</span><br><span class="line">├── .eslintrc.js  </span><br></pre></td></tr></table></figure> tsconfig.json文件<br />
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;compilerOptions&quot;: &#123;</span><br><span class="line">    &quot;target&quot;: &quot;ES2018&quot;, // 指定ECMAScript目标版本</span><br><span class="line">    &quot;module&quot;: &quot;commonjs&quot;,</span><br><span class="line">    &quot;moduleResolution&quot;: &quot;node&quot;,</span><br><span class="line">    &quot;experimentalDecorators&quot;: true, // 开启装饰器</span><br><span class="line">    &quot;strict&quot;: true, // 启用所有严格类型检查选项</span><br><span class="line">    &quot;noImplicitAny&quot;: false,</span><br><span class="line">    &quot;removeComments&quot;: true, // 移除注释</span><br><span class="line">    &quot;sourceMap&quot;: false,</span><br><span class="line">    &quot;rootDir&quot;: &quot;src&quot;, // Default: The longest common path of all non-declaration input files.</span><br><span class="line">    &quot;outDir&quot;: &quot;dist&quot;, // 编译输出目录</span><br><span class="line">    &quot;allowJs&quot;: true // 允许JS文件混合</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;include&quot;: [&quot;src/**/*&quot;], // 指定要编译文件</span><br><span class="line">  &quot;exclude&quot;: [&quot;node_modules&quot;] // 指定要排除的编译文件</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure> <strong>person.ts</strong> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">export class Person &#123;</span><br><span class="line">  private name: string;</span><br><span class="line"></span><br><span class="line">  private age: number;</span><br><span class="line"></span><br><span class="line">  constructor(name: string, age: number) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">    this.age = age;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  getName() &#123;</span><br><span class="line">    return this.name;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">export interface Payload &#123;</span><br><span class="line">  title: string;</span><br><span class="line">  description: string;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure> <strong>index.ts</strong> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">import &#123; Person, Payload &#125; from &#x27;./person&#x27;;</span><br><span class="line">import &#123; Animal &#125; from &#x27;./animal&#x27;;</span><br><span class="line"></span><br><span class="line">const p = new Person(&#x27;sala&#x27;, 12);</span><br><span class="line"></span><br><span class="line">const data: Payload = &#123; title: &#x27;One&#x27;, description: &#x27;happy...&#x27; &#125;;</span><br><span class="line"></span><br><span class="line">type StringOrNumber = string | number;</span><br><span class="line"></span><br><span class="line">function getString(n: StringOrNumber): string &#123;</span><br><span class="line">  if (typeof n === &#x27;string&#x27;) &#123;</span><br><span class="line">    return n;</span><br><span class="line">  &#125; else &#123;</span><br><span class="line">    return n.toString();</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">const animal = new Animal(&#x27;Kitty&#x27;);</span><br></pre></td></tr></table></figure> <strong>animal.js</strong> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">export class Animal &#123;</span><br><span class="line">  constructor(name) &#123;</span><br><span class="line">    this.name = name;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  sayHi() &#123;</span><br><span class="line">    return &#x27;hello!&#x27;;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p><strong>package.json</strong> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">  &quot;name&quot;: &quot;ts_learn_project&quot;,</span><br><span class="line">  &quot;version&quot;: &quot;1.0.0&quot;,</span><br><span class="line">  &quot;description&quot;: &quot;&quot;,</span><br><span class="line">  &quot;main&quot;: &quot;index.js&quot;,</span><br><span class="line">  &quot;dependencies&quot;: &#123;&#125;,</span><br><span class="line">  &quot;devDependencies&quot;: &#123;</span><br><span class="line">    &quot;@typescript-eslint/eslint-plugin&quot;: &quot;^4.22.0&quot;,</span><br><span class="line">    &quot;@typescript-eslint/parser&quot;: &quot;^4.22.0&quot;,</span><br><span class="line">    &quot;eslint&quot;: &quot;^7.24.0&quot;,</span><br><span class="line">    &quot;typescript&quot;: &quot;^4.2.4&quot;,</span><br><span class="line">    &quot;mwts&quot;: &quot;^1.0.5&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;scripts&quot;: &#123;</span><br><span class="line">    &quot;test&quot;: &quot;echo \&quot;Error: no test specified\&quot; &amp;&amp; exit 1&quot;,</span><br><span class="line">    &quot;eslint&quot;: &quot;eslint src --ext .ts&quot;,</span><br><span class="line">    &quot;build&quot;: &quot;tsc&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;keywords&quot;: [</span><br><span class="line">    &quot;typescript&quot;</span><br><span class="line">  ],</span><br><span class="line">  &quot;author&quot;: &quot;salamander&quot;,</span><br><span class="line">  &quot;license&quot;: &quot;ISC&quot;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure> <strong>.eslintrc.js</strong><br />
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">module.exports = &#123;</span><br><span class="line">  parser: &quot;@typescript-eslint/parser&quot;,</span><br><span class="line">  plugins: [&quot;@typescript-eslint&quot;],</span><br><span class="line">  rules: &#123;</span><br><span class="line">    // 禁止使用 var</span><br><span class="line">    &quot;no-var&quot;: &quot;error&quot;,</span><br><span class="line">    // 优先使用 interface 而不是 type</span><br><span class="line">    &quot;@typescript-eslint/consistent-type-definitions&quot;: [&quot;error&quot;, &quot;interface&quot;],</span><br><span class="line">  &#125;,</span><br><span class="line">&#125;;</span><br><span class="line"></span><br></pre></td></tr></table></figure> 2019 年 1 月，TypeScirpt 官方决定全面采用 ESLint 作为代码检查的工具，并创建了一个新项目 <a target="_blank" rel="noopener" href="https://github.com/typescript-eslint/typescript-eslint/blob/master/packages/parser">typescript-eslint</a>，提供了 TypeScript 文件的解析器 <span class="citation" data-cites="typescript-eslint/parser">@typescript-eslint/parser</span> 和相关的配置选项 <span class="citation" data-cites="typescript-eslint/eslint-plugin">@typescript-eslint/eslint-plugin</span> 等。</p>
+<p>参考： * <a target="_blank" rel="noopener" href="https://typescript.bootcss.com/tutorials/typescript-in-5-minutes.html">TypeScript 中文手册</a> * <a target="_blank" rel="noopener" href="https://www.typescriptlang.org/tsconfig">tsconfig</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="pigLoveRabbit 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="pigLoveRabbit 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Typescript/" rel="tag"># Typescript</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/03/20/RabbitMQ_DLX/" rel="prev" title="RabbitMQ四五事之死信队列">
+                  <i class="fa fa-angle-left"></i> RabbitMQ四五事之死信队列
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/07/27/core_dump_in_docker/" rel="next" title="Node.js：容器中Core Dump">
+                  Node.js：容器中Core Dump <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">pigLoveRabbit</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://unpkg.com/hexo-generator-searchdb@1.4.1/dist/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

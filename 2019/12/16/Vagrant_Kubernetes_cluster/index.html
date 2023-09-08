@@ -1,0 +1,429 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="k8s logo  Kubernetes，简称 k8s（k，8 个字符，s——明白了？）或者 “kube”，是一个开源的 Linux 容器自动化运维平台，它消除了容器化应用程序在部署、伸缩时涉及到的许多手动操作。换句话说，你可以将多台主机组合成集群来运行 Linux 容器，而 Kubernetes 可以帮助你简单高效地管理那些集群。构成这些集群的主机还可以跨越公有云、私有云以及混合云。 本文环境">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vagrant本地快速启动Kubernetes集群">
+<meta property="og:url" content="http://yoursite.com/2019/12/16/Vagrant_Kubernetes_cluster/index.html">
+<meta property="og:site_name" content="pigLoveRabbit的博客">
+<meta property="og:description" content="k8s logo  Kubernetes，简称 k8s（k，8 个字符，s——明白了？）或者 “kube”，是一个开源的 Linux 容器自动化运维平台，它消除了容器化应用程序在部署、伸缩时涉及到的许多手动操作。换句话说，你可以将多台主机组合成集群来运行 Linux 容器，而 Kubernetes 可以帮助你简单高效地管理那些集群。构成这些集群的主机还可以跨越公有云、私有云以及混合云。 本文环境">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex">
+<meta property="og:image" content="http://yoursite.com/images/virtualbox-error.png">
+<meta property="og:image" content="https://s2.ax1x.com/2019/12/31/l1FsQP.png">
+<meta property="og:image" content="http://yoursite.com/images/k8s-dashboard.png">
+<meta property="article:published_time" content="2019-12-16T05:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-08T08:20:23.612Z">
+<meta property="article:author" content="pigLoveRabbit">
+<meta property="article:tag" content="kubernetes">
+<meta property="article:tag" content="vagrant">
+<meta property="article:tag" content="virtualbox">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex">
+
+
+<link rel="canonical" href="http://yoursite.com/2019/12/16/Vagrant_Kubernetes_cluster/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://yoursite.com/2019/12/16/Vagrant_Kubernetes_cluster/","path":"2019/12/16/Vagrant_Kubernetes_cluster/","title":"Vagrant本地快速启动Kubernetes集群"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>Vagrant本地快速启动Kubernetes集群 | pigLoveRabbit的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">pigLoveRabbit的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">pigLoveRabbit的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85vagrant"><span class="nav-number">1.</span> <span class="nav-text">安装Vagrant</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85virtualbox"><span class="nav-number">2.</span> <span class="nav-text">安装VirtualBox</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">3.</span> <span class="nav-text">启动虚拟机</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8kubernetes%E9%9B%86%E7%BE%A4"><span class="nav-number">4.</span> <span class="nav-text">启动Kubernetes集群</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AE%89%E8%A3%85%E5%AE%98%E6%96%B9dashboard"><span class="nav-number">5.</span> <span class="nav-text">安装官方Dashboard</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AEdashboard"><span class="nav-number">5.1.</span> <span class="nav-text">访问Dashboard</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#kubectl-proxy"><span class="nav-number">5.1.1.</span> <span class="nav-text">kubectl proxy</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#nodeport"><span class="nav-number">5.1.2.</span> <span class="nav-text">NodePort</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90-client-key-data"><span class="nav-number"></span> <span class="nav-text">生成 client-key-data</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%94%9F%E6%88%90-p12"><span class="nav-number"></span> <span class="nav-text">生成 p12</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA"><span class="nav-number">1.</span> <span class="nav-text">创建</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%A0%E9%99%A4"><span class="nav-number">2.</span> <span class="nav-text">删除</span></a></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">pigLoveRabbit</p>
+  <div class="site-description" itemprop="description">一个简单的博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pigLoveRabbit520" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pigLoveRabbit520" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/12/16/Vagrant_Kubernetes_cluster/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="pigLoveRabbit">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pigLoveRabbit的博客">
+      <meta itemprop="description" content="一个简单的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="Vagrant本地快速启动Kubernetes集群 | pigLoveRabbit的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          Vagrant本地快速启动Kubernetes集群
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2019-12-16 13:00:00" itemprop="dateCreated datePublished" datetime="2019-12-16T13:00:00+08:00">2019-12-16</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-08 16:20:23" itemprop="dateModified" datetime="2023-09-08T16:20:23+08:00">2023-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/kubernetes/" itemprop="url" rel="index"><span itemprop="name">kubernetes</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><figure>
+<img src="https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex" alt="" /><figcaption>k8s logo</figcaption>
+</figure>
+<p>Kubernetes，简称 <strong>k8s</strong>（k，8 个字符，s——明白了？）或者 “kube”，是一个开源的 Linux 容器自动化运维平台，它消除了容器化应用程序在部署、伸缩时涉及到的许多手动操作。换句话说，你可以将多台主机组合成集群来运行 Linux 容器，而 Kubernetes 可以帮助你简单高效地管理那些集群。构成这些集群的主机还可以跨越公有云、私有云以及混合云。</p>
+<p>本文环境： * OS：Ubuntu 18.04.3 LTS * Vagrant版本：2.2.6 * VirtualBox版本：6.0.14 r133895 (Qt5.9.5) * Kubernetes版本：1.16.3</p>
+<span id="more"></span>
+<h2 id="安装vagrant">安装Vagrant</h2>
+<p>Vagrant是一个基于Ruby的工具，用于创建和部署虚拟化开发环境。它使用Oracle的开源<strong>VirtualBox</strong>（其实也可以用别的）虚拟化系统，使用Chef创建自动化虚拟环境。 首先到<a target="_blank" rel="noopener" href="https://www.vagrantup.com/downloads.html">官网</a>下载最新的<code>Vagrant</code>，现在最新的版本是<strong>2.2.6</strong>，当然你也可以通过命令行下载： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.deb</span><br></pre></td></tr></table></figure> 验证<code>Vagrant</code>安装成功 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant --version</span><br><span class="line">Vagrant 2.2.6</span><br></pre></td></tr></table></figure></p>
+<h2 id="安装virtualbox">安装VirtualBox</h2>
+<p>Vagrant是基于虚拟机（<code>VirtualBox</code>，<code>VMware</code>这些）的，所以我们还需要安装<code>VirtualBox</code>。在Vagrant官网可以它适配的<code>VirtualBox</code>版本 &gt; Vagrant comes with support out of the box for VirtualBox, a free, cross-platform consumer virtualization product. &gt; The VirtualBox provider is compatible with VirtualBox versions 4.0.x, 4.1.x, 4.2.x, 4.3.x, 5.0.x, 5.1.x, 5.2.x, and 6.0.x.</p>
+<p>这里我下载6.0版本的<code>VirtualBox</code>，<a target="_blank" rel="noopener" href="https://www.virtualbox.org/wiki/Download_Old_Builds_6_0">下载地址</a> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">wget https://download.virtualbox.org/virtualbox/6.0.14/virtualbox-6.0_6.0.14-133895~Ubuntu~bionic_amd64.deb</span><br></pre></td></tr></table></figure> <strong>注意：不要通过apt-get安装VirtualBox</strong>，因为5.1.0版本开始，VirtualBox已经不需要<strong>DKMS</strong>，apt官方源中VirtualBox比较老，是会带上<code>DKMS</code>的： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">DKMS isn&#x27;t required by VirtualBox since 5.1.0. Which means that you downloaded VirtualBox from your Debian &quot;store&quot;. That&#x27;s a fork, not supported. You can either ask in their forums for help, or completely remove/uninstall/delete/purge their version and install the official version from the Downloads section of VirtualBox (https://www.virtualbox.org/wiki/Downloads).</span><br></pre></td></tr></table></figure></p>
+<h2 id="启动虚拟机">启动虚拟机</h2>
+<p><code>Vagrant</code>跟docker类似，可以提供一致性环境的，它可以编写<code>Vagrantfile</code>（类似<code>docker-compose.yml</code>）来定义虚拟机中安装什么软件，环境和配置，它使用ruby语法。<code>Vagrant</code>也做了<a target="_blank" rel="noopener" href="https://app.vagrantup.com/boxes/search">box源</a>，类似docker image。<br />
+下面给出一个小栗子感受下，这里使用<code>ubuntu/xenial64</code>（Ubuntu 16.06 64位）这个box <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br></pre></td><td class="code"><pre><span class="line"># -*- mode: ruby -*-</span><br><span class="line"># vi: set ft=ruby :</span><br><span class="line"></span><br><span class="line"># All Vagrant configuration is done below. The &quot;2&quot; in Vagrant.configure</span><br><span class="line"># configures the configuration version (we support older styles for</span><br><span class="line"># backwards compatibility). Please don&#x27;t change it unless you know what</span><br><span class="line"># you&#x27;re doing.</span><br><span class="line">Vagrant.configure(&quot;2&quot;) do |config|</span><br><span class="line">  ##### DEFINE VM #####</span><br><span class="line">  # The most common configuration options are documented and commented below.</span><br><span class="line">  # For a complete reference, please see the online documentation at</span><br><span class="line">  # https://docs.vagrantup.com.</span><br><span class="line"></span><br><span class="line">  # Every Vagrant development environment requires a box. You can search for</span><br><span class="line">  # boxes at https://app.vagrantup.com/boxes/search.</span><br><span class="line">  config.vm.box = &quot;ubuntu/xenial64&quot;</span><br><span class="line"></span><br><span class="line">  config.vm.hostname = &quot;ubuntu-01&quot;</span><br><span class="line">  config.vm.box_check_update = false</span><br><span class="line"></span><br><span class="line">  # Create a private network, which allows host-only access to the machine</span><br><span class="line">  # using a specific IP.</span><br><span class="line">  config.vm.network &quot;private_network&quot;, ip: &quot;192.168.10.50&quot;</span><br><span class="line"></span><br><span class="line">  # Create a public network, which generally matched to bridged network.</span><br><span class="line">  # Bridged networks make the machine appear as another physical device on</span><br><span class="line">  # your network.</span><br><span class="line">  # config.vm.network &quot;public_network&quot;</span><br><span class="line"></span><br><span class="line">  # Share an additional folder to the guest VM. The first argument is</span><br><span class="line">  # the path on the host to the actual folder. The second argument is</span><br><span class="line">  # the path on the guest to mount the folder. And the optional third</span><br><span class="line">  # argument is a set of non-required options.</span><br><span class="line">  # config.vm.synced_folder &quot;../data&quot;, &quot;/vagrant_data&quot;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">  # Provider-specific configuration so you can fine-tune various</span><br><span class="line">  # backing providers for Vagrant. These expose provider-specific options.</span><br><span class="line">  # Example for VirtualBox:</span><br><span class="line">  #</span><br><span class="line">  # config.vm.provider &quot;virtualbox&quot; do |vb|</span><br><span class="line">  #   # Display the VirtualBox GUI when booting the machine</span><br><span class="line">  #   vb.gui = true</span><br><span class="line">  #</span><br><span class="line">  #   # Customize the amount of memory on the VM:</span><br><span class="line">  #   vb.memory = &quot;1024&quot;</span><br><span class="line">  # end</span><br><span class="line">  #</span><br><span class="line">  # View the documentation for the provider you are using for more</span><br><span class="line">  # information on available options.</span><br><span class="line">  </span><br><span class="line">  config.vm.provider &quot;virtualbox&quot; do |v|</span><br><span class="line">    v.name = &quot;ubuntu-for-fun&quot;</span><br><span class="line">    v.customize [&quot;modifyvm&quot;, :id, &quot;--memory&quot;, &quot;2048&quot;]</span><br><span class="line">    v.customize [&quot;modifyvm&quot;, :id, &quot;--cpus&quot;, &quot;2&quot;]</span><br><span class="line">  end</span><br><span class="line"></span><br><span class="line">  # Create a forwarded port mapping which allows access to a specific port</span><br><span class="line">  # within the machine from a port on the host machine. In the example below,</span><br><span class="line">  # accessing &quot;localhost:8080&quot; will access port 80 on the guest machine.</span><br><span class="line">  # config.vm.network &quot;forwarded_port&quot;, guest: 80, host: 8080</span><br><span class="line">end</span><br></pre></td></tr></table></figure> 更多虚拟机的配置可以查看<a target="_blank" rel="noopener" href="https://www.vagrantup.com/docs/vagrantfile/machine_settings.html">官方文档</a><br />
+在Vagrantfile对应的目录下终端键入：<code>vagrant up</code>，然后<code>Vagrant</code>会帮我们下载<code>ubuntu/xenial64</code>这个box，不过在中国下载速度非常慢，在运行<code>vagrant up</code>时我们可以看到这个box的下载url，你可以用<strong>迅雷</strong>这些工具直接下载，然后在本地手动添加box <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">$ vagrant up</span><br><span class="line">Bringing machine &#x27;default&#x27; up with &#x27;virtualbox&#x27; provider...</span><br><span class="line">==&gt; default: Box &#x27;ubuntu/xenial64&#x27; could not be found. Attempting to find and install...</span><br><span class="line">    default: Box Provider: virtualbox</span><br><span class="line">    default: Box Version: &gt;= 0</span><br><span class="line">==&gt; default: Loading metadata for box &#x27;ubuntu/xenial64&#x27;</span><br><span class="line">    default: URL: https://vagrantcloud.com/ubuntu/xenial64</span><br><span class="line">==&gt; default: Adding box &#x27;ubuntu/xenial64&#x27; (v20191217.0.0) for provider: virtualbox</span><br><span class="line">    default: Downloading: https://vagrantcloud.com/ubuntu/boxes/xenial64/versions/20191217.0.0/providers/virtualbox.box</span><br><span class="line">==&gt; default: Box download is resuming from prior download progress</span><br><span class="line">    default: Download redirected to host: cloud-images.ubuntu.com</span><br><span class="line">    .........</span><br><span class="line"></span><br><span class="line">$ cd ~/box-add</span><br><span class="line">$ ls</span><br><span class="line">metadata.json  virtualbox.box</span><br><span class="line">$ vagrant box add metadata.json</span><br><span class="line">==&gt; box: Loading metadata for box &#x27;metadata.json&#x27;</span><br><span class="line">    box: URL: file:///home/lucy/vm-add/metadata.json</span><br><span class="line">==&gt; box: Adding box &#x27;ubuntu/xenial64&#x27; (v20191217.0.0) for provider: virtualbox</span><br><span class="line">    box: Downloading: ./virtualbox.box</span><br><span class="line">==&gt; box: Successfully added box &#x27;ubuntu/xenial64&#x27; (v20191217.0.0) for &#x27;virtualbox&#x27;!</span><br><span class="line">$ vagrant box list</span><br><span class="line">ubuntu/xenial64 (virtualbox, 20191217.0.0)</span><br></pre></td></tr></table></figure> 下载box的URL是<code>https://vagrantcloud.com/ubuntu/boxes/xenial64/versions/20191217.0.0/providers/virtualbox.box</code>，可以看到下载的版本是<strong>20191217.0.0</strong>，另外注意一下这里添加box的是使用一个<code>metadata.json</code>文件，使用这样的方式可以定义box版本号，它的内容是： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">&#123;</span><br><span class="line">    &quot;name&quot;: &quot;ubuntu/xenial64&quot;,</span><br><span class="line">    &quot;versions&quot;: [&#123;</span><br><span class="line">        &quot;version&quot;: &quot;20191217.0.0&quot;,</span><br><span class="line">        &quot;providers&quot;: [&#123;</span><br><span class="line">            &quot;name&quot;: &quot;virtualbox&quot;,</span><br><span class="line">            &quot;url&quot;: &quot;./virtualbox.box&quot;</span><br><span class="line">        &#125;]</span><br><span class="line">    &#125;]</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></p>
+<p>启动虚拟机你可能会遇到下面的错误：</p>
+<figure>
+<img src="/images/virtualbox-error.png" alt="" /><figcaption>upload successful</figcaption>
+</figure>
+<p>解决方法是在<strong>BIOS</strong>中将<strong>Intel Virtualization Technology</strong>改为Enable。<br />
+启动虚拟机后，你可以通过<code>vagrant ssh</code>进入虚拟机。</p>
+<h2 id="启动kubernetes集群">启动Kubernetes集群</h2>
+<p>这里我编写了一个<code>Vagrantfile</code>，一键启动集群： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br></pre></td><td class="code"><pre><span class="line"># -*- mode: ruby -*-</span><br><span class="line"># vi: set ft=ruby :</span><br><span class="line"></span><br><span class="line">k8sVersion = &#x27;1.16.3&#x27;</span><br><span class="line">servers = [</span><br><span class="line">    &#123;</span><br><span class="line">        :name =&gt; &quot;k8s-head&quot;,</span><br><span class="line">        :type =&gt; &quot;master&quot;,</span><br><span class="line">        :box =&gt; &quot;ubuntu/xenial64&quot;,</span><br><span class="line">        :box_version =&gt; &quot;20191217.0.0&quot;,</span><br><span class="line">        :eth1 =&gt; &quot;192.168.205.10&quot;,</span><br><span class="line">        :mem =&gt; &quot;2048&quot;,</span><br><span class="line">        :cpu =&gt; &quot;2&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        :name =&gt; &quot;k8s-node-1&quot;,</span><br><span class="line">        :type =&gt; &quot;node&quot;,</span><br><span class="line">        :box =&gt; &quot;ubuntu/xenial64&quot;,</span><br><span class="line">        :box_version =&gt; &quot;20191217.0.0&quot;,</span><br><span class="line">        :eth1 =&gt; &quot;192.168.205.11&quot;,</span><br><span class="line">        :mem =&gt; &quot;2048&quot;,</span><br><span class="line">        :cpu =&gt; &quot;2&quot;</span><br><span class="line">    &#125;,</span><br><span class="line">    &#123;</span><br><span class="line">        :name =&gt; &quot;k8s-node-2&quot;,</span><br><span class="line">        :type =&gt; &quot;node&quot;,</span><br><span class="line">        :box =&gt; &quot;ubuntu/xenial64&quot;,</span><br><span class="line">        :box_version =&gt; &quot;20191217.0.0&quot;,</span><br><span class="line">        :eth1 =&gt; &quot;192.168.205.12&quot;,</span><br><span class="line">        :mem =&gt; &quot;2048&quot;,</span><br><span class="line">        :cpu =&gt; &quot;2&quot;</span><br><span class="line">    &#125;</span><br><span class="line">]</span><br><span class="line"></span><br><span class="line"># This script to install k8s using kubeadm will get executed after a box is provisioned</span><br><span class="line">$configureBox = &lt;&lt;-SCRIPT</span><br><span class="line">    cp /etc/apt/sources.list /etc/apt/sources.list.bak</span><br><span class="line">    # use Aliyun apt source</span><br><span class="line">    cat &gt; /etc/apt/sources.list&lt;&lt;EOF</span><br><span class="line"># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span><br><span class="line">deb https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line"># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span><br><span class="line">EOF</span><br><span class="line"></span><br><span class="line">    export DEBIAN_FRONTEND=noninteractive</span><br><span class="line"></span><br><span class="line">    # install docker v17.03</span><br><span class="line">    # reason for not using docker provision is that it always installs latest version of the docker, but kubeadm requires 17.03 or older</span><br><span class="line">    apt-get update</span><br><span class="line">    # step 1: 安装必要的一些系统工具</span><br><span class="line">    apt-get install -y apt-transport-https ca-certificates curl software-properties-common</span><br><span class="line">    # step 2: 安装GPG证书</span><br><span class="line">    curl -fsSL http://mirrors.aliyun.com/docker-ce/linux/ubuntu/gpg | sudo apt-key add -</span><br><span class="line">    add-apt-repository &quot;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/$(. /etc/os-release; echo &quot;$ID&quot;) $(lsb_release -cs) stable&quot;</span><br><span class="line">    apt-get update &amp;&amp; apt-get install -y docker-ce=$(apt-cache madison docker-ce | grep 17.03 | head -1 | awk &#x27;&#123;print $3&#125;&#x27;)</span><br><span class="line">    # run docker commands as vagrant user (sudo not required)</span><br><span class="line">    usermod -aG docker vagrant</span><br><span class="line">    # 修改docker配置</span><br><span class="line">    sudo bash -c &#x27;cat &gt; /etc/docker/daemon.json &lt;&lt;EOF</span><br><span class="line">&#123;</span><br><span class="line">  &quot;exec-opts&quot;: [&quot;native.cgroupdriver=systemd&quot;],</span><br><span class="line">  &quot;log-driver&quot;: &quot;json-file&quot;,</span><br><span class="line">  &quot;log-opts&quot;: &#123;</span><br><span class="line">    &quot;max-size&quot;: &quot;100m&quot;</span><br><span class="line">  &#125;,</span><br><span class="line">  &quot;storage-driver&quot;: &quot;overlay2&quot;</span><br><span class="line">&#125;</span><br><span class="line">EOF&#x27;</span><br><span class="line">    sudo systemctl daemon-reload</span><br><span class="line">    sudo systemctl restart docker</span><br><span class="line"></span><br><span class="line">    # install kubeadm</span><br><span class="line">    apt-get install -y apt-transport-https curl</span><br><span class="line">    curl -s https://mirrors.aliyun.com/kubernetes/apt/doc/apt-key.gpg | sudo apt-key add -  # aliyun GPG</span><br><span class="line">    cat &lt;&lt;EOF &gt;/etc/apt/sources.list.d/kubernetes.list</span><br><span class="line">    deb https://mirrors.aliyun.com/kubernetes/apt/ kubernetes-xenial main</span><br><span class="line">EOF</span><br><span class="line">    apt-get update</span><br><span class="line">    apt-get install -y kubelet=#&#123;k8sVersion&#125;-00 kubeadm=#&#123;k8sVersion&#125;-00 kubectl=#&#123;k8sVersion&#125;-00</span><br><span class="line">    apt-mark hold kubelet kubeadm kubectl</span><br><span class="line">    # kubelet requires swap off</span><br><span class="line">    swapoff -a</span><br><span class="line">    # keep swap off after reboot</span><br><span class="line">    sudo sed -i &#x27;/ swap / s/^\(.*\)$/#\1/g&#x27; /etc/fstab</span><br><span class="line">    # ip of this box</span><br><span class="line">    IP_ADDR=`ifconfig enp0s8 | grep Mask | awk &#x27;&#123;print $2&#125;&#x27;| cut -f2 -d:`</span><br><span class="line">    # set node-ip</span><br><span class="line">    sudo sh -c &#x27;echo KUBELET_EXTRA_ARGS= &gt;&gt; /etc/default/kubelet&#x27;</span><br><span class="line">    sudo sed -i &quot;/^[^#]*KUBELET_EXTRA_ARGS=/c\KUBELET_EXTRA_ARGS=--node-ip=$IP_ADDR&quot; /etc/default/kubelet</span><br><span class="line">    sudo systemctl restart kubelet</span><br><span class="line">SCRIPT</span><br><span class="line"></span><br><span class="line">$configureMaster = &lt;&lt;-SCRIPT</span><br><span class="line">    export DEBIAN_FRONTEND=noninteractive</span><br><span class="line">    echo &quot;This is master&quot;</span><br><span class="line">    # ip of this box</span><br><span class="line">    IP_ADDR=`ifconfig enp0s8 | grep Mask | awk &#x27;&#123;print $2&#125;&#x27;| cut -f2 -d:`</span><br><span class="line">    # install k8s master</span><br><span class="line">    HOST_NAME=$(hostname -s)</span><br><span class="line">    kubeadm init --image-repository registry.aliyuncs.com/google_containers  --kubernetes-version v#&#123;k8sVersion&#125; \</span><br><span class="line">    --apiserver-advertise-address=$IP_ADDR --apiserver-cert-extra-sans=$IP_ADDR  --node-name $HOST_NAME --pod-network-cidr=172.16.0.0/16</span><br><span class="line">    #copying credentials to regular user - vagrant</span><br><span class="line">    sudo --user=vagrant mkdir -p /home/vagrant/.kube</span><br><span class="line">    cp -i /etc/kubernetes/admin.conf /home/vagrant/.kube/config</span><br><span class="line">    chown $(id -u vagrant):$(id -g vagrant) /home/vagrant/.kube/config</span><br><span class="line"></span><br><span class="line">    # install Calico pod network addon</span><br><span class="line">    export KUBECONFIG=/etc/kubernetes/admin.conf</span><br><span class="line">    wget https://docs.projectcalico.org/v3.10/getting-started/kubernetes/installation/hosted/kubernetes-datastore/calico-networking/1.7/calico.yaml</span><br><span class="line">    # Pod的ip范围</span><br><span class="line">    sed -i &#x27;s/192.168.0.0/172.16.0.0/g&#x27; calico.yaml</span><br><span class="line">    kubectl apply -f calico.yaml</span><br><span class="line">    kubeadm token create --print-join-command &gt;&gt; /etc/kubeadm_join_cmd.sh</span><br><span class="line">    chmod +x /etc/kubeadm_join_cmd.sh</span><br><span class="line">    # required for setting up password less ssh between guest VMs</span><br><span class="line">    sudo sed -i &quot;/^[^#]*PasswordAuthentication[[:space:]]no/c\PasswordAuthentication yes&quot; /etc/ssh/sshd_config</span><br><span class="line">    sudo service sshd restart</span><br><span class="line">SCRIPT</span><br><span class="line"></span><br><span class="line">$configureNode = &lt;&lt;-SCRIPT</span><br><span class="line">    export DEBIAN_FRONTEND=noninteractive</span><br><span class="line">    echo &quot;This is worker&quot;</span><br><span class="line">    apt-get install -y sshpass</span><br><span class="line">    sshpass -p &quot;vagrant&quot; scp -o StrictHostKeyChecking=no vagrant@192.168.205.10:/etc/kubeadm_join_cmd.sh .</span><br><span class="line">    sh ./kubeadm_join_cmd.sh</span><br><span class="line">SCRIPT</span><br><span class="line"></span><br><span class="line">Vagrant.configure(&quot;2&quot;) do |config|</span><br><span class="line">    </span><br><span class="line">    servers.each do |opts|</span><br><span class="line">        config.vm.define opts[:name] do |config|</span><br><span class="line"></span><br><span class="line">            config.vm.box = opts[:box]</span><br><span class="line">            config.vm.box_version = opts[:box_version]</span><br><span class="line">            config.vm.hostname = opts[:name]</span><br><span class="line">            config.vm.network :private_network, ip: opts[:eth1]</span><br><span class="line"></span><br><span class="line">            config.vm.provider &quot;virtualbox&quot; do |v|</span><br><span class="line"></span><br><span class="line">                v.name = opts[:name]</span><br><span class="line">            	v.customize [&quot;modifyvm&quot;, :id, &quot;--groups&quot;, &quot;/Salamander Development&quot;]</span><br><span class="line">                v.customize [&quot;modifyvm&quot;, :id, &quot;--memory&quot;, opts[:mem]]</span><br><span class="line">                v.customize [&quot;modifyvm&quot;, :id, &quot;--cpus&quot;, opts[:cpu]]</span><br><span class="line">                v.customize [&quot;modifyvm&quot;, :id, &quot;--natdnshostresolver1&quot;, &quot;on&quot;]</span><br><span class="line">                v.customize [&quot;modifyvm&quot;, :id, &quot;--natdnsproxy1&quot;, &quot;on&quot;]</span><br><span class="line">            end</span><br><span class="line"></span><br><span class="line">            # we cannot use this because we can&#x27;t install the docker version we want - https://github.com/hashicorp/vagrant/issues/4871</span><br><span class="line">            #config.vm.provision &quot;docker&quot;</span><br><span class="line"></span><br><span class="line">            config.vm.provision &quot;shell&quot;, inline: $configureBox</span><br><span class="line"></span><br><span class="line">            if opts[:type] == &quot;master&quot;</span><br><span class="line">                config.vm.provision &quot;shell&quot;, inline: $configureMaster</span><br><span class="line">            else</span><br><span class="line">                config.vm.provision &quot;shell&quot;, inline: $configureNode</span><br><span class="line">            end</span><br><span class="line"></span><br><span class="line">        end</span><br><span class="line"></span><br><span class="line">    end</span><br><span class="line">end</span><br></pre></td></tr></table></figure> 启动集群<code>vagrant up</code>，这里需要耐心等待几分钟，因为要启动三个虚拟机、安装一些软件和设置环境。<br />
+启动集群后，进入<strong>Master节点</strong><code>vagrant ssh k8s-head</code>查看集群状态： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl get nodes</span><br><span class="line">NAME         STATUS   ROLES    AGE    VERSION</span><br><span class="line">k8s-head     Ready    master   5h7m   v1.15.7</span><br><span class="line">k8s-node-1   Ready    &lt;none&gt;   5h5m   v1.15.7</span><br><span class="line">k8s-node-2   Ready    &lt;none&gt;   5h2m   v1.15.7</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">$ kubectl get pods --all-namespaces</span><br><span class="line">NAMESPACE              NAME                                         READY   STATUS    RESTARTS   AGE</span><br><span class="line">kube-system            calico-node-j5kw8                            2/2     Running   4          5h7m</span><br><span class="line">kube-system            calico-node-kq89s                            2/2     Running   0          5h6m</span><br><span class="line">kube-system            calico-node-twvdl                            2/2     Running   0          5h2m</span><br><span class="line">kube-system            coredns-94d74667-jhjl8                       1/1     Running   2          5h7m</span><br><span class="line">kube-system            coredns-94d74667-qd9qv                       1/1     Running   2          5h7m</span><br><span class="line">kube-system            etcd-k8s-head                                1/1     Running   2          5h6m</span><br><span class="line">kube-system            kube-apiserver-k8s-head                      1/1     Running   2          5h6m</span><br><span class="line">kube-system            kube-controller-manager-k8s-head             1/1     Running   2          5h6m</span><br><span class="line">kube-system            kube-proxy-7d8wj                             1/1     Running   0          5h2m</span><br><span class="line">kube-system            kube-proxy-hn89g                             1/1     Running   0          5h6m</span><br><span class="line">kube-system            kube-proxy-t8qf9                             1/1     Running   2          5h7m</span><br><span class="line">kube-system            kube-scheduler-k8s-head                      1/1     Running   2          5h6m</span><br><span class="line"></span><br><span class="line">$ kubectl cluster-info</span><br><span class="line">Kubernetes master is running at https://192.168.205.10:6443</span><br><span class="line">KubeDNS is running at https://192.168.205.10:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy</span><br><span class="line"></span><br><span class="line">$ kubectl get componentstatuses</span><br><span class="line">NAME                 STATUS    MESSAGE             ERROR</span><br><span class="line">scheduler            Healthy   ok                  </span><br><span class="line">controller-manager   Healthy   ok                  </span><br><span class="line">etcd-0               Healthy   &#123;&quot;health&quot;:&quot;true&quot;&#125;</span><br></pre></td></tr></table></figure> 节点都是<strong>Ready</strong>和pods都是<strong>Running</strong>说明集群成功启动了，<code>kubectl cluster-info</code>可以查看集群信息，<code>kubectl get componentstatuses</code>可以查看各组件信息。</p>
+<h2 id="安装官方dashboard">安装官方Dashboard</h2>
+<p><a target="_blank" rel="noopener" href="https://github.com/kubernetes/dashboard">Dashboard</a>是Kubernetes的一个插件，代码单独放在Github的一个仓库里。<br />
+按照<a target="_blank" rel="noopener" href="https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/">官方文档</a>，步骤也蛮简单的，首先执行命令： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml</span><br></pre></td></tr></table></figure></p>
+<p>查看一下Dashboard的服务： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br></pre></td><td class="code"><pre><span class="line"></span><br><span class="line">$ kubectl  get pod,deploy,svc -n kubernetes-dashboard</span><br><span class="line">NAME                                             READY   STATUS    RESTARTS   AGE</span><br><span class="line">pod/dashboard-metrics-scraper-6c554969c6-jqhjx   1/1     Running   0          5h5m</span><br><span class="line">pod/kubernetes-dashboard-56c5f95c6b-jrj58        1/1     Running   5          5h5m</span><br><span class="line"></span><br><span class="line">NAME                                              READY   UP-TO-DATE   AVAILABLE   AGE</span><br><span class="line">deployment.extensions/dashboard-metrics-scraper   1/1     1            1           5h5m</span><br><span class="line">deployment.extensions/kubernetes-dashboard        1/1     1            1           5h5m</span><br><span class="line"></span><br><span class="line">NAME                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE</span><br><span class="line">service/dashboard-metrics-scraper   ClusterIP   10.106.117.224   &lt;none&gt;        8000/TCP   5h5m</span><br><span class="line">service/kubernetes-dashboard        ClusterIP   10.98.23.78      &lt;none&gt;        443/TCP    5h5m</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"># 我们可以看到官方的dashboard帮我们启动了web-ui，并且帮我们启动了一个Metric服务</span><br><span class="line"># 但是dashboard默认使用的https的443端口</span><br><span class="line"></span><br><span class="line"># 测试下Dashboard是否正常</span><br><span class="line">$ curl https://10.98.23.78:443 -k -I</span><br><span class="line">HTTP/1.1 200 OK</span><br><span class="line">Accept-Ranges: bytes</span><br><span class="line">Cache-Control: no-store</span><br><span class="line">Content-Length: 1262</span><br><span class="line">Content-Type: text/html; charset=utf-8</span><br><span class="line">Last-Modified: Fri, 06 Dec 2019 15:14:02 GMT</span><br><span class="line">Date: Tue, 31 Dec 2019 06:35:55 GMT</span><br></pre></td></tr></table></figure></p>
+<h3 id="访问dashboard">访问Dashboard</h3>
+<p>访问Dashboard有好几种方式 * 将kubernetes-dashboard Service暴露 NodePort，使用 http://NodeIP:nodePort 地址访问 dashboard * 使用Ingress之类的入口服务进行代理访问 * 通过 API server 访问 dashboard（https 6443端口和http 8080端口方式） * 通过 kubectl proxy 访问 dashboard</p>
+<h4 id="kubectl-proxy">kubectl proxy</h4>
+<p>首先这里我们通过<code>kubectl proxy</code>，在<strong>k8s-head</strong>节点执行： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl proxy --address=&#x27;0.0.0.0&#x27; --accept-hosts=&#x27;^*$&#x27;</span><br></pre></td></tr></table></figure> 在访问之前，我们需要先创建一个<strong>User</strong>（一个<strong>ServiceAccount</strong>，k8s内概念），创建dashboard-adminuser.yaml文件，写入 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">apiVersion: v1</span><br><span class="line">kind: ServiceAccount</span><br><span class="line">metadata:</span><br><span class="line">  name: admin-user</span><br><span class="line">  namespace: kubernetes-dashboard</span><br><span class="line"></span><br><span class="line">---</span><br><span class="line"></span><br><span class="line">apiVersion: rbac.authorization.k8s.io/v1</span><br><span class="line">kind: ClusterRoleBinding</span><br><span class="line">metadata:</span><br><span class="line">  name: admin-user</span><br><span class="line">roleRef:</span><br><span class="line">  apiGroup: rbac.authorization.k8s.io</span><br><span class="line">  kind: ClusterRole</span><br><span class="line">  name: cluster-admin</span><br><span class="line">subjects:</span><br><span class="line">- kind: ServiceAccount</span><br><span class="line">  name: admin-user</span><br><span class="line">  namespace: kubernetes-dashboard</span><br><span class="line"></span><br></pre></td></tr></table></figure> 执行<code>kubectl apply -f dashboard-adminuser.yaml</code>。<br />
+查看用户token（之后在浏览器中输入） <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">$ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk &#x27;&#123;print $1&#125;&#x27;)</span><br><span class="line">Name:         admin-user-token-mxmtr</span><br><span class="line">Namespace:    kubernetes-dashboard</span><br><span class="line">Labels:       &lt;none&gt;</span><br><span class="line">Annotations:  kubernetes.io/service-account.name: admin-user</span><br><span class="line">              kubernetes.io/service-account.uid: 54ddc041-f3af-41fa-a824-6a3e29f0ffa3</span><br><span class="line"></span><br><span class="line">Type:  kubernetes.io/service-account-token</span><br><span class="line"></span><br><span class="line">Data</span><br><span class="line">====</span><br><span class="line">ca.crt:     1025 bytes</span><br><span class="line">namespace:  20 bytes</span><br><span class="line">token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLW14bXRyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1NGRkYzA0MS1mM2FmLTQxZmEtYTgyNC02YTNlMjlmMGZmYTMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.osyqbUwS4pLDEhZ0iL0aAu2f5me82bGTEfXEW8ycS5-JRar4iYcWkqhJZ9FhZV47P0WKLT9UWiLcDw1rVPZbMSHrRnFZcRHmLO35tVBaijjvgsgm2X5856G-HS1VNMgQBSZXiQXr1Lt3Dj9JHHksbiLGg-3wRy7HqD-I8JcR1pHZ_ViOqQ1j6WIbvhfEE3FpTuuSPAcjwVNutXAfur6oJktjYAcwMjWTQ4-yMQ2NRSWM7AcJtjp_7p3WwnHmO6fH6LtrGQzmXwHh5ICmei2LrAE2cxwN251aMVnrPGt00Ff4ij2-yLyI4VZOgAsNuPegctm-GuCOTGNX9Ew-o1si_Q</span><br></pre></td></tr></table></figure></p>
+<p>为了在宿主机上能访问，我们需要用VirutalBox管理界面添加一个端口映射：</p>
+<figure>
+<img src="https://s2.ax1x.com/2019/12/31/l1FsQP.png" alt="" /><figcaption>upload successful</figcaption>
+</figure>
+<p>好了，现在我们可以访问Dashboard了，浏览内输入<code>http://localhost:31694/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.</code>，可以看到 <img src="/images/k8s-dashboard.png" /></p>
+<h4 id="nodeport">NodePort</h4>
+<p>这个过程比<code>kubectl proxy</code>简单，再安装Dashboard之前，把<code>Service</code>类型改成<code>NodePort</code>即可： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml  #下载yaml</span><br><span class="line">$ vim recommended.yaml</span><br></pre></td></tr></table></figure> 找到Service部分，改成NodePort ```` kind: Service apiVersion: v1 metadata: labels: k8s-app: kubernetes-dashboard name: kubernetes-dashboard namespace: kubernetes-dashboard spec: type: NodePort # 这个是新增部分 ports: - port: 443 targetPort: 8443 selector: k8s-app: kubernetes-dashboard <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">查看，Service的随机端口：</span><br></pre></td></tr></table></figure> $ kubectl get pods,svc --all-namespaces</p>
+<p>NAMESPACE NAME READY STATUS RESTARTS AGE kube-system pod/calico-node-ffn9k 2/2 Running 10 32d kube-system pod/calico-node-fz8v6 2/2 Running 12 32d kube-system pod/calico-node-gvjft 2/2 Running 8 32d kube-system pod/coredns-94d74667-8jp5k 1/1 Running 4 32d kube-system pod/coredns-94d74667-tlph7 1/1 Running 4 32d kube-system pod/etcd-k8s-head 1/1 Running 4 32d kube-system pod/kube-apiserver-k8s-head 1/1 Running 4 32d kube-system pod/kube-controller-manager-k8s-head 1/1 Running 4 32d kube-system pod/kube-proxy-4rsp4 1/1 Running 5 32d kube-system pod/kube-proxy-dccdc 1/1 Running 5 32d kube-system pod/kube-proxy-x82tl 1/1 Running 4 32d kube-system pod/kube-scheduler-k8s-head 1/1 Running 4 32d kubernetes-dashboard pod/dashboard-metrics-scraper-6c554969c6-wmwpt 1/1 Running 0 18m kubernetes-dashboard pod/kubernetes-dashboard-56c5f95c6b-s66g8 1/1 Running 0 18m</p>
+<p>NAMESPACE NAME TYPE CLUSTER-IP EXTERNAL-IP PORT(S) AGE default service/kubernetes ClusterIP 10.96.0.1 <none> 443/TCP 32d kube-system service/calico-typha ClusterIP 10.104.182.223 <none> 5473/TCP 32d kube-system service/kube-dns ClusterIP 10.96.0.10 <none> 53/UDP,53/TCP,9153/TCP 32d kubernetes-dashboard service/dashboard-metrics-scraper ClusterIP 10.99.243.131 <none> 8000/TCP 18m kubernetes-dashboard service/kubernetes-dashboard NodePort 10.96.23.239 <none> 443:30646/TCP 18m <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">可以看到暴露端口是**30646**，访问Master节点上的30646端口`https://192.168.205.10:30646`，需要填写的**token**和上面`kubectl proxy`遇到的问题一样，先创建**ServiceAccount**和**ClusterRoleBinding**，然后查看这个账号的token。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">#### API Server</span><br><span class="line">首先，我们需要导出p12证书：</span><br></pre></td></tr></table></figure> # 生成 client-certificate-data grep 'client-certificate-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d &gt;&gt; kubecfg.crt</p>
+<h1 id="生成-client-key-data">生成 client-key-data</h1>
+<p>grep 'client-key-data' ~/.kube/config | head -n 1 | awk '{print $2}' | base64 -d &gt;&gt; kubecfg.key</p>
+<h1 id="生成-p12">生成 p12</h1>
+<p>openssl pkcs12 -export -clcerts -inkey kubecfg.key -in kubecfg.crt -out kubecfg.p12 -name "kubernetes-client" <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">然后，在在 chrome 导入了 p12 证书（点击“设置”，“管理证书”那里导入）。  </span><br><span class="line">访问链接：`https://192.168.205.10:6443/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy`，就可以看到**登录界面**了（注意：**新版的Dashboard，命名空间移动到了kubernetes-dashboard中**）  </span><br><span class="line">![](https://s2.ax1x.com/2020/01/26/1mG9UJ.png)</span><br><span class="line">**token**的填写跟上面`kubectl proxy`一样，当然你也可以直接用master节点中`$HOME/.kube/config`文件来登录。</span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line"></span><br><span class="line">## kubernetes常用命令</span><br></pre></td></tr></table></figure> ## 查看 kubectl cluster-info ----查看集群信息 kubectl get pods --all-namespaces ------查看所有pod信息 kubectl get cs ----查看各组件（componentstatuses）信息，可以简写为rc kubectl get pods -n default ----列出default命名空间所有的pods kubectl get pods -o wide ----查看pods所在的运行节点 kubectl get pods -o yaml ----查看pods定义的详细信息 kubectl get rc ----查看Replication Controller信息 kubectl get service ----查看service的信息 kubectl get nodes ----查看节点信息 kubectl get pod --selector name=redis ----按selector名来查找pod kubectl exec pod名字 env ----查看运行的pod的环境变量 kubectl get pod,deploy,svc -n kubernetes-dashboard ---一起查看pod，service，deployment信息</p>
+<h2 id="创建">创建</h2>
+<p>kubectl create -f 文件名 ----创建 kubectl replace -f 文件名 [--force] ----重建</p>
+<h2 id="删除">删除</h2>
+<p>kubectl delete -f 文件名 kubectl delete pod pod名 kubectl delete rc rc名 kubectl delete service service名 kubectl delete pod --all kubectl run mybusybox --image=busybox ----启动一个pod kubectl run mybusybox --image=busybox --replicas=5 ----启动多个pod kubectl delete deployments mybusybox ----删除创建的pod kubectl get pods ----列出当前所有的pod kubectl describe pod [PODNAME] ----查看pod的状态 kubectl run mynginx --image=nginx --port=80 --hostport=8000 ----创建带有端口映射的pod kubectl run -i --tty busybox --image=busybox ----创建带有终端的pod ```</p>
+<p>参考 * <a target="_blank" rel="noopener" href="https://github.com/ecomm-integration-ballerina/kubernetes-cluster">Github——kubernetes-cluster-via-vagrant</a> * <a target="_blank" rel="noopener" href="https://www.australtech.net/kubernetes-unable-to-login-to-the-dashboard/">Kubernetes – unable to login to the Dashboard</a> * <a target="_blank" rel="noopener" href="https://www.cnblogs.com/rainingnight/p/deploying-k8s-dashboard-ui.html#api-server">kubernetes-dashboard(1.8.3)部署与踩坑</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="pigLoveRabbit 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="pigLoveRabbit 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/kubernetes/" rel="tag"># kubernetes</a>
+              <a href="/tags/vagrant/" rel="tag"># vagrant</a>
+              <a href="/tags/virtualbox/" rel="tag"># virtualbox</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/12/10/min_spanning_tree/" rel="prev" title="最小生成树回顾">
+                  <i class="fa fa-angle-left"></i> 最小生成树回顾
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/01/13/tun-tap/" rel="next" title="Linux网络虚拟化技术之tun/tap">
+                  Linux网络虚拟化技术之tun/tap <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">pigLoveRabbit</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://unpkg.com/hexo-generator-searchdb@1.4.1/dist/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>

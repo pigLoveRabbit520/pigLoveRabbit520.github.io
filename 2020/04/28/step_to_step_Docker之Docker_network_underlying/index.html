@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width">
+<meta name="theme-color" content="#222"><meta name="generator" content="Hexo 6.3.0">
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="https://unpkg.com/@fortawesome/fontawesome-free@6.4.0/css/all.min.css" integrity="sha256-HtsXJanqjKTc8vVQjO4YMhiqFoXkfBsjBWcX91T1jr8=" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://unpkg.com/animate.css@3.1.1/animate.min.css" integrity="sha256-PR7ttpcvz8qrF57fur/yAx1qXMFJeJFiA6pSzWi0OIE=" crossorigin="anonymous">
+
+<script class="next-config" data-name="main" type="application/json">{"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","darkmode":false,"version":"8.18.0","exturl":false,"sidebar":{"position":"right","display":"post","padding":18,"offset":12},"copycode":{"enable":false,"style":null},"fold":{"enable":false,"height":500},"bookmark":{"enable":false,"color":"#222","save":"auto"},"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"stickytabs":false,"motion":{"enable":true,"async":false,"transition":{"menu_item":"fadeInDown","post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"搜索...","empty":"没有找到任何搜索结果：${query}","hits_time":"找到 ${hits} 个搜索结果（用时 ${time} 毫秒）","hits":"找到 ${hits} 个搜索结果"},"path":"/search.xml","localsearch":{"enable":true,"trigger":"auto","top_n_per_article":1,"unescape":false,"preload":false}}</script><script src="/js/config.js"></script>
+
+    <meta name="description" content="docker logo  本文环境： * OS：Ubuntu 18.04.4 LTS * Golang版本：1.12.13">
+<meta property="og:type" content="article">
+<meta property="og:title" content="一步步自己做个Docker之Docker网络原理">
+<meta property="og:url" content="http://yoursite.com/2020/04/28/step_to_step_Docker%E4%B9%8BDocker_network_underlying/index.html">
+<meta property="og:site_name" content="pigLoveRabbit的博客">
+<meta property="og:description" content="docker logo  本文环境： * OS：Ubuntu 18.04.4 LTS * Golang版本：1.12.13">
+<meta property="og:locale" content="zh_CN">
+<meta property="og:image" content="http://yoursite.com/images/docker-logo.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/29/J7aODe.png">
+<meta property="og:image" content="http://yoursite.com/images/my_docker_ping.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/30/Jb090O.png">
+<meta property="og:image" content="https://s1.ax1x.com/2020/04/30/JbrFNF.png">
+<meta property="article:published_time" content="2020-04-28T07:00:00.000Z">
+<meta property="article:modified_time" content="2023-09-08T08:20:23.628Z">
+<meta property="article:author" content="pigLoveRabbit">
+<meta property="article:tag" content="Docker">
+<meta property="article:tag" content="Linux">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/docker-logo.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/04/28/step_to_step_Docker%E4%B9%8BDocker_network_underlying/">
+
+
+
+<script class="next-config" data-name="page" type="application/json">{"sidebar":"","isHome":false,"isPost":true,"lang":"zh-CN","comments":true,"permalink":"http://yoursite.com/2020/04/28/step_to_step_Docker%E4%B9%8BDocker_network_underlying/","path":"2020/04/28/step_to_step_Docker之Docker_network_underlying/","title":"一步步自己做个Docker之Docker网络原理"}</script>
+
+<script class="next-config" data-name="calendar" type="application/json">""</script>
+<title>一步步自己做个Docker之Docker网络原理 | pigLoveRabbit的博客</title>
+  
+
+
+
+
+
+
+
+
+  <noscript>
+    <link rel="stylesheet" href="/css/noscript.css">
+  </noscript>
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <div class="column">
+      <header class="header" itemscope itemtype="http://schema.org/WPHeader"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="切换导航栏" role="button">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <p class="site-title">pigLoveRabbit的博客</p>
+      <i class="logo-line"></i>
+    </a>
+      <p class="site-subtitle" itemprop="description">pigLoveRabbit的博客</p>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger" aria-label="搜索" role="button">
+        <i class="fa fa-search fa-fw fa-lg"></i>
+    </div>
+  </div>
+</div>
+
+
+
+<nav class="site-nav">
+  <ul class="main-menu menu">
+      <li class="menu-item menu-item-search">
+        <a role="button" class="popup-trigger"><i class="fa fa-search fa-fw"></i>搜索
+        </a>
+      </li>
+  </ul>
+</nav>
+
+
+
+  <div class="search-pop-overlay">
+    <div class="popup search-popup"><div class="search-header">
+  <span class="search-icon">
+    <i class="fa fa-search"></i>
+  </span>
+  <div class="search-input-container">
+    <input autocomplete="off" autocapitalize="off" maxlength="80"
+           placeholder="搜索..." spellcheck="false"
+           type="search" class="search-input">
+  </div>
+  <span class="popup-btn-close" role="button">
+    <i class="fa fa-times-circle"></i>
+  </span>
+</div>
+<div class="search-result-container no-result">
+  <div class="search-result-icon">
+    <i class="fa fa-spinner fa-pulse fa-5x"></i>
+  </div>
+</div>
+
+    </div>
+  </div>
+
+</header>
+        
+  
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          文章目录
+        </li>
+        <li class="sidebar-nav-overview">
+          站点概览
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <div class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%87%AA%E5%B7%B1%E5%88%9B%E5%BB%BAdocker%E7%BD%91%E7%BB%9C"><span class="nav-number">1.</span> <span class="nav-text">自己创建Docker网络</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#docker%E7%BD%91%E7%BB%9C%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%BD%91%E7%BB%9C%E5%8C%BA%E5%88%AB"><span class="nav-number">2.</span> <span class="nav-text">Docker网络和虚拟机网络区别</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA"><span class="nav-number">2.1.</span> <span class="nav-text">虚拟机</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#docker"><span class="nav-number">2.2.</span> <span class="nav-text">Docker</span></a></li></ol></li></ol></div>
+        </div>
+        <!--/noindex-->
+
+        <div class="site-overview-wrap sidebar-panel">
+          <div class="site-author animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">pigLoveRabbit</p>
+  <div class="site-description" itemprop="description">一个简单的博客</div>
+</div>
+<div class="site-state-wrap animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+        <a href="/archives/">
+          <span class="site-state-item-count">46</span>
+          <span class="site-state-item-name">日志</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-categories">
+          <a href="/categories/">
+        <span class="site-state-item-count">35</span>
+        <span class="site-state-item-name">分类</span></a>
+      </div>
+      <div class="site-state-item site-state-tags">
+          <a href="/tags/">
+        <span class="site-state-item-count">68</span>
+        <span class="site-state-item-name">标签</span></a>
+      </div>
+  </nav>
+</div>
+  <div class="links-of-author animated">
+      <span class="links-of-author-item">
+        <a href="https://github.com/pigLoveRabbit520" title="GitHub → https:&#x2F;&#x2F;github.com&#x2F;pigLoveRabbit520" rel="noopener me" target="_blank"><i class="fab fa-github fa-fw"></i>GitHub</a>
+      </span>
+  </div>
+
+        </div>
+      </div>
+    </div>
+
+    
+  </aside>
+
+
+    </div>
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="zh-CN">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/04/28/step_to_step_Docker%E4%B9%8BDocker_network_underlying/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="pigLoveRabbit">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="pigLoveRabbit的博客">
+      <meta itemprop="description" content="一个简单的博客">
+    </span>
+
+    <span hidden itemprop="post" itemscope itemtype="http://schema.org/CreativeWork">
+      <meta itemprop="name" content="一步步自己做个Docker之Docker网络原理 | pigLoveRabbit的博客">
+      <meta itemprop="description" content="">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          一步步自己做个Docker之Docker网络原理
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">发表于</span>
+
+      <time title="创建时间：2020-04-28 15:00:00" itemprop="dateCreated datePublished" datetime="2020-04-28T15:00:00+08:00">2020-04-28</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar-check"></i>
+      </span>
+      <span class="post-meta-item-text">更新于</span>
+      <time title="修改时间：2023-09-08 16:20:23" itemprop="dateModified" datetime="2023-09-08T16:20:23+08:00">2023-09-08</time>
+    </span>
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-folder"></i>
+      </span>
+      <span class="post-meta-item-text">分类于</span>
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/" itemprop="url" rel="index"><span itemprop="name">Docker</span></a>
+        </span>
+          ，
+        <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+          <a href="/categories/Docker/Linux/" itemprop="url" rel="index"><span itemprop="name">Linux</span></a>
+        </span>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody"><figure>
+<img src="/images/docker-logo.png" alt="" /><figcaption>docker logo</figcaption>
+</figure>
+<p>本文环境： * OS：Ubuntu 18.04.4 LTS * Golang版本：1.12.13</p>
+<span id="more"></span>
+<h2 id="自己创建docker网络">自己创建Docker网络</h2>
+<blockquote>
+<p>当 Docker 启动时，会自动在主机上创建一个 docker0 虚拟网桥，实际上是 Linux 的一个 bridge，可以理解为一个软件交换机。它会在挂载到它的网口之间进行转发。 同时，Docker 随机分配一个本地未占用的私有网段（在 RFC1918 中定义）中的一个地址给 docker0 接口。比如典型的 172.17.42.1，掩码为 255.255.0.0。此后启动的容器内的网口也会自动分配一个同一网段（172.17.0.0/16）的地址。 当创建一个 Docker 容器的时候，同时会创建了一对 veth pair 接口（当数据包发送到一个接口时，另外一个接口也可以收到相同的数据包）。这对接口一端在容器内，即 eth0；另一端在本地并被挂载到 docker0 网桥，名称以 veth 开头（例如 vethAQI2QT）。通过这种方式，主机可以跟容器通信，容器之间也可以相互通信。Docker 就创建了在主机和所有容器之间一个虚拟共享网络。如图 <img src="https://s1.ax1x.com/2020/04/29/J7aODe.png" alt="upload successful" /></p>
+</blockquote>
+<p>下面以自定义的容器方式，一步步配置网络, 达到以下目标: * 容器间能够通信 * 容器能够联外网 首先创建一个容器，但不使用默认网络配置，使用<code>--net=none</code>选项: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">docker run -t -i --net=none ubuntu:14.04 bash</span><br><span class="line">docker ps # 获取容器id=6414d7278905</span><br></pre></td></tr></table></figure> 获取容器pid: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">docker inspect 6414d7278905 | grep -i &quot;\&lt;pid\&quot;&quot;</span><br><span class="line">#  &quot;Pid&quot;: 11776,</span><br><span class="line">pid=11776</span><br></pre></td></tr></table></figure> 创建一个新的netns，并把容器放入新建的netns中。（根据约定，命名的 network namespace 是可以打开的 <strong>/var/run/netns/</strong> 目录下的一个对象。比如有一个名称为 net1 的 network namespace 对象，则可以由打开 <strong>/var/run/netns/net1</strong> 对象产生的文件描述符引用 network namespace net1。通过引用该文件描述符，可以修改进程的 network namespace。） <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">sudo ip netns add netns666 # 会产生一个/var/run/netns/netns666的文件</span><br><span class="line">sudo ip netns ls # 查看新创建netns</span><br><span class="line">netns666</span><br><span class="line">sudo mount --bind /proc/$pid/ns/net /var/run/netns/netns666 # 加入新的netns</span><br><span class="line">sudo ip netns pids netns666   # 查看netns666中进程的 PID</span><br><span class="line">11776</span><br></pre></td></tr></table></figure></p>
+<p>接下来创建一个veth对，其中一个设置为容器所在的netns，即<code>netns666</code> <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">sudo ip link add name veth_d366 type veth peer name veth_d366_peer</span><br><span class="line">sudo ip link set veth_d366_peer netns netns666</span><br></pre></td></tr></table></figure> 进入<code>netns666</code> netns设置网卡名称和ip: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sudo ip netns exec netns666 bash</span><br><span class="line">sudo ip link set veth_d366_peer name eth0</span><br><span class="line">sudo ifconfig  eth0 10.0.0.2/24 # 设置ip为10.0.0.2</span><br><span class="line">ping 10.0.0.2 # 能ping通</span><br><span class="line">exit</span><br></pre></td></tr></table></figure> 上述命令给veth_d366_peer配置完ip的情况： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">ip addr show</span><br><span class="line">1: lo: &lt;LOOPBACK,UP,LOWER_UP&gt; mtu 65536 qdisc noqueue state UNKNOWN group default qlen 1000</span><br><span class="line">    link/loopback 00:00:00:00:00:00 brd 00:00:00:00:00:00</span><br><span class="line">    inet 127.0.0.1/8 scope host lo</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br><span class="line">36: eth0@if37: &lt;NO-CARRIER,BROADCAST,MULTICAST,UP&gt; mtu 1500 qdisc noqueue state LOWERLAYERDOWN group default qlen 1000</span><br><span class="line">    link/ether 9e:67:30:e3:65:34 brd ff:ff:ff:ff:ff:ff link-netnsid 0</span><br><span class="line">    inet 10.0.0.2/24 brd 10.0.0.255 scope global eth0</span><br><span class="line">       valid_lft forever preferred_lft forever</span><br></pre></td></tr></table></figure> 在容器中ping 10.0.0.2也能ping通,说明设置正确 <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping 10.0.0.2 # 宿主机上应该不通</span><br><span class="line">docker exec 6414d7278905 ping 10.0.0.2 # 成功ping通</span><br></pre></td></tr></table></figure> 创建网桥，并把veth另一端的虚拟网卡加入新创建的网桥中: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sudo brctl addbr br666 # 创建新网桥br666</span><br><span class="line">sudo brctl addif br666 veth_d366 # 把虚拟网卡加入网桥br666中</span><br><span class="line">sudo ifconfig br666 10.0.0.1/24 # 设置网桥ip</span><br><span class="line">sudo ip link set veth_d366 up # 启动虚拟网卡</span><br></pre></td></tr></table></figure> 测试下： <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ping 10.0.0.2 # 宿主机上成功ping通</span><br><span class="line">docker exec 6414d7278905 ping 10.0.0.1 # 成功ping通</span><br></pre></td></tr></table></figure> 若以上两个都能ping通说明配置成功！<br />
+最后，我们需要使得容器能够联外网，需要设置NAT，使用iptables设置:<br />
+<figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -t nat -A POSTROUTING -s 10.0.0.0/24 -o em1 -j MASQUERADE</span><br></pre></td></tr></table></figure> <code>em1</code>是真正的物理网卡对应的网络设备，不同电脑上名字不一样，我的Ubuntu上为<code>enp7s0</code>。<br />
+另外，还需要设置<code>FORWARD</code>规则（允许<code>br666</code>转发，IP forwarding要开启，使用<code>sudo sysctl -w net.ipv4.ip_forward=1</code>） <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">sudo iptables -A FORWARD -i br666 -o br666  -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD -i br666 ! -o br666  -j ACCEPT</span><br><span class="line">sudo iptables -A FORWARD ! -i br666  -o br666  -j ACCEPT</span><br></pre></td></tr></table></figure></p>
+<p>设置容器默认路由为网桥ip（注意在容器内使用route add 添加, 会出现SIOCADDRT: Operation not permitted错误), 因此只能使用ip netns exec设置: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">sudo ip netns exec netns666 route add default gw 10.0.0.1</span><br></pre></td></tr></table></figure> 测试，此时请确保宿主机能够联外网,进入容器内部: <figure class="highlight plaintext"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">ping baidu.com # 成功ping通，确保icmp没有被禁</span><br></pre></td></tr></table></figure> 效果图：</p>
+<figure>
+<img src="/images/my_docker_ping.png" alt="" /><figcaption>upload successful</figcaption>
+</figure>
+<h2 id="docker网络和虚拟机网络区别">Docker网络和虚拟机网络区别</h2>
+<h3 id="虚拟机">虚拟机</h3>
+<p>虚拟机，如图，虚拟机通过tun/tap或者其它类似的虚拟网络设备，将虚拟机内的网卡同br0连接起来，这样就达到和真实交换机一样的效果，虚拟机发出去的数据包先到达br0，然后由br0交给eth0发送出去，数据包都不需要经过host机器的协议栈，效率高。</p>
+<figure>
+<img src="https://s1.ax1x.com/2020/04/30/Jb090O.png" alt="" /><figcaption>image</figcaption>
+</figure>
+<h3 id="docker">Docker</h3>
+<p>docker，如图，由于容器运行在自己单独的network namespace里面，所以都有自己单独的协议栈，情况和上面的虚拟机差不多，但它采用了另一种方式来和外界通信</p>
+<p><img src="https://s1.ax1x.com/2020/04/30/JbrFNF.png" /></p>
+<p>容器中配置网关为.9.1，发出去的数据包先到达<code>br0</code>，然后交给host机器的协议栈，由于目的IP是外网IP，且host机器开启了<code>IP forward</code>功能，于是数据包会通过eth0发送出去，由于.9.1是内网IP，所以一般发出去之前会先做NAT转换（NAT转换和IP forward功能都需要自己配置）。<strong>由于要经过host机器的协议栈，并且还要做NAT转换，所以性能没有上面虚拟机那种方案好</strong>，优点是容器处于内网中，安全性相对要高点。（由于数据包统一由IP层从eth0转发出去，所以不存在mac地址的问题，在无线网络环境下也工作良好）</p>
+<p>参考： * <a target="_blank" rel="noopener" href="https://www.cnblogs.com/sparkdev/p/9253409.html">Linux ip netns 命令</a> * <a target="_blank" rel="noopener" href="https://github.com/int32bit/notes/blob/master/cloud/docker%E7%BD%91%E7%BB%9C%E5%8E%9F%E7%90%86.md">docker网络原理.md</a> * <a target="_blank" rel="noopener" href="https://www.cnblogs.com/sparkdev/p/9217310.html">Docker 网络之理解 bridge 驱动</a> * <a target="_blank" rel="noopener" href="http://blog.nsfocus.net/linux-bridge/">Linux内核网络设备——bridge设备</a></p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="reward-container">
+  <div>请我一杯咖啡吧！</div>
+  <button>
+    赞赏
+  </button>
+  <div class="post-reward">
+      <div>
+        <img src="/images/wechatpay.jpg" alt="pigLoveRabbit 微信">
+        <span>微信</span>
+      </div>
+      <div>
+        <img src="/images/alipay.jpg" alt="pigLoveRabbit 支付宝">
+        <span>支付宝</span>
+      </div>
+
+  </div>
+</div>
+
+          <div class="post-tags">
+              <a href="/tags/Docker/" rel="tag"># Docker</a>
+              <a href="/tags/Linux/" rel="tag"># Linux</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/04/26/Linux_iptables/" rel="prev" title="Linux之iptables">
+                  <i class="fa fa-angle-left"></i> Linux之iptables
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2020/05/03/C_dynamic%20linkc/" rel="next" title="C语言动态链接库回顾">
+                  C语言动态链接库回顾 <i class="fa fa-angle-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+  <div class="copyright">
+    &copy; 
+    <span itemprop="copyrightYear">2023</span>
+    <span class="with-love">
+      <i class="fa fa-heart"></i>
+    </span>
+    <span class="author" itemprop="copyrightHolder">pigLoveRabbit</span>
+  </div>
+  <div class="powered-by">由 <a href="https://hexo.io/" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" rel="noopener" target="_blank">NexT.Muse</a> 强力驱动
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <div class="toggle sidebar-toggle" role="button">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+  <div class="sidebar-dimmer"></div>
+  <div class="back-to-top" role="button" aria-label="返回顶部">
+    <i class="fa fa-arrow-up fa-lg"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+  
+  <script src="https://unpkg.com/animejs@3.2.1/lib/anime.min.js" integrity="sha256-XL2inqUJaslATFnHdJOi9GfQ60on8Wx1C2H8DYiN1xY=" crossorigin="anonymous"></script>
+<script src="/js/comments.js"></script><script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  <script src="https://unpkg.com/hexo-generator-searchdb@1.4.1/dist/search.js" integrity="sha256-1kfA5uHPf65M5cphT2dvymhkuyHPQp5A53EGZOnOLmc=" crossorigin="anonymous"></script>
+<script src="/js/third-party/search/local-search.js"></script>
+
+
+
+
+
+
+
+  
+
+
+
+
+  
+
+  <script class="next-config" data-name="enableMath" type="application/json">false</script><script class="next-config" data-name="mathjax" type="application/json">{"enable":true,"tags":"none","js":{"url":"https://unpkg.com/mathjax@3.2.2/es5/tex-mml-chtml.js","integrity":"sha256-MASABpB4tYktI2Oitl4t+78w/lyA+D7b/s9GEP0JOGI="}}</script>
+<script src="/js/third-party/math/mathjax.js"></script>
+
+
+
+</body>
+</html>
