@@ -1,0 +1,629 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>一步步自己做个Docker之Go调用Namespace - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/docker_go_namespace/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="一步步自己做个Docker之Go调用Namespace"><meta property="og:description" content="本文环境： OS：Ubuntu 18.04.4 LTS Golang版本：1.12.13 Golang Go语言是Google开发的一种静态类型、编译型的高级语言，它设计的蛮简单"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-03-26T21:00:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Linux"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="一步步自己做个Docker之Go调用Namespace"><meta name=twitter:description content="本文环境： OS：Ubuntu 18.04.4 LTS Golang版本：1.12.13 Golang Go语言是Google开发的一种静态类型、编译型的高级语言，它设计的蛮简单"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/docker_go_namespace/><link rel=prev href=https://example.com/https_more/><link rel=next href=https://example.com/java_gc/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"一步步自己做个Docker之Go调用Namespace","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/docker_go_namespace\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Docker, Linux","wordcount":3218,"url":"https:\/\/example.com\/docker_go_namespace\/","datePublished":"2020-03-26T21:00:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/docker_go_namespace/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/docker_go_namespace/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一步步自己做个Docker之Go调用Namespace</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/docker/><i class="far fa-folder fa-fw" aria-hidden=true></i>Docker</a>&nbsp;<a href=/categories/golang/><i class="far fa-folder fa-fw" aria-hidden=true></i>Golang</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2020-03-26>2020-03-26</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 3218 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 7 分钟&nbsp;<span id=/docker_go_namespace/ class=leancloud_visitors data-flag-title=一步步自己做个Docker之Go调用Namespace>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#golang>Golang</a></li><li><a href=#go调用namespace>Go调用Namespace</a></li><li><a href=#增加ipc-namespace>增加IPC Namespace</a></li><li><a href=#增加pid-namespace>增加PID Namespace</a></li><li><a href=#增加mount-namespace>增加Mount Namespace</a></li><li><a href=#增加network-namespace>增加Network Namespace</a></li></ul></nav></div></div><div class=content id=content><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/docker-logo.png data-srcset="/images/docker-logo.png, /images/docker-logo.png 1.5x, /images/docker-logo.png 2x" data-sizes=auto alt=/images/docker-logo.png title="docker logo"></p><p>本文环境：</p><ul><li>OS：Ubuntu 18.04.4 LTS</li><li>Golang版本：1.12.13</li></ul><h2 id=golang>Golang</h2><p>Go语言是Google开发的一种静态类型、编译型的高级语言，它设计的蛮简单的，学过C的话，其实上手Go很快的，当然相比于C的话，Go有垃圾回收和并发支持，所以写起来心智负担更低一点。<br>对于Go的安装和配置，我以前写过一篇文章——<a href=https://segmentfault.com/a/1190000008487280 target=_blank rel="noopener noreffer">go语言基本配置</a>，我这里就不在赘述了。Go1.11增加了<code>go modules</code>，使用它的话，就没必要一定要把代码放到<code>GOPATH</code>下面啦~(≧▽≦)/~。 <code>go modules</code>详细
+使用请参考<a href=https://juejin.im/post/5c8e503a6fb9a070d878184a target=_blank rel="noopener noreffer">go mod 使用</a>。</p><h2 id=go调用namespace>Go调用Namespace</h2><p>其实对于Namespace这种系统调用，使用C语言描述是最好的（<a href=/2019/11/28/docker-Linux-Namespace-intro/ rel>上一篇文章</a>就是用C写的示例），但是C比较难，而且Docker也是用Go是实现的，所以我后面的文章都会用Go来写示例代码。<br>这里我先写了一个<code>UTS Namespace</code>的例子，<code>UTS Namespace</code>主要用来隔离<code>nodename</code>和<code>domainname</code>这两个系统标识：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>package</span> <span class=n>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os/exec&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;syscall&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>func</span> <span class=n>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span> <span class=p>:</span><span class=o>=</span> <span class=n>exec</span><span class=o>.</span><span class=n>Command</span><span class=p>(</span><span class=s2>&#34;sh&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>SysProcAttr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcAttr</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>Cloneflags</span><span class=p>:</span> <span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUTS</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdin</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdin</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdout</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdout</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stderr</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stderr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=n>err</span> <span class=p>:</span><span class=o>=</span> <span class=n>cmd</span><span class=o>.</span><span class=n>Run</span><span class=p>();</span> <span class=n>err</span> <span class=o>!=</span> <span class=n>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>log</span><span class=o>.</span><span class=n>Fatal</span><span class=p>(</span><span class=n>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>exec.Command("sh")</code>是指定了fork出来的新进程内的初始命令，<code>cmd.SysProcAttr</code>这行就是设置了系统调用函数，Go帮我们封装了<a href=http://man7.org/linux/man-pages/man2/clone.2.html target=_blank rel="noopener noreffer">clone()</a>函数，<code>syscall.CLONE_NEWUTS</code>这个标识符标明创建一个<code>UTS Namespace</code>。<br><code>go build .</code>编译代码后，执行程序时我们会遇到错误<strong>fork/exec /bin/sh: operation not permitted</strong>，这是因为<code>clone()</code>函数需要<code>CAP_SYS_ADMIN</code>权限（这个<a href=https://www.v2ex.com/t/618961 target=_blank rel="noopener noreffer">问题</a>我在v站上问过），解决方法是添加设置 <code>uid</code> 映射：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>package</span> <span class=n>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os/exec&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;syscall&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>func</span> <span class=n>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span> <span class=p>:</span><span class=o>=</span> <span class=n>exec</span><span class=o>.</span><span class=n>Command</span><span class=p>(</span><span class=s2>&#34;sh&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>SysProcAttr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcAttr</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>Cloneflags</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUTS</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUSER</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>		<span class=n>UidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getuid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=n>GidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getgid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=o>//</span> <span class=n>set</span> <span class=n>identify</span> <span class=k>for</span> <span class=n>this</span> <span class=n>demo</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Env</span> <span class=o>=</span> <span class=p>[]</span><span class=n>string</span><span class=p>{</span><span class=s2>&#34;PS1=-[namespace-process]-# &#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdin</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdin</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdout</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdout</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stderr</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stderr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=n>err</span> <span class=p>:</span><span class=o>=</span> <span class=n>cmd</span><span class=o>.</span><span class=n>Run</span><span class=p>();</span> <span class=n>err</span> <span class=o>!=</span> <span class=n>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>log</span><span class=o>.</span><span class=n>Fatal</span><span class=p>(</span><span class=n>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>我增加了<code>CLONE_NEWUSER</code>标识，让新进程在<code>User Namespace</code>中变成root用户。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ ./uts-easy 
+</span></span><span class=line><span class=cl>-[namespace-process]-# id
+</span></span><span class=line><span class=cl>uid=0(root) gid=0(root) groups=0(root),65534(nogroup)
+</span></span><span class=line><span class=cl>-[namespace-process]-# hostname -b bird
+</span></span><span class=line><span class=cl>-[namespace-process]-# hostname
+</span></span><span class=line><span class=cl>bird
+</span></span></code></pre></td></tr></table></div></div><p>启动另一个shell，查看宿主机上<code>hostname</code>:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ hostname
+</span></span><span class=line><span class=cl>salamander-PC
+</span></span></code></pre></td></tr></table></div></div><p>可以看到，外部的<code>hostname</code>并没有被内部的修改所影响，这里我们大致感受了下<code>UTS Namespace</code>的作用。</p><h2 id=增加ipc-namespace>增加IPC Namespace</h2><p><code>IPC Namespace</code>用来隔离<strong>System V IPC和POSIX message queues</strong>。每一个<code>IPC Namespace</code>都有自己的<strong>System V IPC</strong>和<strong>POSIX message queues</strong>。我们稍微改动一下上面的代码。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>package</span> <span class=n>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os/exec&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;syscall&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>func</span> <span class=n>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span> <span class=p>:</span><span class=o>=</span> <span class=n>exec</span><span class=o>.</span><span class=n>Command</span><span class=p>(</span><span class=s2>&#34;sh&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>SysProcAttr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcAttr</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>Cloneflags</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUTS</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUSER</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWIPC</span><span class=p>,</span>   <span class=o>//</span> <span class=err>增加</span><span class=n>IPC</span> <span class=n>Namespace</span>
+</span></span><span class=line><span class=cl>		<span class=n>UidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getuid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=n>GidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getgid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=o>//</span> <span class=n>set</span> <span class=n>identify</span> <span class=k>for</span> <span class=n>this</span> <span class=n>demo</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Env</span> <span class=o>=</span> <span class=p>[]</span><span class=n>string</span><span class=p>{</span><span class=s2>&#34;PS1=-[namespace-process]-# &#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdin</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdin</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdout</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdout</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stderr</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stderr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=n>err</span> <span class=p>:</span><span class=o>=</span> <span class=n>cmd</span><span class=o>.</span><span class=n>Run</span><span class=p>();</span> <span class=n>err</span> <span class=o>!=</span> <span class=n>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>log</span><span class=o>.</span><span class=n>Fatal</span><span class=p>(</span><span class=n>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>新开一个shell，在宿主机上创建一个message queue:</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ ipcs -q
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>--------- 消息队列 -----------
+</span></span><span class=line><span class=cl>键        msqid      拥有者  权限     已用字节数 消息      
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ ipcmk -Q
+</span></span><span class=line><span class=cl>消息队列 id：0
+</span></span><span class=line><span class=cl>$ ipcs -q
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>--------- 消息队列 -----------
+</span></span><span class=line><span class=cl>键        msqid      拥有者  权限     已用字节数 消息      
+</span></span><span class=line><span class=cl>0xc59399dd 0          salamander 644        0            0
+</span></span></code></pre></td></tr></table></div></div><p>运行我们自己的程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ ./uts-easy 
+</span></span><span class=line><span class=cl>-[namespace-process]-# ipcs -q
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>------ Message Queues --------
+</span></span><span class=line><span class=cl>key        msqid      owner      perms      used-bytes   messages
+</span></span></code></pre></td></tr></table></div></div><p>可以看到，在新的Namespace中，看不到宿主机上创建的<code>message queue</code>,说明IPC是隔离的。</p><h2 id=增加pid-namespace>增加PID Namespace</h2><p><strong>PID Namespace</strong>是用来隔离进程ID的。我们自己进入Docker 容器的时候，就会发现里面的前台进程的PID为1，但是在容器外PID却不是1，这就是通过<strong>PID Namespace</strong>做到的。修改上述的代码，增加<code>CLONE_NEWPID</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>package</span> <span class=n>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os/exec&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;syscall&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>func</span> <span class=n>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span> <span class=p>:</span><span class=o>=</span> <span class=n>exec</span><span class=o>.</span><span class=n>Command</span><span class=p>(</span><span class=s2>&#34;sh&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>SysProcAttr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcAttr</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>Cloneflags</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUTS</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUSER</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWIPC</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWPID</span><span class=p>,</span> <span class=o>//</span> <span class=err>增加</span><span class=n>PID</span> <span class=n>Namespace</span>
+</span></span><span class=line><span class=cl>		<span class=n>UidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getuid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=n>GidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getgid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=o>//</span> <span class=n>set</span> <span class=n>identify</span> <span class=k>for</span> <span class=n>this</span> <span class=n>demo</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Env</span> <span class=o>=</span> <span class=p>[]</span><span class=n>string</span><span class=p>{</span><span class=s2>&#34;PS1=-[namespace-process]-# &#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdin</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdin</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdout</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdout</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stderr</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stderr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=n>err</span> <span class=p>:</span><span class=o>=</span> <span class=n>cmd</span><span class=o>.</span><span class=n>Run</span><span class=p>();</span> <span class=n>err</span> <span class=o>!=</span> <span class=n>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>log</span><span class=o>.</span><span class=n>Fatal</span><span class=p>(</span><span class=n>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行我们的程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl> ./uts-easy 
+</span></span><span class=line><span class=cl>-[namespace-process]-# echo $$
+</span></span><span class=line><span class=cl>1
+</span></span></code></pre></td></tr></table></div></div><p>可以看到在新的<code>PID Namespace</code>中进程ID为1。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ pstree -pl | grep easy
+</span></span><span class=line><span class=cl>           |               |                       |-bash(10739)---uts-easy(10768)-+-sh(10773)
+</span></span><span class=line><span class=cl>           |               |                       |                               |-{uts-easy}(10769)
+</span></span><span class=line><span class=cl>           |               |                       |                               |-{uts-easy}(10770)
+</span></span><span class=line><span class=cl>           |               |                       |                               |-{uts-easy}(10771)
+</span></span><span class=line><span class=cl>           |               |                       |                               `-{uts-easy}(10772)
+</span></span></code></pre></td></tr></table></div></div><p>而我们在宿主机上可以看到它实际的PID（<code>uts-easy</code>这个进程）为<strong>10768</strong>。<br>如果细心点，我们会发现，在我们的程序中使用<code>ps</code>，<code>top</code>这些命令出来的结果跟宿主机上是一样的，这是因为这些命令其实是去使用**/proc**这个文件夹的内容，这个就需要下面的<code>Mount Namespace</code>了。</p><h2 id=增加mount-namespace>增加Mount Namespace</h2><p><strong>Mount Namespace</strong>用来隔离各个进程看到的挂载点视图。在不同Namespace的进程中，看到的文件系统层次是不一样的。在<strong>Mount Namespace</strong>中调用<code>mount()</code>和<code>unmount()</code>只会影响当前Namespace内的文件系统，而对全局的文件系统是没有影响的。<br>看到这里，也许会想到<code>chroot()</code>。它也能将某一个子目录变为根节点。但是，<strong>Mount Namespace</strong>不仅能实现这个功能，而且能以更加灵活和安全的方式实现。<br>现在继续修改上述代码，增加<code>CLONE_NEWNS</code>（Mount Namespace是Linux实现的第一个Namespace类型，因为，它的系统调用参数是<strong>NEWNS</strong>，NS是New Namespace的缩写。当时人们没有意识到，以后还会有很多类型的Namespace加入Linux大家庭）。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>package</span> <span class=n>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;os/exec&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s2>&#34;syscall&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>func</span> <span class=n>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span> <span class=p>:</span><span class=o>=</span> <span class=n>exec</span><span class=o>.</span><span class=n>Command</span><span class=p>(</span><span class=s2>&#34;sh&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>SysProcAttr</span> <span class=o>=</span> <span class=o>&amp;</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcAttr</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>Cloneflags</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUTS</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWUSER</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWIPC</span> <span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWPID</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>			<span class=n>syscall</span><span class=o>.</span><span class=n>CLONE_NEWNS</span><span class=p>,</span>  <span class=o>//</span> <span class=err>增加</span><span class=n>Mount</span> <span class=n>Namespace</span>
+</span></span><span class=line><span class=cl>		<span class=n>UidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getuid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=n>GidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=n>syscall</span><span class=o>.</span><span class=n>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=n>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>HostID</span><span class=p>:</span>      <span class=n>os</span><span class=o>.</span><span class=n>Getgid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=n>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=o>//</span> <span class=n>set</span> <span class=n>identify</span> <span class=k>for</span> <span class=n>this</span> <span class=n>demo</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Env</span> <span class=o>=</span> <span class=p>[]</span><span class=n>string</span><span class=p>{</span><span class=s2>&#34;PS1=-[namespace-process]-# &#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdin</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdin</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stdout</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stdout</span>
+</span></span><span class=line><span class=cl>	<span class=n>cmd</span><span class=o>.</span><span class=n>Stderr</span> <span class=o>=</span> <span class=n>os</span><span class=o>.</span><span class=n>Stderr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=n>err</span> <span class=p>:</span><span class=o>=</span> <span class=n>cmd</span><span class=o>.</span><span class=n>Run</span><span class=p>();</span> <span class=n>err</span> <span class=o>!=</span> <span class=n>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nb>log</span><span class=o>.</span><span class=n>Fatal</span><span class=p>(</span><span class=n>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行程序，查看/proc的文件内容。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>-[namespace-process]-# ls /proc
+</span></span><span class=line><span class=cl>1     1537  198   212   2487  2818  29    3131  329   3363  3422  3557  3793  4250  492   5273  595  62    6519  72    80    87   919        crypto       kmsg          schedstat          vmstat
+</span></span><span class=line><span class=cl>10    16    1983  213   2501  2841  2902  3139  3297  3367  3425  3571  38    430   493   53    598  6220  654   7221  8042  88   922        devices      kpagecgroup   scsi               zoneinfo
+</span></span><span class=line><span class=cl>1025  17    2     2133  2506  2846  2913  3156 ....
+</span></span></code></pre></td></tr></table></div></div><p>这里输出的结果很多，因为**/proc<strong>还是宿主机的，下面将</strong>/proc** mount到我们自己的Namespace下面来：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>-</span><span class=p>[</span><span class=n>namespace</span><span class=o>-</span><span class=n>process</span><span class=p>]</span><span class=o>-</span><span class=c1># mount -t proc proc /proc</span>
+</span></span><span class=line><span class=cl><span class=o>-</span><span class=p>[</span><span class=n>namespace</span><span class=o>-</span><span class=n>process</span><span class=p>]</span><span class=o>-</span><span class=c1># ls /proc</span>
+</span></span><span class=line><span class=cl><span class=mi>1</span>       <span class=n>buddyinfo</span>  <span class=n>consoles</span>  <span class=n>diskstats</span>    <span class=n>fb</span>           <span class=n>iomem</span>     <span class=n>kcore</span>      <span class=n>kpagecgroup</span>  <span class=n>locks</span>    <span class=n>modules</span>  <span class=n>pagetypeinfo</span>  <span class=n>schedstat</span>  <span class=n>softirqs</span>  <span class=n>sysrq</span><span class=o>-</span><span class=n>trigger</span>  <span class=n>tty</span>                <span class=n>vmallocinfo</span>
+</span></span><span class=line><span class=cl><span class=mi>4</span>       <span class=n>bus</span>        <span class=n>cpuinfo</span>   <span class=n>dma</span>          <span class=n>filesystems</span>  <span class=n>ioports</span>   <span class=n>key</span><span class=o>-</span><span class=n>users</span>  <span class=n>kpagecount</span>   <span class=n>mdstat</span>   <span class=n>mounts</span>   <span class=n>partitions</span>    <span class=n>scsi</span>       <span class=n>stat</span>      <span class=n>sysvipc</span>        <span class=n>uptime</span>             <span class=n>vmstat</span>
+</span></span><span class=line><span class=cl><span class=n>acpi</span>    <span class=n>cgroups</span>    <span class=n>crypto</span>    <span class=n>driver</span>       <span class=n>fs</span>           <span class=n>irq</span>       <span class=n>keys</span>       <span class=n>kpageflags</span>   <span class=n>meminfo</span>  <span class=n>mtrr</span>     <span class=n>pressure</span>      <span class=bp>self</span>       <span class=n>swaps</span>     <span class=n>thread</span><span class=o>-</span><span class=bp>self</span>    <span class=n>version</span>            <span class=n>zoneinfo</span>
+</span></span><span class=line><span class=cl><span class=n>asound</span>  <span class=n>cmdline</span>    <span class=n>devices</span>   <span class=n>execdomains</span>  <span class=n>interrupts</span>   <span class=n>kallsyms</span>  <span class=n>kmsg</span>       <span class=n>loadavg</span>      <span class=n>misc</span>     <span class=n>net</span>      <span class=n>sched_debug</span>   <span class=n>slabinfo</span>   <span class=n>sys</span>       <span class=n>timer_list</span>     <span class=n>version_signature</span>
+</span></span></code></pre></td></tr></table></div></div><p>结果一下子少了很多，这里我们就可以用<strong>ps</strong>来查看系统的进程了。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>-[namespace-process]-# ps -ef
+</span></span><span class=line><span class=cl>UID        PID  PPID  C STIME TTY          TIME CMD
+</span></span><span class=line><span class=cl>root         1     0  0 17:07 pts/1    00:00:00 sh
+</span></span><span class=line><span class=cl>root         5     1  0 17:11 pts/1    00:00:00 ps -ef
+</span></span></code></pre></td></tr></table></div></div><p>可以看到，当前的Namespace中，sh进程是PID为1的进程。</p><h2 id=增加network-namespace>增加Network Namespace</h2><p><strong>Network Namespace</strong>是用来隔离网络设备、IP地址端口等网络栈的Namespace。Network Namespace可以让每个容器拥有自己独立（虚拟的）网络设备，而且容器内的应用可以绑定到自己的端口，每个Namespace内的端口都不会互相冲突。在宿主机上搭建网桥后，就能很方便地实现容器之间通讯，而且不同容器上的应用可以使用相同的端口。<br>继续上述代码，加入<code>CLONE_NEWNET</code>：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-Golang data-lang=Golang><span class=line><span class=cl><span class=kn>package</span> <span class=nx>main</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=p>(</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;log&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;os/exec&#34;</span>
+</span></span><span class=line><span class=cl>	<span class=s>&#34;syscall&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>)</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kd>func</span> <span class=nf>main</span><span class=p>()</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=nx>cmd</span> <span class=o>:=</span> <span class=nx>exec</span><span class=p>.</span><span class=nf>Command</span><span class=p>(</span><span class=s>&#34;sh&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=nx>cmd</span><span class=p>.</span><span class=nx>SysProcAttr</span> <span class=p>=</span> <span class=o>&amp;</span><span class=nx>syscall</span><span class=p>.</span><span class=nx>SysProcAttr</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>Cloneflags</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>			<span class=nx>syscall</span><span class=p>.</span><span class=nx>CLONE_NEWUTS</span> <span class=p>|</span>
+</span></span><span class=line><span class=cl>			<span class=nx>syscall</span><span class=p>.</span><span class=nx>CLONE_NEWUSER</span> <span class=p>|</span>
+</span></span><span class=line><span class=cl>			<span class=nx>syscall</span><span class=p>.</span><span class=nx>CLONE_NEWIPC</span> <span class=p>|</span>
+</span></span><span class=line><span class=cl>			<span class=nx>syscall</span><span class=p>.</span><span class=nx>CLONE_NEWPID</span><span class=p>|</span>
+</span></span><span class=line><span class=cl>			<span class=nx>syscall</span><span class=p>.</span><span class=nx>CLONE_NEWNS</span> <span class=p>|</span>
+</span></span><span class=line><span class=cl>			<span class=nx>syscall</span><span class=p>.</span><span class=nx>CLONE_NEWNET</span><span class=p>,</span> <span class=c1>// 增加Network Namespace
+</span></span></span><span class=line><span class=cl><span class=c1></span>		<span class=nx>UidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=nx>syscall</span><span class=p>.</span><span class=nx>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=nx>HostID</span><span class=p>:</span>      <span class=nx>os</span><span class=p>.</span><span class=nf>Getuid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=nx>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=nx>GidMappings</span><span class=p>:</span> <span class=p>[]</span><span class=nx>syscall</span><span class=p>.</span><span class=nx>SysProcIDMap</span><span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=p>{</span>
+</span></span><span class=line><span class=cl>				<span class=nx>ContainerID</span><span class=p>:</span> <span class=mi>0</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=nx>HostID</span><span class=p>:</span>      <span class=nx>os</span><span class=p>.</span><span class=nf>Getgid</span><span class=p>(),</span>
+</span></span><span class=line><span class=cl>				<span class=nx>Size</span><span class=p>:</span>        <span class=mi>1</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>			<span class=p>},</span>
+</span></span><span class=line><span class=cl>		<span class=p>},</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=c1>// set identify for this demo
+</span></span></span><span class=line><span class=cl><span class=c1></span>	<span class=nx>cmd</span><span class=p>.</span><span class=nx>Env</span> <span class=p>=</span> <span class=p>[]</span><span class=kt>string</span><span class=p>{</span><span class=s>&#34;PS1=-[namespace-process]-# &#34;</span><span class=p>}</span>
+</span></span><span class=line><span class=cl>	<span class=nx>cmd</span><span class=p>.</span><span class=nx>Stdin</span> <span class=p>=</span> <span class=nx>os</span><span class=p>.</span><span class=nx>Stdin</span>
+</span></span><span class=line><span class=cl>	<span class=nx>cmd</span><span class=p>.</span><span class=nx>Stdout</span> <span class=p>=</span> <span class=nx>os</span><span class=p>.</span><span class=nx>Stdout</span>
+</span></span><span class=line><span class=cl>	<span class=nx>cmd</span><span class=p>.</span><span class=nx>Stderr</span> <span class=p>=</span> <span class=nx>os</span><span class=p>.</span><span class=nx>Stderr</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>	<span class=k>if</span> <span class=nx>err</span> <span class=o>:=</span> <span class=nx>cmd</span><span class=p>.</span><span class=nf>Run</span><span class=p>();</span> <span class=nx>err</span> <span class=o>!=</span> <span class=kc>nil</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=nx>log</span><span class=p>.</span><span class=nf>Fatal</span><span class=p>(</span><span class=nx>err</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行我们的程序，查看网络设备，发现为空</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>-[namespace-process]-# ifconfig
+</span></span><span class=line><span class=cl>-[namespace-process]-#
+</span></span></code></pre></td></tr></table></div></div><p>在宿主机上查看网络设备，发现有lo, enp7s0这些网络设备。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>enp7s0: flags=4099&lt;UP,BROADCAST,MULTICAST&gt;  mtu 1500
+</span></span><span class=line><span class=cl>        ether 98:fa:9b:f0:85:c2  txqueuelen 1000  (以太网)
+</span></span><span class=line><span class=cl>        RX packets 0  bytes 0 (0.0 B)
+</span></span><span class=line><span class=cl>        RX errors 0  dropped 0  overruns 0  frame 0
+</span></span><span class=line><span class=cl>        TX packets 0  bytes 0 (0.0 B)
+</span></span><span class=line><span class=cl>        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>lo: flags=73&lt;UP,LOOPBACK,RUNNING&gt;  mtu 65536
+</span></span><span class=line><span class=cl>        inet 127.0.0.1  netmask 255.0.0.0
+</span></span><span class=line><span class=cl>        inet6 ::1  prefixlen 128  scopeid 0x10&lt;host&gt;
+</span></span><span class=line><span class=cl>        loop  txqueuelen 1000  (本地环回)
+</span></span><span class=line><span class=cl>        RX packets 16381  bytes 23729834 (23.7 MB)
+</span></span><span class=line><span class=cl>        RX errors 0  dropped 0  overruns 0  frame 0
+</span></span><span class=line><span class=cl>        TX packets 16381  bytes 23729834 (23.7 MB)
+</span></span><span class=line><span class=cl>        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+</span></span><span class=line><span class=cl>....
+</span></span></code></pre></td></tr></table></div></div><p>从上面的结果我们可以看出Network是隔离了。</p></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/docker_go_namespace/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/docker/>Docker</a>,&nbsp;<a href=/tags/linux/>Linux</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/https_more/ class=prev rel=prev title=https深入分析><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>https深入分析</a>
+<a href=/java_gc/ class=next rel=next title=Java之GC>Java之GC<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

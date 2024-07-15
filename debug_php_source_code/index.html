@@ -1,0 +1,276 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>调试PHP源码 - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/debug_php_source_code/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="调试PHP源码"><meta property="og:description" content="缘由 有时候，我们想看看一个变量底层对应底层的数据结构或者PHP脚本是如何执行的，gdb就是这样一个好工具，之前有篇文章写过如何简单使用gdb"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-07-03T20:00:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="PHP"><meta property="article:tag" content="Linux"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="调试PHP源码"><meta name=twitter:description content="缘由 有时候，我们想看看一个变量底层对应底层的数据结构或者PHP脚本是如何执行的，gdb就是这样一个好工具，之前有篇文章写过如何简单使用gdb"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/debug_php_source_code/><link rel=prev href=https://example.com/gdb_use/><link rel=next href=https://example.com/es6_class/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"调试PHP源码","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/debug_php_source_code\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"PHP, Linux","wordcount":2156,"url":"https:\/\/example.com\/debug_php_source_code\/","datePublished":"2020-07-03T20:00:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/debug_php_source_code/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/debug_php_source_code/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">调试PHP源码</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/php/><i class="far fa-folder fa-fw" aria-hidden=true></i>PHP</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2020-07-03>2020-07-03</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2156 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;<span id=/debug_php_source_code/ class=leancloud_visitors data-flag-title=调试PHP源码>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#缘由>缘由</a></li><li><a href=#编译>编译</a></li><li><a href=#调试php>调试PHP</a></li></ul></nav></div></div><div class=content id=content><p><img class=lazyload src=/svg/loading.min.svg data-src=https://s1.ax1x.com/2020/07/05/U91xmt.png data-srcset="https://s1.ax1x.com/2020/07/05/U91xmt.png, https://s1.ax1x.com/2020/07/05/U91xmt.png 1.5x, https://s1.ax1x.com/2020/07/05/U91xmt.png 2x" data-sizes=auto alt=https://s1.ax1x.com/2020/07/05/U91xmt.png title=https://s1.ax1x.com/2020/07/05/U91xmt.png></p><h2 id=缘由>缘由</h2><p>有时候，我们想看看一个变量底层对应底层的数据结构或者PHP脚本是如何执行的，gdb就是这样一个好工具，之前有篇<a href=/2020/07/02/gdb_use/ rel>文章写过</a>如何简单使用gdb。</p><p>本文环境：</p><ul><li>PHP版本：PHP 7.1.16 (cli) (built: Apr 8 2020 11:56:59) ( ZTS )</li><li>OS：Ubuntu 18.04.4 LTS</li><li>gdb: GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git</li></ul><h2 id=编译>编译</h2><p>你可以从<a href=https://www.php.net/downloads target=_blank rel="noopener noreffer">PHP官网下载PHP源码的压缩包</a>，者是从git.php.net（或者是github的镜像）的git库clone最新的代码库，然后切换到对应的PHP版本的分支，本文使用的是PHP7.1，你可以使用下面的命令完成这些工作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>git clone http://git.php.net/repository/php-src.git
+</span></span><span class=line><span class=cl>cd php-src
+</span></span><span class=line><span class=cl>git checkout PHP-7.1
+</span></span></code></pre></td></tr></table></div></div><p>如果你是从git库中clone的代码，那么你先要运行下buildconf命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>~/php-src&gt; ./buildconf 
+</span></span></code></pre></td></tr></table></div></div><p>这个命令会生成configure脚本，<strong>从官网下载的源码包中会直接包含这个脚本</strong>，如果你执行<code>buildconf</code>出错，那么很可能是因为你的系统中没有<code>autoconf</code>这个工具，你可以使用包安装工具进行安装。<br>如果你已经成功生成了configure脚本文件（或者是使用已包含这个脚本文件的源码包），那就可以开始编译了。为了调式PHP源码，我们的编译会disable所有的扩展（除了一些必须包含的外，这些PHP的编译脚本会自行处理），我们使用下面的命令来完成编译安装的工作，假设安装的路径为$HOME/myphp：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>~/php-src&gt; ./configure --disable-all --enable-debug --prefix=$HOME/myphp
+</span></span><span class=line><span class=cl>~/php-src&gt; make -jN
+</span></span><span class=line><span class=cl>~/php-src&gt; make install
+</span></span></code></pre></td></tr></table></div></div><p>注意这里的prefix的参数必须为绝对路径，所以你不能写成~/myphp，另外我们这次编译只是为了调式，所以建议一定要设置prefix参数，要不然PHP会被安装到默认路径中，大多数时候是/usr/local/php中，这可能会造成一些没必要的污染。另外我们使用了两个选项，一个是&ndash;disable-all，这个表示禁止安装所有扩展（除了一个必须安装的），另外一个就是&ndash;enable-debug，这个选项表示以debug模式编译PHP源码，<strong>相当于gcc的-g选项</strong>，它会把调试信息编译进最终的二进制程序中。</p><p>上面的命令make -jN，N表示你的CPU数量（或者是CPU核心的数量），设置了这个参数后就可以使用多个CPU进行并行编译，这可以提高编译效率。</p><h2 id=调试php>调试PHP</h2><p>我们调试一段简单的PHP代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;?php
+</span></span><span class=line><span class=cl>$a = 10;
+</span></span><span class=line><span class=cl>$b = 42;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>echo $b;
+</span></span></code></pre></td></tr></table></div></div><p>我们想看下<code>$a</code>对应的底层变量结构，那我们应该在哪个函数上叫断点呢？通过查阅资料（如《PHP7内核分析》）我们发现，ZendVM的执行器就是一个white循环，在这个循环中依次调用<code>opline</code>指令的handler，然后根据handler的返回决定下一步的动作。执行调度器为<strong>zend_execute_ex</strong>，这是函数指针，默认为<code>execute_ex</code>，我们看下这个函数的代码：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>//</span><span class=err>删除了预处理语句</span>
+</span></span><span class=line><span class=cl><span class=n>ZEND_API</span> <span class=n>void</span> <span class=n>execute_ex</span><span class=p>(</span><span class=n>zend_execute_data</span> <span class=o>*</span><span class=n>ex</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>DCL_OPLINE</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>const</span> <span class=n>zend_op</span> <span class=o>*</span><span class=n>orig_opline</span> <span class=o>=</span> <span class=n>opline</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>zend_execute_data</span> <span class=o>*</span><span class=n>orig_execute_data</span> <span class=o>=</span> <span class=n>execute_data</span><span class=p>;</span> <span class=o>/*</span> <span class=n>execute_data是一个全局变量</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>    <span class=n>execute_data</span> <span class=o>=</span> <span class=n>ex</span><span class=p>;</span> 
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>LOAD_OPLINE</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>while</span> <span class=p>(</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>((</span><span class=n>opcode_handler_t</span><span class=p>)</span><span class=n>OPLINE</span><span class=o>-&gt;</span><span class=n>handler</span><span class=p>)(</span><span class=n>ZEND_OPCODE_HANDLER_ARGS_PASSTHRU</span><span class=p>);</span> <span class=o>//</span><span class=err>执行</span><span class=n>OPCode对应的C函数</span><span class=err>，</span><span class=n>OPLINE是一个全局变量</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>UNEXPECTED</span><span class=p>(</span><span class=o>!</span><span class=n>OPLINE</span><span class=p>))</span> <span class=p>{</span> <span class=o>//</span><span class=err>当前</span><span class=n>OPArray执行完</span>
+</span></span><span class=line><span class=cl>            <span class=n>execute_data</span> <span class=o>=</span> <span class=n>orig_execute_data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>opline</span> <span class=o>=</span> <span class=n>orig_opline</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>zend_error_noreturn</span><span class=p>(</span><span class=n>E_CORE_ERROR</span><span class=p>,</span> <span class=s2>&#34;Arrived at end of main loop which shouldn&#39;t happen&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>所以我们可以在给<code>execute_ex</code>函数打断点。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>gdb</span> <span class=o>~/</span><span class=n>myphp</span><span class=o>/</span><span class=n>bin</span><span class=o>/</span><span class=n>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>r</span> <span class=n>index</span><span class=o>.</span><span class=n>php</span>
+</span></span><span class=line><span class=cl><span class=n>Starting</span> <span class=n>program</span><span class=p>:</span> <span class=o>/</span><span class=n>home</span><span class=o>/</span><span class=n>salamander</span><span class=o>/</span><span class=n>myphp</span><span class=o>/</span><span class=n>bin</span><span class=o>/</span><span class=n>php</span> <span class=n>index</span><span class=o>.</span><span class=n>php</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Breakpoint</span> <span class=mi>1</span><span class=p>,</span> <span class=n>execute_ex</span> <span class=p>(</span><span class=n>ex</span><span class=o>=</span><span class=mh>0x7ffff7014030</span><span class=p>)</span> <span class=n>at</span> <span class=o>/</span><span class=n>home</span><span class=o>/</span><span class=n>salamander</span><span class=o>/</span><span class=n>php</span><span class=o>-</span><span class=mf>7.1</span><span class=o>.</span><span class=mi>16</span><span class=o>/</span><span class=n>Zend</span><span class=o>/</span><span class=n>zend_vm_execute</span><span class=o>.</span><span class=n>h</span><span class=p>:</span><span class=mi>411</span>
+</span></span><span class=line><span class=cl><span class=mi>411</span>             <span class=k>const</span> <span class=n>zend_op</span> <span class=o>*</span><span class=n>orig_opline</span> <span class=o>=</span> <span class=n>opline</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>414</span>             <span class=n>zend_execute_data</span> <span class=o>*</span><span class=n>orig_execute_data</span> <span class=o>=</span> <span class=n>execute_data</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>415</span>             <span class=n>execute_data</span> <span class=o>=</span> <span class=n>ex</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>421</span>             <span class=n>LOAD_OPLINE</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>422</span>             <span class=n>ZEND_VM_LOOP_INTERRUPT_CHECK</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>429</span>                     <span class=p>((</span><span class=n>opcode_handler_t</span><span class=p>)</span><span class=n>OPLINE</span><span class=o>-&gt;</span><span class=n>handler</span><span class=p>)(</span><span class=n>ZEND_OPCODE_HANDLER_ARGS_PASSTHRU</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>现在就要调用<code>opline</code>指令的handler，我们应该键入<code>s</code>，跳到对应函数内部去：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>s</span>
+</span></span><span class=line><span class=cl><span class=n>ZEND_ASSIGN_SPEC_CV_CONST_RETVAL_UNUSED_HANDLER</span> <span class=p>()</span> <span class=n>at</span> <span class=o>/</span><span class=n>home</span><span class=o>/</span><span class=n>salamander</span><span class=o>/</span><span class=n>php</span><span class=o>-</span><span class=mf>7.1</span><span class=o>.</span><span class=mi>16</span><span class=o>/</span><span class=n>Zend</span><span class=o>/</span><span class=n>zend_vm_execute</span><span class=o>.</span><span class=n>h</span><span class=p>:</span><span class=mi>39506</span>
+</span></span><span class=line><span class=cl><span class=mi>39506</span>           <span class=n>SAVE_OPLINE</span><span class=p>();</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>39507</span>           <span class=n>value</span> <span class=o>=</span> <span class=n>EX_CONSTANT</span><span class=p>(</span><span class=n>opline</span><span class=o>-&gt;</span><span class=n>op2</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>39508</span>           <span class=n>variable_ptr</span> <span class=o>=</span> <span class=n>_get_zval_ptr_cv_undef_BP_VAR_W</span><span class=p>(</span><span class=n>execute_data</span><span class=p>,</span> <span class=n>opline</span><span class=o>-&gt;</span><span class=n>op1</span><span class=o>.</span><span class=k>var</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>n</span>
+</span></span><span class=line><span class=cl><span class=mi>39516</span>                   <span class=n>value</span> <span class=o>=</span> <span class=n>zend_assign_to_variable</span><span class=p>(</span><span class=n>variable_ptr</span><span class=p>,</span> <span class=n>value</span><span class=p>,</span> <span class=n>IS_CONST</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>p</span> <span class=n>value</span>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=mi>1</span> <span class=o>=</span> <span class=p>(</span><span class=n>zval</span> <span class=o>*</span><span class=p>)</span> <span class=mh>0x7ffff707b460</span>
+</span></span><span class=line><span class=cl><span class=p>(</span><span class=n>gdb</span><span class=p>)</span> <span class=n>p</span> <span class=o>*$</span><span class=mi>1</span>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=mi>3</span> <span class=o>=</span> <span class=p>{</span><span class=n>value</span> <span class=o>=</span> <span class=p>{</span><span class=n>lval</span> <span class=o>=</span> <span class=mi>10</span><span class=p>,</span> <span class=n>dval</span> <span class=o>=</span> <span class=mf>4.9406564584124654e-323</span><span class=p>,</span> <span class=n>counted</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=nb>str</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>arr</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>obj</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>res</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>ref</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>ast</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>zv</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>    <span class=n>ptr</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>ce</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=k>func</span> <span class=o>=</span> <span class=mh>0xa</span><span class=p>,</span> <span class=n>ww</span> <span class=o>=</span> <span class=p>{</span><span class=n>w1</span> <span class=o>=</span> <span class=mi>10</span><span class=p>,</span> <span class=n>w2</span> <span class=o>=</span> <span class=mi>0</span><span class=p>}},</span> <span class=n>u1</span> <span class=o>=</span> <span class=p>{</span><span class=n>v</span> <span class=o>=</span> <span class=p>{</span><span class=n>type</span> <span class=o>=</span> <span class=mi>4</span> <span class=s1>&#39;</span><span class=se>\004</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>type_flags</span> <span class=o>=</span> <span class=mi>0</span> <span class=s1>&#39;</span><span class=se>\000</span><span class=s1>&#39;</span><span class=p>,</span> <span class=n>const_flags</span> <span class=o>=</span> <span class=mi>0</span> <span class=s1>&#39;</span><span class=se>\000</span><span class=s1>&#39;</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>      <span class=n>reserved</span> <span class=o>=</span> <span class=mi>0</span> <span class=s1>&#39;</span><span class=se>\000</span><span class=s1>&#39;</span><span class=p>},</span> <span class=n>type_info</span> <span class=o>=</span> <span class=mi>4</span><span class=p>},</span> <span class=n>u2</span> <span class=o>=</span> <span class=p>{</span><span class=n>next</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> <span class=n>cache_slot</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> <span class=n>lineno</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> <span class=n>num_args</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> 
+</span></span><span class=line><span class=cl>    <span class=n>fe_pos</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> <span class=n>fe_iter_idx</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> <span class=n>access_flags</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> <span class=n>property_guard</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>,</span> <span class=n>extra</span> <span class=o>=</span> <span class=mi>4294967295</span><span class=p>}}</span>
+</span></span></code></pre></td></tr></table></div></div><p>我们第一行PHP代码是<code>$a = 10;</code>，这是一条赋值语句,<code>ZEND_ASSIGN_SPEC_CV_CONST_RETVAL_UNUSED_HANDLER</code>是把一个常量赋值给一个变量，<code>EX_CONSTANT(opline->op2)</code>是获取常量的值，<code>$a</code>为CV变量，分配在zend_execute_data动态变量区，通过<code>_get_zval_ptr_cv_undef_BP_VAR_W</code>取到这个变量的地址，剩下的好理解了，就是把变量值赋值给CV变量。<br><code>value</code>就是我们的变量值，<code>$a</code>对应的底层变量就是它。<br>回忆一下PHP7变量的数据结构，是一个叫<code>zval</code>的结构体，<code>zend_value</code>保存具体的变量值：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>typedef</span> <span class=n>union</span> <span class=n>_zend_value</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_long</span>         <span class=n>lval</span><span class=p>;</span>				<span class=o>/*</span> <span class=n>long</span> <span class=n>value</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>	<span class=n>double</span>            <span class=n>dval</span><span class=p>;</span>				<span class=o>/*</span> <span class=n>double</span> <span class=n>value</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_refcounted</span>  <span class=o>*</span><span class=n>counted</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_string</span>      <span class=o>*</span><span class=nb>str</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_array</span>       <span class=o>*</span><span class=n>arr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_object</span>      <span class=o>*</span><span class=n>obj</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_resource</span>    <span class=o>*</span><span class=n>res</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_reference</span>   <span class=o>*</span><span class=n>ref</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_ast_ref</span>     <span class=o>*</span><span class=n>ast</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zval</span>             <span class=o>*</span><span class=n>zv</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>void</span>             <span class=o>*</span><span class=n>ptr</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_class_entry</span> <span class=o>*</span><span class=n>ce</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_function</span>    <span class=o>*</span><span class=k>func</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span> <span class=n>w1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span> <span class=n>w2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=n>ww</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span> <span class=n>zend_value</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>struct</span> <span class=n>_zval_struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>	<span class=n>zend_value</span>        <span class=n>value</span><span class=p>;</span>			<span class=o>/*</span> <span class=n>value</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>	<span class=n>union</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>struct</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>			<span class=n>ZEND_ENDIAN_LOHI_4</span><span class=p>(</span>
+</span></span><span class=line><span class=cl>				<span class=n>zend_uchar</span>    <span class=n>type</span><span class=p>,</span>			<span class=o>/*</span> <span class=err>变量类型</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>				<span class=n>zend_uchar</span>    <span class=n>type_flags</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>zend_uchar</span>    <span class=n>const_flags</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>				<span class=n>zend_uchar</span>    <span class=n>reserved</span><span class=p>)</span>	    <span class=o>/*</span> <span class=n>call</span> <span class=n>info</span> <span class=k>for</span> <span class=n>EX</span><span class=p>(</span><span class=n>This</span><span class=p>)</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=p>}</span> <span class=n>v</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span> <span class=n>type_info</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=n>u1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>	<span class=n>union</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>next</span><span class=p>;</span>                 <span class=o>/*</span> <span class=nb>hash</span> <span class=n>collision</span> <span class=n>chain</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>cache_slot</span><span class=p>;</span>           <span class=o>/*</span> <span class=n>literal</span> <span class=n>cache</span> <span class=n>slot</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>lineno</span><span class=p>;</span>               <span class=o>/*</span> <span class=n>line</span> <span class=n>number</span> <span class=p>(</span><span class=k>for</span> <span class=n>ast</span> <span class=n>nodes</span><span class=p>)</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>num_args</span><span class=p>;</span>             <span class=o>/*</span> <span class=n>arguments</span> <span class=n>number</span> <span class=k>for</span> <span class=n>EX</span><span class=p>(</span><span class=n>This</span><span class=p>)</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>fe_pos</span><span class=p>;</span>               <span class=o>/*</span> <span class=n>foreach</span> <span class=n>position</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>fe_iter_idx</span><span class=p>;</span>          <span class=o>/*</span> <span class=n>foreach</span> <span class=n>iterator</span> <span class=n>index</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>access_flags</span><span class=p>;</span>         <span class=o>/*</span> <span class=k>class</span> <span class=n>constant</span> <span class=n>access</span> <span class=n>flags</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>property_guard</span><span class=p>;</span>       <span class=o>/*</span> <span class=n>single</span> <span class=n>property</span> <span class=n>guard</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>		<span class=n>uint32_t</span>     <span class=n>extra</span><span class=p>;</span>                <span class=o>/*</span> <span class=ow>not</span> <span class=n>further</span> <span class=n>specified</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl>	<span class=p>}</span> <span class=n>u2</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_UNDEF                                        0</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_NULL                                         1</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_FALSE                                        2</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_TRUE                                         3</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_LONG                                         4</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_DOUBLE                                       5</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_STRING                                       6</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_ARRAY                                        7</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_OBJECT                                       8</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_RESOURCE                                     9</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_REFERENCE                                    10</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>/*</span> <span class=n>constant</span> <span class=n>expressions</span> <span class=o>*/</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_CONSTANT                                     11</span>
+</span></span><span class=line><span class=cl><span class=c1>#define IS_CONSTANT_AST                                 12</span>
+</span></span></code></pre></td></tr></table></div></div><p>我们打印出来的底层变量，<code>lval</code>是10，<code>u1</code>里的<code>type</code>是4，也正好是<code>IS_LONG</code>，别的字段的值大家也可以分析看看。</p><p>参考：</p><ul><li><a href=http://yangxikun.github.io/php/2016/11/04/php-7-func-call.html target=_blank rel="noopener noreffer">PHP 7 中函数调用的实现</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/debug_php_source_code/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/php/>PHP</a>,&nbsp;<a href=/tags/linux/>Linux</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/gdb_use/ class=prev rel=prev title=gdb调试简单使用><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>gdb调试简单使用</a>
+<a href=/es6_class/ class=next rel=next title=ES6中的class>ES6中的class<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

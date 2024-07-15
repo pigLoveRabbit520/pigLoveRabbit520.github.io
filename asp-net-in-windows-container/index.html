@@ -1,0 +1,266 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>ASP.NET in Windows Container - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/asp-net-in-windows-container/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="ASP.NET in Windows Container"><meta property="og:description" content="平常我们用的都是Linux Container，这些容器用的都是Linux的内核，而今天我们要记录的是Windows Container，就是讲"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-05-11T10:19:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Windows"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="ASP.NET in Windows Container"><meta name=twitter:description content="平常我们用的都是Linux Container，这些容器用的都是Linux的内核，而今天我们要记录的是Windows Container，就是讲"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/asp-net-in-windows-container/><link rel=prev href=https://example.com/bochs%E4%B8%8B%E5%90%AF%E5%8A%A8/><link rel=next href=https://example.com/matrix/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"ASP.NET in Windows Container","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/asp-net-in-windows-container\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Docker, WIndows","wordcount":1885,"url":"https:\/\/example.com\/asp-net-in-windows-container\/","datePublished":"2022-05-11T10:19:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"pigLoveRabbit"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/asp-net-in-windows-container/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/asp-net-in-windows-container/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">ASP.NET in Windows Container</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>pigLoveRabbit</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/docker/><i class="far fa-folder fa-fw" aria-hidden=true></i>Docker</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022-05-11>2022-05-11</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1885 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 4 分钟&nbsp;<span id=/asp-net-in-windows-container/ class=leancloud_visitors data-flag-title="ASP.NET in Windows Container">
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#docker>Docker</a></li><li><a href=#windows-container>Windows Container</a></li><li><a href=#运行一个aspnet程序>运行一个ASP.NET程序</a></li></ul></nav></div></div><div class=content id=content><p>平常我们用的都是<code>Linux Container</code>，这些容器用的都是Linux的内核，而今天我们要记录的是<code>Windows Container</code>，就是讲这些容器用的是Windows的内核，Windows内核是啥？那就是<a href=https://zh.m.wikipedia.org/zh-hans/Windows_NT target=_blank rel="noopener noreffer">Windows NT</a>。<br>查看你的Windows内核版本，可以用</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-PowerShell data-lang=PowerShell><span class=line><span class=cl><span class=nb>Get-ComputerInfo</span> <span class=p>|</span> <span class=nb>Select </span><span class=n>WindowsProductName</span><span class=p>,</span> <span class=n>WindowsVersion</span><span class=p>,</span> <span class=n>WindowsInstallationType</span><span class=p>,</span> <span class=n>OsServerLevel</span><span class=p>,</span> <span class=n>OsVersion</span><span class=p>,</span> <span class=n>OsHardwareAbstractionLayer</span>
+</span></span></code></pre></td></tr></table></div></div><p>类似输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>WindowsProductName         : Windows 10 Pro for Workstations
+</span></span><span class=line><span class=cl>WindowsVersion             : 2009
+</span></span><span class=line><span class=cl>WindowsInstallationType    : Client
+</span></span><span class=line><span class=cl>OsServerLevel              :
+</span></span><span class=line><span class=cl>OsVersion                  : 10.0.19044
+</span></span><span class=line><span class=cl>OsHardwareAbstractionLayer : 10.0.19041.1566
+</span></span></code></pre></td></tr></table></div></div><p>上面NT的版本是10.0.19044。</p><p>环境</p><ul><li>安装 <a href=https://dotnet.microsoft.com/en-us/download/dotnet/6.0 target=_blank rel="noopener noreffer">.NET 6 SDK</a></li><li>Windows Server 2022</li><li>Docker（针对Windows Server的docker，没有UI的）</li><li>安装一个喜欢的代码编辑器，例如 Visual Studio(Code)。</li></ul><h2 id=docker>Docker</h2><p>若要在 Windows Server 上安装 Docker，可以使用由 Microsoft 发布的 OneGet 提供程序 PowerShell 模块（称为 DockerMicrosoftProvider）。 此提供程序启用 Windows 中的容器功能，并安装 Docker 引擎和客户端。 以下是操作方法：</p><p>打开提升的 PowerShell 会话，从 PowerShell 库安装 Docker-Microsoft PackageManagement 提供程序。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-PowerShell data-lang=PowerShell><span class=line><span class=cl><span class=nb>Install-Module</span> <span class=n>-Name</span> <span class=n>DockerMsftProvider</span> <span class=n>-Repository</span> <span class=n>PSGallery</span> <span class=n>-Force</span>
+</span></span></code></pre></td></tr></table></div></div><p>如果系统提示安装 NuGet 提供程序，还请键入 Y 进行安装。</p><p>如果在打开 PowerShell 库时遇到错误，则可能需要将 PowerShell 客户端使用的 TLS 版本设置为 TLS 1.2。 为此，请运行以下命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-PowerShell data-lang=PowerShell><span class=line><span class=cl><span class=c># Set the TLS version used by the PowerShell client to TLS 1.2.</span>
+</span></span><span class=line><span class=cl><span class=p>[</span><span class=no>System.Net.ServicePointManager</span><span class=p>]::</span><span class=n>SecurityProtocol</span> <span class=p>=</span> <span class=p>[</span><span class=no>System.Net.SecurityProtocolType</span><span class=p>]::</span><span class=n>Tls12</span><span class=p>;</span>
+</span></span></code></pre></td></tr></table></div></div><p>使用 PackageManagement PowerShell 模块安装最新版本的 Docker。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-PowerShell data-lang=PowerShell><span class=line><span class=cl><span class=nb>Install-Package</span> <span class=n>-Name</span> <span class=n>docker</span> <span class=n>-ProviderName</span> <span class=n>DockerMsftProvider</span>
+</span></span></code></pre></td></tr></table></div></div><p>PowerShell 询问是否信任包源“DockerDefault”时，键入 A 以继续进行安装。</p><p>在安装完成后，请重启计算机。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-PowerShell data-lang=PowerShell><span class=line><span class=cl><span class=nb>Restart-Computer</span> <span class=n>-Force</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=windows-container>Windows Container</h2><p>我们知道Linux容器的Base Image是alpine或者scratch， 那Windows容器的Base Image是什么呢？其实微软官方也有<a href=https://docs.microsoft.com/en-us/virtualization/windowscontainers/manage-containers/container-base-images target=_blank rel="noopener noreffer">介绍</a>了。</p><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/windows_base_image.png data-srcset="/images/windows_base_image.png, /images/windows_base_image.png 1.5x, /images/windows_base_image.png 2x" data-sizes=auto alt=/images/windows_base_image.png title="upload successful"><br>好了，我们进入正题。</p><p>要确保当前Docker是使用<code>Windows Container</code>的，我们可以拉个镜像</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>docker pull mcr.microsoft.com/windows/nanoserver:ltsc2022-amd64
+</span></span></code></pre></td></tr></table></div></div><p>如果看到错误消息“no matching manifest for linux/amd64 in the manifest list entries”，那说明 Docker 用的是Linux 容器。<br>注意：<code>mcr.microsoft.com</code>上的镜像在国内访问挺慢的，你可以先把镜像pull到阿里云，然后再在你电脑上拉取。<br>我们跑一个简单容器（执行cmd）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>docker run -it mcr.microsoft.com/windows/nanoserver:ltsc2022-amd64  cmd.exe
+</span></span></code></pre></td></tr></table></div></div><p>在容器中执行一些命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>C:\&gt;dir
+</span></span><span class=line><span class=cl> Volume in drive C has no label.
+</span></span><span class=line><span class=cl> Volume Serial Number is F63B-D098
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> Directory of C:\
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>05/05/2022  10:35 AM             5,510 License.txt
+</span></span><span class=line><span class=cl>05/05/2022  10:37 AM    &lt;DIR&gt;          Users
+</span></span><span class=line><span class=cl>05/11/2022  03:37 PM    &lt;DIR&gt;          Windows
+</span></span><span class=line><span class=cl>               1 File(s)          5,510 bytes
+</span></span><span class=line><span class=cl>               2 Dir(s)  21,302,714,368 bytes free
+</span></span><span class=line><span class=cl>               
+</span></span><span class=line><span class=cl>C:\&gt;hostname
+</span></span><span class=line><span class=cl>fbb1d7595c03
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>C:\&gt;ipconfig/all
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Windows IP Configuration
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Host Name . . . . . . . . . . . . : fbb1d7595c03
+</span></span><span class=line><span class=cl>   Primary Dns Suffix  . . . . . . . :
+</span></span><span class=line><span class=cl>   Node Type . . . . . . . . . . . . : Hybrid
+</span></span><span class=line><span class=cl>   IP Routing Enabled. . . . . . . . : No
+</span></span><span class=line><span class=cl>   WINS Proxy Enabled. . . . . . . . : No
+</span></span><span class=line><span class=cl>   DNS Suffix Search List. . . . . . : lan
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Ethernet adapter vEthernet (Ethernet):
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>   Connection-specific DNS Suffix  . : lan
+</span></span><span class=line><span class=cl>   Description . . . . . . . . . . . : Hyper-V Virtual Ethernet Container Adapter
+</span></span><span class=line><span class=cl>   Physical Address. . . . . . . . . : 00-15-5D-E5-CC-89
+</span></span><span class=line><span class=cl>   DHCP Enabled. . . . . . . . . . . : No
+</span></span><span class=line><span class=cl>   Autoconfiguration Enabled . . . . : Yes
+</span></span><span class=line><span class=cl>   Link-local IPv6 Address . . . . . : fe80::a0c8:ad95:72dd:fe6f%17(Preferred)
+</span></span><span class=line><span class=cl>   IPv4 Address. . . . . . . . . . . : 172.30.150.168(Preferred)
+</span></span><span class=line><span class=cl>   Subnet Mask . . . . . . . . . . . : 255.255.240.0
+</span></span><span class=line><span class=cl>   Default Gateway . . . . . . . . . : 172.30.144.1
+</span></span><span class=line><span class=cl>   DNS Servers . . . . . . . . . . . : 172.30.144.1
+</span></span><span class=line><span class=cl>                                       10.0.2.3
+</span></span><span class=line><span class=cl>   NetBIOS over Tcpip. . . . . . . . : Disabled
+</span></span><span class=line><span class=cl>   Connection-specific DNS Suffix Search List :
+</span></span><span class=line><span class=cl>                                       lan
+</span></span></code></pre></td></tr></table></div></div><p>可以看到，容器中目录还有hostname，网络都是隔离的。</p><h2 id=运行一个aspnet程序>运行一个ASP.NET程序</h2><p>dotnet 6已经可以很方便的创建asp程序的骨架了，创建新目录myweb, 终端输入<code>dotnet new web</code>，然后sdk就帮你创建了一个hello world程序。<br>看一下Program.cs的内容：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=k>var</span> <span class=n>builder</span> <span class=o>=</span> <span class=n>WebApplication</span><span class=o>.</span><span class=n>CreateBuilder</span><span class=p>(</span><span class=n>args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>app</span> <span class=o>=</span> <span class=n>builder</span><span class=o>.</span><span class=n>Build</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>app</span><span class=o>.</span><span class=n>MapGet</span><span class=p>(</span><span class=s2>&#34;/&#34;</span><span class=p>,</span> <span class=p>()</span> <span class=o>=&gt;</span> <span class=s2>&#34;Hello World!&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>app</span><span class=o>.</span><span class=n>Run</span><span class=p>();</span>
+</span></span></code></pre></td></tr></table></div></div><p>恩，蛮简单的，我们在宿主机上运行<code>dotnet run</code>，输出</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[14]
+</span></span><span class=line><span class=cl>      Now listening on: https://localhost:7174
+</span></span><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[14]
+</span></span><span class=line><span class=cl>      Now listening on: http://localhost:5017
+</span></span><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[0]
+</span></span><span class=line><span class=cl>      Application started. Press Ctrl+C to shut down.
+</span></span><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[0]
+</span></span><span class=line><span class=cl>      Hosting environment: Development
+</span></span><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[0]
+</span></span><span class=line><span class=cl>      Content root path: /your_path/myweb/
+</span></span></code></pre></td></tr></table></div></div><p><code>curl http://localhost:5017</code>返回了<code>Hello World!</code>，速度阔以的。</p><p>为了在Docker中运行程序，我们需要创建一个Dockerfile</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>FROM mcr.microsoft.com/dotnet/sdk:6.0 AS build-env
+</span></span><span class=line><span class=cl>WORKDIR /app
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># Copy everything
+</span></span><span class=line><span class=cl>COPY . ./
+</span></span><span class=line><span class=cl># Restore as distinct layers
+</span></span><span class=line><span class=cl>RUN dotnet restore
+</span></span><span class=line><span class=cl># Build and publish a release
+</span></span><span class=line><span class=cl>RUN dotnet publish -c Release -o out
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># Build runtime image
+</span></span><span class=line><span class=cl>FROM mcr.microsoft.com/dotnet/aspnet:6.0
+</span></span><span class=line><span class=cl>WORKDIR /app
+</span></span><span class=line><span class=cl>COPY --from=build-env /app/out .
+</span></span><span class=line><span class=cl>ENTRYPOINT [&#34;dotnet&#34;, &#34;myweb.dll&#34;]
+</span></span></code></pre></td></tr></table></div></div><p>当然，为了docker build能快点，我们应该添加一个<code>.dockerignore</code>文件</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl># Build results
+</span></span><span class=line><span class=cl>[Dd]ebug/
+</span></span><span class=line><span class=cl>[Rr]elease/
+</span></span><span class=line><span class=cl>x64/
+</span></span><span class=line><span class=cl>[Bb]in/
+</span></span><span class=line><span class=cl>[Oo]bj/
+</span></span><span class=line><span class=cl># build folder is nowadays used for build scripts and should not be ignored
+</span></span><span class=line><span class=cl>#build/
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># NuGet Packages
+</span></span><span class=line><span class=cl>*.nupkg
+</span></span><span class=line><span class=cl># The packages folder can be ignored because of Package Restore
+</span></span><span class=line><span class=cl>**/packages/*
+</span></span><span class=line><span class=cl># except build/, which is used as an MSBuild target.
+</span></span><span class=line><span class=cl>!**/packages/build/
+</span></span><span class=line><span class=cl># Uncomment if necessary however generally it will be regenerated when needed
+</span></span><span class=line><span class=cl>#!**/packages/repositories.config
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># MSTest test Results
+</span></span><span class=line><span class=cl>[Tt]est[Rr]esult*/
+</span></span><span class=line><span class=cl>[Bb]uild[Ll]og.*
+</span></span></code></pre></td></tr></table></div></div><p>好了，现在执行<code>docker build -t fuck_image .</code>，构建镜像成功后，可以看到</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>PS C:\Users\Administrator&gt; docker images
+</span></span><span class=line><span class=cl>REPOSITORY                             TAG              IMAGE ID       CREATED        SIZE
+</span></span><span class=line><span class=cl>fuck_image                             latest           a8b482b53388   5 hours ago   392MB
+</span></span></code></pre></td></tr></table></div></div><p>我们跑个容器<code>docker run -d --name fuck_asp fuck_image</code>，查看容器日志<code>docker logs fuck_asp</code>，发现它的http端口是80</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[14]
+</span></span><span class=line><span class=cl>      Now listening on: http://[::]:80
+</span></span><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[0]
+</span></span><span class=line><span class=cl>      Application started. Press Ctrl+C to shut down.
+</span></span><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[0]
+</span></span><span class=line><span class=cl>      Hosting environment: Production
+</span></span><span class=line><span class=cl>info: Microsoft.Hosting.Lifetime[0]
+</span></span><span class=line><span class=cl>      Content root path: C:\app\
+</span></span></code></pre></td></tr></table></div></div><p>进入容器执行curl</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>docker exec -it fuck_asp cmd.exe
+</span></span><span class=line><span class=cl>C:\app&gt;curl http://localhost
+</span></span><span class=line><span class=cl>Hello World!
+</span></span></code></pre></td></tr></table></div></div><p>OK了。<br>注：你的Windows Server如果是跑在虚拟机中的，获取虚拟机的ip有个命令：<code>VBoxManage guestproperty get "Win Server2022" "/VirtualBox/GuestInfo/Net/0/V4/IP"</code></p><p>参考：</p><ul><li><a href="https://docs.microsoft.com/zh-cn/virtualization/windowscontainers/quick-start/set-up-environment?tabs=Windows-Server" target=_blank rel="noopener noreffer">入门：准备适用于容器的 Windows</a></li><li><a href="https://docs.microsoft.com/en-us/dotnet/core/docker/build-container?tabs=windows" target=_blank rel="noopener noreffer">Tutorial: Containerize a .NET app</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/asp-net-in-windows-container/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/docker/>Docker</a>,&nbsp;<a href=/tags/windows/>Windows</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/bochs%E4%B8%8B%E5%90%AF%E5%8A%A8/ class=prev rel=prev title=bochs下启动自己的MBR><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>bochs下启动自己的MBR</a>
+<a href=/matrix/ class=next rel=next title=几何中矩阵>几何中矩阵<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

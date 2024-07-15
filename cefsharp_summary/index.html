@@ -1,0 +1,535 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>CefSharp浅尝辄止 - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/cefsharp_summary/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="CefSharp浅尝辄止"><meta property="og:description" content="CefSharp CEF全称：Chromium Embedded Framework。 CefSharp是什么？官网上它是这么写的：CefSharp是在C#或VB.NET应用程"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-11-16T20:00:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="C#"><meta property="article:tag" content="CefSharp"><meta property="article:tag" content="WPF"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="CefSharp浅尝辄止"><meta name=twitter:description content="CefSharp CEF全称：Chromium Embedded Framework。 CefSharp是什么？官网上它是这么写的：CefSharp是在C#或VB.NET应用程"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/cefsharp_summary/><link rel=prev href=https://example.com/jenkin_and_docker/><link rel=next href=https://example.com/docker-linux-namespace-intro/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"CefSharp浅尝辄止","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/cefsharp_summary\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"C#, CefSharp, WPF","wordcount":2980,"url":"https:\/\/example.com\/cefsharp_summary\/","datePublished":"2019-11-16T20:00:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/cefsharp_summary/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/cefsharp_summary/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">CefSharp浅尝辄止</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/c/><i class="far fa-folder fa-fw" aria-hidden=true></i>C</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2019-11-16>2019-11-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2980 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 6 分钟&nbsp;<span id=/cefsharp_summary/ class=leancloud_visitors data-flag-title=CefSharp浅尝辄止>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#cefsharp>CefSharp</a></li><li><a href=#wpf引入cefsharp>WPF引入CefSharp</a></li><li><a href=#截断请求>截断请求</a><ul><li><a href=#添加自定义查询参数>添加自定义查询参数</a></li><li><a href=#添加自定义body>添加自定义Body</a></li></ul></li><li><a href=#加载本地html字符串>加载本地HTML字符串</a></li><li><a href=#截断响应>截断响应</a></li><li><a href=#截取cookie>截取cookie</a></li><li><a href=#javascript交互>Javascript交互</a><ul><li><a href=#c执行js方法>C#执行js方法</a></li><li><a href=#获取javascript方法结果>获取Javascript方法结果</a></li></ul></li><li><a href=#资源清理>资源清理</a></li></ul></nav></div></div><div class=content id=content><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/CefSharp-logo.png data-srcset="/images/CefSharp-logo.png, /images/CefSharp-logo.png 1.5x, /images/CefSharp-logo.png 2x" data-sizes=auto alt=/images/CefSharp-logo.png title="docker logo"></p><h2 id=cefsharp>CefSharp</h2><p><a href=https://github.com/chromiumembedded/cef target=_blank rel="noopener noreffer">CEF</a>全称：<strong>Chromium Embedded Framework</strong>。<br>CefSharp是什么？<a href=http://cefsharp.github.io/ target=_blank rel="noopener noreffer">官网</a>上它是这么写的：CefSharp是在C#或VB.NET应用程序中嵌入全功能标准兼容web浏览器的最简单方法。CefSharp有WinForms和WPF应用程序的浏览器控件，也有自动化项目的无标题（屏幕外）版本。CefSharp基于Chromium嵌入式框架，这是Google Chrome的开源版本。<br>说白了，就是基于C#或VB语言的<strong>可编程浏览器</strong>（当然CEF也有其他语言的，如<a href=https://bitbucket.org/chromiumembedded/java-cef target=_blank rel="noopener noreffer">Java</a>，<a href=https://github.com/cztomczak/cef2go target=_blank rel="noopener noreffer">Go</a>）。</p><p>本文环境：</p><ul><li>CefSharp版本：75.1.143</li><li>VS版本：2015</li><li>操作系统：Windows 10专业版</li></ul><h2 id=wpf引入cefsharp>WPF引入CefSharp</h2><p>CefSharp有现成的NuGet包，先引入到项目中，然后在XAML中添加响应控件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;cefSharp:ChromiumWebBrowser Name=&#34;myChrome&#34; Loaded=&#34;myChrome_Loaded&#34;/&gt;
+</span></span></code></pre></td></tr></table></div></div><p>添加<code>cefSharp</code>命名空间：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>xmlns:cefSharp=&#34;clr-namespace:CefSharp.Wpf;assembly=CefSharp.Wpf&#34;
+</span></span></code></pre></td></tr></table></div></div><p>在<code>myChrome_Loaded</code>事件中，我们让浏览器打开百度首页：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-C# data-lang=C#><span class=line><span class=cl><span class=kd>private</span> <span class=k>void</span> <span class=n>myChrome_Loaded</span><span class=p>(</span><span class=kt>object</span> <span class=n>sender</span><span class=p>,</span> <span class=n>RoutedEventArgs</span> <span class=n>e</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>String</span> <span class=n>url</span> <span class=p>=</span> <span class=s>&#34;https://www.baidu.com&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>myChrome</span><span class=p>.</span><span class=n>Load</span><span class=p>(</span><span class=n>url</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行程序，我们就可以看到百度首页了。</p><h2 id=截断请求>截断请求</h2><p>根据<a href=http://cefsharp.github.io/api/75.1.x/html/T_CefSharp_Handler_RequestHandler.htm target=_blank rel="noopener noreffer">文档</a>，我们可以看到<code>RequestHandler</code>类中的方法<code>GetResourceRequestHandler</code>会在每次发请求前被调用：</p><blockquote><p>GetResourceRequestHandler<br>Called on the CEF IO thread before a resource request is initiated.</p></blockquote><p><code>RequestHandler</code>类是<a href=http://cefsharp.github.io/api/75.1.x/html/T_CefSharp_IRequestHandler.htm target=_blank rel="noopener noreffer"><code>IRequestHandler</code></a>接口的默认实现，我们自定义请求可以继承这个类：</p><blockquote><p>Default implementation of IRequestHandler.
+This class provides default implementations of the methods from IRequestHandler, therefore providing a convenience base class for any custom request handler.</p></blockquote><p>所以我们可以创建一个继承<code>RequestHandler</code>的类</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>class</span> <span class=n>CustomRequestHandler</span> <span class=p>:</span> <span class=n>RequestHandler</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>IResourceRequestHandler</span> <span class=n>GetResourceRequestHandler</span><span class=p>(</span><span class=n>IWebBrowser</span> <span class=n>chromiumWebBrowser</span><span class=p>,</span> <span class=n>IBrowser</span> <span class=n>browser</span><span class=p>,</span> <span class=n>IFrame</span> <span class=n>frame</span><span class=p>,</span> <span class=n>IRequest</span> <span class=n>request</span><span class=p>,</span> <span class=ne>bool</span> <span class=n>isNavigation</span><span class=p>,</span> <span class=ne>bool</span> <span class=n>isDownload</span><span class=p>,</span> <span class=n>string</span> <span class=n>requestInitiator</span><span class=p>,</span> <span class=n>ref</span> <span class=ne>bool</span> <span class=n>disableDefaultHandling</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>new</span> <span class=n>CustomResourceRequestHandler</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>GetResourceRequestHandler</code>是我们要重点关注的方法，里头我们返回了一个类实例，在这个类中我们就可以<strong>自定义请求</strong>。<br>新版的CefSharp（75版本之后）把<code>OnBeforeResourceLoad</code>方法移动到了<code>IResourceRequestHandler</code>接口里（<a href=http://cefsharp.github.io/api/75.1.x/html/T_CefSharp_IResourceRequestHandler.htm target=_blank rel="noopener noreffer">文档</a>），同样的CefSharp也提供了这个接口的默认实现：<code>ResourceRequestHandler</code>，所以我们还需要一个继承<code>ResourceRequestHandler</code>的类（也就是上面代码中的<code>CustomResourceRequestHandler</code>类）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>public</span> <span class=k>class</span> <span class=n>CustomResourceRequestHandler</span> <span class=p>:</span> <span class=n>ResourceRequestHandler</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>CefReturnValue</span> <span class=n>OnBeforeResourceLoad</span><span class=p>(</span><span class=n>IWebBrowser</span> <span class=n>chromiumWebBrowser</span><span class=p>,</span> <span class=n>IBrowser</span> <span class=n>browser</span><span class=p>,</span> <span class=n>IFrame</span> <span class=n>frame</span><span class=p>,</span> <span class=n>IRequest</span> <span class=n>request</span><span class=p>,</span> <span class=n>IRequestCallback</span> <span class=n>callback</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>headers</span> <span class=o>=</span> <span class=n>request</span><span class=o>.</span><span class=n>Headers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>headers</span><span class=p>[</span><span class=s2>&#34;Custom-Header&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;My Custom Header&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=n>request</span><span class=o>.</span><span class=n>Headers</span> <span class=o>=</span> <span class=n>headers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>CefReturnValue</span><span class=o>.</span><span class=n>Continue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>最后，把自定义请求类设置到CefSharp实例中</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>myChrome.RequestHandler = new CustomRequestHandler();
+</span></span></code></pre></td></tr></table></div></div><p>通过Fiddler这样的抓包工具，我们就会发现，自定义的<code>Custom-Header</code>头已经加上了</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://s2.ax1x.com/2019/11/16/MBE5Dg.png data-srcset="https://s2.ax1x.com/2019/11/16/MBE5Dg.png, https://s2.ax1x.com/2019/11/16/MBE5Dg.png 1.5x, https://s2.ax1x.com/2019/11/16/MBE5Dg.png 2x" data-sizes=auto alt=https://s2.ax1x.com/2019/11/16/MBE5Dg.png title=detail></p><h3 id=添加自定义查询参数>添加自定义查询参数</h3><p>上面的例子中，我们添加了自定义的header，如果我们想改写<code>URL</code>添加一些自定义的查询参数呢，譬如<code>name=foo</code>？这里有个坑，如果我们简单地把<code>request.Url += "?name=foo"</code>，这样会导致无限重定向（因为改了Url就会重定向）。解决方法也很简单，就是判断一下我们想要的查询参数是否已经在<code>Url</code>里了：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>protected</span> <span class=n>override</span> <span class=n>CefReturnValue</span> <span class=n>OnBeforeResourceLoad</span><span class=p>(</span><span class=n>IWebBrowser</span> <span class=n>chromiumWebBrowser</span><span class=p>,</span> <span class=n>IBrowser</span> <span class=n>browser</span><span class=p>,</span> <span class=n>IFrame</span> <span class=n>frame</span><span class=p>,</span> <span class=n>IRequest</span> <span class=n>request</span><span class=p>,</span> <span class=n>IRequestCallback</span> <span class=n>callback</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=n>headers</span> <span class=o>=</span> <span class=n>request</span><span class=o>.</span><span class=n>Headers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>headers</span><span class=p>[</span><span class=s2>&#34;Custom-Header&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;My Custom Header&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>request</span><span class=o>.</span><span class=n>Headers</span> <span class=o>=</span> <span class=n>headers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>request</span><span class=o>.</span><span class=n>Url</span><span class=o>.</span><span class=n>Contains</span><span class=p>(</span><span class=s2>&#34;name=foo&#34;</span><span class=p>))</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>request</span><span class=o>.</span><span class=n>Url</span> <span class=o>+=</span> <span class=s2>&#34;?&#34;</span> <span class=o>+</span> <span class=s2>&#34;name=foo&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>CefReturnValue</span><span class=o>.</span><span class=n>Continue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h3 id=添加自定义body>添加自定义Body</h3><p>根据<a href=http://cefsharp.github.io/api/75.1.x/html/T_CefSharp_IRequest.htm target=_blank rel="noopener noreffer">IRequest</a>的文档，我们可以利用<code>PostData</code>属性：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>protected</span> <span class=n>override</span> <span class=n>CefReturnValue</span> <span class=n>OnBeforeResourceLoad</span><span class=p>(</span><span class=n>IWebBrowser</span> <span class=n>chromiumWebBrowser</span><span class=p>,</span> <span class=n>IBrowser</span> <span class=n>browser</span><span class=p>,</span> <span class=n>IFrame</span> <span class=n>frame</span><span class=p>,</span> <span class=n>IRequest</span> <span class=n>request</span><span class=p>,</span> <span class=n>IRequestCallback</span> <span class=n>callback</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=n>headers</span> <span class=o>=</span> <span class=n>request</span><span class=o>.</span><span class=n>Headers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>headers</span><span class=p>[</span><span class=s2>&#34;Custom-Header&#34;</span><span class=p>]</span> <span class=o>=</span> <span class=s2>&#34;My Custom Header&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>request</span><span class=o>.</span><span class=n>Headers</span> <span class=o>=</span> <span class=n>headers</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>string</span> <span class=n>body</span> <span class=o>=</span> <span class=s2>&#34;name=foo&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>byte</span><span class=p>[]</span> <span class=n>byteArray</span> <span class=o>=</span> <span class=n>System</span><span class=o>.</span><span class=n>Text</span><span class=o>.</span><span class=n>Encoding</span><span class=o>.</span><span class=n>UTF8</span><span class=o>.</span><span class=n>GetBytes</span><span class=p>(</span><span class=n>body</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>request</span><span class=o>.</span><span class=n>InitializePostData</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=n>element</span> <span class=o>=</span> <span class=n>request</span><span class=o>.</span><span class=n>PostData</span><span class=o>.</span><span class=n>CreatePostDataElement</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>element</span><span class=o>.</span><span class=n>Bytes</span> <span class=o>=</span> <span class=n>byteArray</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>request</span><span class=o>.</span><span class=n>PostData</span><span class=o>.</span><span class=n>AddElement</span><span class=p>(</span><span class=n>element</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=n>CefReturnValue</span><span class=o>.</span><span class=n>Continue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>通过Fiddler这样的抓包工具，我们就会发现，POST 数据已经加上了：</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://s2.ax1x.com/2019/11/30/QVjqp9.png data-srcset="https://s2.ax1x.com/2019/11/30/QVjqp9.png, https://s2.ax1x.com/2019/11/30/QVjqp9.png 1.5x, https://s2.ax1x.com/2019/11/30/QVjqp9.png 2x" data-sizes=auto alt=https://s2.ax1x.com/2019/11/30/QVjqp9.png title=detail></p><h2 id=加载本地html字符串>加载本地HTML字符串</h2><p>有时候，我们可能需要渲染一个内存中的HTML字符串，CefSharp也提供这样的接口，代码很简单：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>private void myChrome_Loaded(object sender, RoutedEventArgs e)
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    string html = @&#34;&lt;!DOCTYPE html&gt;
+</span></span><span class=line><span class=cl>&lt;html&gt;
+</span></span><span class=line><span class=cl>    &lt;head&gt;
+</span></span><span class=line><span class=cl>        &lt;title&gt;这是个标题&lt;/title&gt;
+</span></span><span class=line><span class=cl>        &lt;meta charset=&#39;utf-8&#39; /&gt;
+</span></span><span class=line><span class=cl>        &lt;meta name = &#39;viewport&#39; content = &#39;width=device-width, initial-scale=1&#39; /&gt;
+</span></span><span class=line><span class=cl>     &lt;/head&gt;
+</span></span><span class=line><span class=cl>    &lt;body&gt;
+</span></span><span class=line><span class=cl>        &lt;h1&gt;这是一个一个简单的HTML&lt;/h1&gt;
+</span></span><span class=line><span class=cl>        &lt;p&gt;Hello World！&lt;/p &gt;
+</span></span><span class=line><span class=cl>    &lt;/body&gt;
+</span></span><span class=line><span class=cl>&lt;/html&gt;&#34;;
+</span></span><span class=line><span class=cl>    String url = &#34;https://www.baidu.com&#34;;
+</span></span><span class=line><span class=cl>    myChrome.LoadHtml(html, url);
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><h2 id=截断响应>截断响应</h2><p>这里的关键在于<code>GetResourceResponseFilter</code>方法，它的签名如下：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>IResponseFilter GetResourceResponseFilter(
+</span></span><span class=line><span class=cl>	IWebBrowser chromiumWebBrowser,
+</span></span><span class=line><span class=cl>	IBrowser browser,
+</span></span><span class=line><span class=cl>	IFrame frame,
+</span></span><span class=line><span class=cl>	IRequest request,
+</span></span><span class=line><span class=cl>	IResponse response
+</span></span><span class=line><span class=cl>)
+</span></span></code></pre></td></tr></table></div></div><p>它返回了一个<code>IResponseFilter</code>接口，在这个接口中，我们可以截取到请求响应的内容。在CefSharp最新版本中，<code>GetResourceResponseFilter</code>已经被放入到<code>IResourceRequestHandler</code>接口中，<a href=http://cefsharp.github.io/api/75.1.x/html/M_CefSharp_IResourceRequestHandler_GetResourceResponseFilter.htm target=_blank rel="noopener noreffer">最新文档</a>。<br>下面我放了一个截断网页XHR请求的例子：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>public</span> <span class=k>class</span> <span class=n>TestJsonFilter</span> <span class=p>:</span> <span class=n>IResponseFilter</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>byte</span><span class=o>&gt;</span> <span class=n>DataAll</span> <span class=o>=</span> <span class=n>new</span> <span class=n>List</span><span class=o>&lt;</span><span class=n>byte</span><span class=o>&gt;</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>FilterStatus</span> <span class=n>Filter</span><span class=p>(</span><span class=n>System</span><span class=o>.</span><span class=n>IO</span><span class=o>.</span><span class=n>Stream</span> <span class=n>dataIn</span><span class=p>,</span> <span class=n>out</span> <span class=n>long</span> <span class=n>dataInRead</span><span class=p>,</span> <span class=n>System</span><span class=o>.</span><span class=n>IO</span><span class=o>.</span><span class=n>Stream</span> <span class=n>dataOut</span><span class=p>,</span> <span class=n>out</span> <span class=n>long</span> <span class=n>dataOutWritten</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>try</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>dataIn</span> <span class=o>==</span> <span class=n>null</span> <span class=o>||</span> <span class=n>dataIn</span><span class=o>.</span><span class=n>Length</span> <span class=o>==</span> <span class=mi>0</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=n>dataInRead</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>                <span class=n>dataOutWritten</span> <span class=o>=</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=n>FilterStatus</span><span class=o>.</span><span class=n>Done</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>dataInRead</span> <span class=o>=</span> <span class=n>dataIn</span><span class=o>.</span><span class=n>Length</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>dataOutWritten</span> <span class=o>=</span> <span class=n>Math</span><span class=o>.</span><span class=n>Min</span><span class=p>(</span><span class=n>dataInRead</span><span class=p>,</span> <span class=n>dataOut</span><span class=o>.</span><span class=n>Length</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>dataIn</span><span class=o>.</span><span class=n>CopyTo</span><span class=p>(</span><span class=n>dataOut</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>dataIn</span><span class=o>.</span><span class=n>Seek</span><span class=p>(</span><span class=mi>0</span><span class=p>,</span> <span class=n>SeekOrigin</span><span class=o>.</span><span class=n>Begin</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>byte</span><span class=p>[]</span> <span class=n>bs</span> <span class=o>=</span> <span class=n>new</span> <span class=n>byte</span><span class=p>[</span><span class=n>dataIn</span><span class=o>.</span><span class=n>Length</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=n>dataIn</span><span class=o>.</span><span class=n>Read</span><span class=p>(</span><span class=n>bs</span><span class=p>,</span> <span class=mi>0</span><span class=p>,</span> <span class=n>bs</span><span class=o>.</span><span class=n>Length</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=n>DataAll</span><span class=o>.</span><span class=n>AddRange</span><span class=p>(</span><span class=n>bs</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>dataInRead</span> <span class=o>=</span> <span class=n>dataIn</span><span class=o>.</span><span class=n>Length</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>dataOutWritten</span> <span class=o>=</span> <span class=n>dataIn</span><span class=o>.</span><span class=n>Length</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>FilterStatus</span><span class=o>.</span><span class=n>NeedMoreData</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=n>catch</span> <span class=p>(</span><span class=n>Exception</span> <span class=n>ex</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>dataInRead</span> <span class=o>=</span> <span class=n>dataIn</span><span class=o>.</span><span class=n>Length</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=n>dataOutWritten</span> <span class=o>=</span> <span class=n>dataIn</span><span class=o>.</span><span class=n>Length</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>FilterStatus</span><span class=o>.</span><span class=n>Done</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=ne>bool</span> <span class=n>InitFilter</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=bp>true</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=n>void</span> <span class=n>Dispose</span><span class=p>()</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>public</span> <span class=k>class</span> <span class=n>FilterManager</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>private</span> <span class=k>static</span> <span class=ne>Dictionary</span><span class=o>&lt;</span><span class=n>string</span><span class=p>,</span> <span class=n>IResponseFilter</span><span class=o>&gt;</span> <span class=n>dataList</span> <span class=o>=</span> <span class=n>new</span> <span class=ne>Dictionary</span><span class=o>&lt;</span><span class=n>string</span><span class=p>,</span> <span class=n>IResponseFilter</span><span class=o>&gt;</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=k>static</span> <span class=n>IResponseFilter</span> <span class=n>CreateFilter</span><span class=p>(</span><span class=n>string</span> <span class=n>guid</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>lock</span> <span class=p>(</span><span class=n>dataList</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>var</span> <span class=n>filter</span> <span class=o>=</span> <span class=n>new</span> <span class=n>TestJsonFilter</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>            <span class=n>dataList</span><span class=o>.</span><span class=n>Add</span><span class=p>(</span><span class=n>guid</span><span class=p>,</span> <span class=n>filter</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>filter</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>public</span> <span class=k>static</span> <span class=n>IResponseFilter</span> <span class=n>GetFileter</span><span class=p>(</span><span class=n>string</span> <span class=n>guid</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>lock</span> <span class=p>(</span><span class=n>dataList</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>        
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=p>(</span><span class=n>dataList</span><span class=o>.</span><span class=n>ContainsKey</span><span class=p>(</span><span class=n>guid</span><span class=p>))</span>  <span class=o>//</span> <span class=err>这里要检测</span><span class=n>key存在</span><span class=err>，不然会报异常，会导致</span><span class=n>ContextSwitchDeadlock</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=n>dataList</span><span class=p>[</span><span class=n>guid</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span>
+</span></span><span class=line><span class=cl>            <span class=p>{</span>
+</span></span><span class=line><span class=cl>                <span class=k>return</span> <span class=n>null</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>            <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>public</span> <span class=k>class</span> <span class=n>CustomResourceRequestHandler</span> <span class=p>:</span> <span class=n>ResourceRequestHandler</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>CefReturnValue</span> <span class=n>OnBeforeResourceLoad</span><span class=p>(</span><span class=n>IWebBrowser</span> <span class=n>chromiumWebBrowser</span><span class=p>,</span> <span class=n>IBrowser</span> <span class=n>browser</span><span class=p>,</span> <span class=n>IFrame</span> <span class=n>frame</span><span class=p>,</span> <span class=n>IRequest</span> <span class=n>request</span><span class=p>,</span> <span class=n>IRequestCallback</span> <span class=n>callback</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=o>//</span> <span class=err>截断请求的代码</span><span class=o>...</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>CefReturnValue</span><span class=o>.</span><span class=n>Continue</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>IResponseFilter</span> <span class=n>GetResourceResponseFilter</span><span class=p>(</span><span class=n>IWebBrowser</span> <span class=n>chromiumWebBrowser</span><span class=p>,</span> <span class=n>IBrowser</span> <span class=n>browser</span><span class=p>,</span> <span class=n>IFrame</span> <span class=n>frame</span><span class=p>,</span> <span class=n>IRequest</span> <span class=n>request</span><span class=p>,</span> <span class=n>IResponse</span> <span class=n>response</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=p>(</span><span class=n>request</span><span class=o>.</span><span class=n>ResourceType</span> <span class=o>==</span> <span class=n>ResourceType</span><span class=o>.</span><span class=n>Xhr</span><span class=p>))</span>  <span class=o>//</span> <span class=err>不是</span><span class=n>XHR类型就不去过滤</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=k>return</span> <span class=n>null</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>filer</span> <span class=o>=</span> <span class=n>FilterManager</span><span class=o>.</span><span class=n>CreateFilter</span><span class=p>(</span><span class=n>request</span><span class=o>.</span><span class=n>Identifier</span><span class=o>.</span><span class=n>ToString</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>        <span class=k>return</span> <span class=n>filer</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>protected</span> <span class=n>override</span> <span class=n>void</span> <span class=n>OnResourceLoadComplete</span><span class=p>(</span><span class=n>IWebBrowser</span> <span class=n>chromiumWebBrowser</span><span class=p>,</span> <span class=n>IBrowser</span> <span class=n>browser</span><span class=p>,</span> <span class=n>IFrame</span> <span class=n>frame</span><span class=p>,</span> <span class=n>IRequest</span> <span class=n>request</span><span class=p>,</span> <span class=n>IResponse</span> <span class=n>response</span><span class=p>,</span> <span class=n>UrlRequestStatus</span> <span class=n>status</span><span class=p>,</span> <span class=n>long</span> <span class=n>receivedContentLength</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>filer</span> <span class=o>=</span> <span class=n>FilterManager</span><span class=o>.</span><span class=n>GetFileter</span><span class=p>(</span><span class=n>request</span><span class=o>.</span><span class=n>Identifier</span><span class=o>.</span><span class=n>ToString</span><span class=p>())</span> <span class=n>as</span> <span class=n>TestJsonFilter</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=k>if</span> <span class=p>(</span><span class=n>filer</span> <span class=o>!=</span> <span class=n>null</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>        <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=n>Console</span><span class=o>.</span><span class=n>WriteLine</span><span class=p>(</span><span class=n>ASCIIEncoding</span><span class=o>.</span><span class=n>UTF8</span><span class=o>.</span><span class=n>GetString</span><span class=p>(</span><span class=n>filer</span><span class=o>.</span><span class=n>DataAll</span><span class=o>.</span><span class=n>ToArray</span><span class=p>()));</span>  <span class=o>//</span> <span class=err>打印</span><span class=n>body内容</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>private</span> <span class=n>void</span> <span class=n>myChrome_Loaded</span><span class=p>(</span><span class=n>object</span> <span class=n>sender</span><span class=p>,</span> <span class=n>RoutedEventArgs</span> <span class=n>e</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=ne>String</span> <span class=n>url</span> <span class=o>=</span> <span class=s2>&#34;https://github.com/salamander-mh&#34;</span><span class=p>;</span>  <span class=o>//</span> <span class=n>github首页上有ajax请求</span><span class=err>，可以看效果</span>
+</span></span><span class=line><span class=cl>    <span class=n>myChrome</span><span class=o>.</span><span class=n>Load</span><span class=p>(</span><span class=n>url</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>运行程序，在<code>输出</code>视图就可以看到Ajax请求的body数据。</p><h2 id=截取cookie>截取cookie</h2><p>建立Cookie读取对象，继承接口 ICookieVisitor</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>public class CookieVisitor : CefSharp.ICookieVisitor
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    public event Action&lt;CefSharp.Cookie&gt; SendCookie;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    public bool Visit(Cookie cookie, int count, int total, ref bool deleteCookie)
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>        deleteCookie = false;
+</span></span><span class=line><span class=cl>        if (SendCookie != null)
+</span></span><span class=line><span class=cl>        {
+</span></span><span class=line><span class=cl>            SendCookie(cookie);
+</span></span><span class=line><span class=cl>        }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        return true;
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    public void Dispose()
+</span></span><span class=line><span class=cl>    {
+</span></span><span class=line><span class=cl>    }
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>在browser事件中进行处理</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>private</span> <span class=n>void</span> <span class=n>browser_FrameLoadEnd</span><span class=p>(</span><span class=n>object</span> <span class=n>sender</span><span class=p>,</span> <span class=n>CefSharp</span><span class=o>.</span><span class=n>FrameLoadEndEventArgs</span> <span class=n>e</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=k>var</span> <span class=n>cookieManager</span> <span class=o>=</span> <span class=n>myChrome</span><span class=o>.</span><span class=n>GetCookieManager</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>CookieVisitor</span> <span class=n>visitor</span> <span class=o>=</span> <span class=n>new</span> <span class=n>CookieVisitor</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>visitor</span><span class=o>.</span><span class=n>SendCookie</span> <span class=o>+=</span> <span class=n>visitor_SendCookie</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=n>cookieManager</span><span class=o>.</span><span class=n>VisitAllCookies</span><span class=p>(</span><span class=n>visitor</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>回调事件</strong></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>private void visitor_SendCookie(CefSharp.Cookie obj)
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    Console.WriteLine(&#34;获取cookie：&#34; + obj.Domain.TrimStart(&#39;.&#39;) + &#34;^&#34; + obj.Name + &#34;^&#34; + obj.Value + &#34;$&#34;);
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>设置CefSharp实例事件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>private void myChrome_Loaded(object sender, RoutedEventArgs e)
+</span></span><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    String url = &#34;https://www.baidu.com&#34;;
+</span></span><span class=line><span class=cl>    myChrome.Load(url);
+</span></span><span class=line><span class=cl>    myChrome.FrameLoadEnd += browser_FrameLoadEnd;
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>运行程序，在<code>输出</code>视图就可以看到<strong>cookie</strong>数据了。</p><h2 id=javascript交互>Javascript交互</h2><h3 id=c执行js方法>C#执行js方法</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>myChrome.GetBrowser().MainFrame.ExecuteJavaScriptAsync(&#34;document.getElementById(&#39;testid&#39;).click();&#34;);  
+</span></span></code></pre></td></tr></table></div></div><p>以上代码就会触发id为<code>testid</code>的元素的<code>click</code>事件。<br>注意：<strong>脚本是在 Frame 级别执行</strong>，页面永远至少有一个Frame（ MainFrame ）。</p><h3 id=获取javascript方法结果>获取Javascript方法结果</h3><p>这里需要使用<code>Task&lt;JavascriptResponse> EvaluateScriptAsync(string script, TimeSpan? timeout)</code>方法。 JavaScript代码是异步执行的，因此使用.NET Task 类返回一个响应，其中包含错误消息，结果和一个成功（bool）标志。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>//</span> <span class=n>Get</span> <span class=n>Document</span> <span class=n>Height</span>  
+</span></span><span class=line><span class=cl><span class=k>var</span> <span class=n>task</span> <span class=o>=</span> <span class=n>frame</span><span class=o>.</span><span class=n>EvaluateScriptAsync</span><span class=p>(</span><span class=s2>&#34;(function() { var body = document.body, html = document.documentElement; return  Math.max( body.scrollHeight, body.offsetHeight, html.clientHeight, html.scrollHeight, html.offsetHeight ); })();&#34;</span><span class=p>,</span> <span class=n>null</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl><span class=n>task</span><span class=o>.</span><span class=n>ContinueWith</span><span class=p>(</span><span class=n>t</span> <span class=o>=&gt;</span>  
+</span></span><span class=line><span class=cl><span class=p>{</span>  
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=o>!</span><span class=n>t</span><span class=o>.</span><span class=n>IsFaulted</span><span class=p>)</span>  
+</span></span><span class=line><span class=cl>    <span class=p>{</span>  
+</span></span><span class=line><span class=cl>        <span class=k>var</span> <span class=n>response</span> <span class=o>=</span> <span class=n>t</span><span class=o>.</span><span class=n>Result</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl>        <span class=n>EvaluateJavaScriptResult</span> <span class=o>=</span> <span class=n>response</span><span class=o>.</span><span class=n>Success</span> <span class=err>?</span> <span class=p>(</span><span class=n>response</span><span class=o>.</span><span class=n>Result</span> <span class=err>??</span> <span class=s2>&#34;null&#34;</span><span class=p>)</span> <span class=p>:</span> <span class=n>response</span><span class=o>.</span><span class=n>Message</span><span class=p>;</span>  
+</span></span><span class=line><span class=cl>    <span class=p>}</span>  
+</span></span><span class=line><span class=cl><span class=p>},</span> <span class=n>TaskScheduler</span><span class=o>.</span><span class=n>FromCurrentSynchronizationContext</span><span class=p>());</span>  
+</span></span></code></pre></td></tr></table></div></div><h2 id=资源清理>资源清理</h2><p>关闭应用，发现<code>CefSharp.BrowserSubprocess.exe</code>进程会发现没有结束，其实在退出事件中，我们需要调用<code>Cef.Shutdown()</code>方法</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>try  
+</span></span><span class=line><span class=cl>{  
+</span></span><span class=line><span class=cl>    if (browser != null)  
+</span></span><span class=line><span class=cl>    {  
+</span></span><span class=line><span class=cl>        browser.Dispose();  
+</span></span><span class=line><span class=cl>        Cef.Shutdown();  
+</span></span><span class=line><span class=cl>    }  
+</span></span><span class=line><span class=cl>}  
+</span></span><span class=line><span class=cl>catch { }  
+</span></span></code></pre></td></tr></table></div></div><p>示例代码<a href=http://file.51lucy.com/BroswerTest.rar target=_blank rel="noopener noreffer">下载</a></p><p>参考：</p><ul><li><a href=https://stackoverflow.com/questions/31250797/chromium-send-custom-header-info-on-initial-page-load-c-sharp target=_blank rel="noopener noreffer">StackOverflow</a></li><li><a href=https://stackoverflow.com/questions/40944056/how-to-read-the-json-response-content-from-a-xmlhttprequest/43652932#43652932 target=_blank rel="noopener noreffer">How to read the JSON response content from a XMLHttpRequest?</a></li><li><a href=https://github.com/cefsharp/CefSharp/wiki/CefSharp%E4%B8%AD%E6%96%87%E5%B8%AE%E5%8A%A9%E6%96%87%E6%A1%A3 target=_blank rel="noopener noreffer"><strong>CefSharp中文帮助文档</strong></a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/cefsharp_summary/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/c/>C</a>,&nbsp;<a href=/tags/cefsharp/>CefSharp</a>,&nbsp;<a href=/tags/wpf/>WPF</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/jenkin_and_docker/ class=prev rel=prev title=Jenkins在Docker中运行中的坑><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Jenkins在Docker中运行中的坑</a>
+<a href=/docker-linux-namespace-intro/ class=next rel=next title="一步步自己做个Docker之Linux Namespace 简介">一步步自己做个Docker之Linux Namespace 简介<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

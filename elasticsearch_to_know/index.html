@@ -1,0 +1,158 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Elasticsearch简单使用 - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/elasticsearch_to_know/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="Elasticsearch简单使用"><meta property="og:description" content="Elasticsearch Elasticsearch是一个基于Lucene的搜索服务器（Lucene可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库）。"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-04-21T16:00:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="Java"><meta property="article:tag" content="Elasticsearch"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="Elasticsearch简单使用"><meta name=twitter:description content="Elasticsearch Elasticsearch是一个基于Lucene的搜索服务器（Lucene可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库）。"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/elasticsearch_to_know/><link rel=prev href=https://example.com/python_curve_fit/><link rel=next href=https://example.com/linux_iptables/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Elasticsearch简单使用","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/elasticsearch_to_know\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Java, Elasticsearch","wordcount":2200,"url":"https:\/\/example.com\/elasticsearch_to_know\/","datePublished":"2020-04-21T16:00:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/elasticsearch_to_know/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/elasticsearch_to_know/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Elasticsearch简单使用</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/java/><i class="far fa-folder fa-fw" aria-hidden=true></i>Java</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2020-04-21>2020-04-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 2200 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 5 分钟&nbsp;<span id=/elasticsearch_to_know/ class=leancloud_visitors data-flag-title=Elasticsearch简单使用>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#elasticsearch>Elasticsearch</a></li><li><a href=#安装单节点elasticsearch>安装单节点Elasticsearch</a></li><li><a href=#概念>概念</a></li><li><a href=#使用>使用</a></li><li><a href=#elasticsearchyml配置说明>elasticsearch.yml配置说明</a></li></ul></nav></div></div><div class=content id=content><p><img class=lazyload src=/svg/loading.min.svg data-src=https://s1.ax1x.com/2020/04/23/Jd4MOf.png data-srcset="https://s1.ax1x.com/2020/04/23/Jd4MOf.png, https://s1.ax1x.com/2020/04/23/Jd4MOf.png 1.5x, https://s1.ax1x.com/2020/04/23/Jd4MOf.png 2x" data-sizes=auto alt=https://s1.ax1x.com/2020/04/23/Jd4MOf.png title=https://s1.ax1x.com/2020/04/23/Jd4MOf.png></p><h2 id=elasticsearch>Elasticsearch</h2><p><code>Elasticsearch</code>是一个基于Lucene的搜索服务器（Lucene可以被认为是迄今为止最先进、性能最好的、功能最全的搜索引擎库）。Elasticsearch使用Java编写并使用Lucene来建立索引并实现搜索功能，但是它的目的是通过简单连贯的<code>RESTful API</code>让全文搜索变得简单并隐藏Lucene的复杂性。</p><h2 id=安装单节点elasticsearch>安装单节点Elasticsearch</h2><p><code>Elasticsearch</code>是用Java语言开发的，所以你需要安装Java环境，但为了方便起见，我这里选用了<code>Docker</code>安装ES（其实ES官网也有用Docker安装的<a href=https://www.elastic.co/guide/en/elasticsearch/reference/7.5/docker.html#docker target=_blank rel="noopener noreffer">例子</a>，这里我就把它写成了docker-compose服务）。<br>docker-compose.yml</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>version: &#39;2.2&#39;
+</span></span><span class=line><span class=cl>services:
+</span></span><span class=line><span class=cl>  es:
+</span></span><span class=line><span class=cl>    image: elasticsearch:6.7.0
+</span></span><span class=line><span class=cl>    container_name: es0
+</span></span><span class=line><span class=cl>    environment:
+</span></span><span class=line><span class=cl>      - node.name=es0
+</span></span><span class=line><span class=cl>      - &#34;discovery.type=single-node&#34;
+</span></span><span class=line><span class=cl>      - node.data=true
+</span></span><span class=line><span class=cl>      - bootstrap.memory_lock=true
+</span></span><span class=line><span class=cl>      - network.host=0.0.0.0
+</span></span><span class=line><span class=cl>      - &#34;ES_JAVA_OPTS=-Xms1g -Xmx1g&#34;
+</span></span><span class=line><span class=cl>    ulimits:
+</span></span><span class=line><span class=cl>      memlock:
+</span></span><span class=line><span class=cl>        soft: -1
+</span></span><span class=line><span class=cl>        hard: -1
+</span></span><span class=line><span class=cl>    volumes:
+</span></span><span class=line><span class=cl>      - ./data:/usr/share/elasticsearch/data
+</span></span><span class=line><span class=cl>    ports:
+</span></span><span class=line><span class=cl>      - 9200:9200
+</span></span><span class=line><span class=cl>      - 9300:9300
+</span></span></code></pre></td></tr></table></div></div><p>Elasticsearch 启动后，启动了两个端口 9200 和 9300：</p><ul><li>9200 端口：HTTP RESTful 接口的通讯端口</li><li>9300 端口：TCP 通讯端口，用于集群间节点通信和与 Java 客户端通信的端口</li></ul><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>- bootstrap.memory_lock=true
+</span></span><span class=line><span class=cl>...
+</span></span><span class=line><span class=cl>ulimits:
+</span></span><span class=line><span class=cl>  memlock:
+</span></span><span class=line><span class=cl>    soft: -1
+</span></span><span class=line><span class=cl>    hard: -1
+</span></span></code></pre></td></tr></table></div></div><p>这两部分是为了禁止使用swap内存，因为当jvm开始swapping时ES的效率会降低。</p><p><code>-Xms1g -Xmx1g</code>是设置了JVM的初始堆大小和最大堆大小（具体参数含义可以参考<a href=https://www.cnblogs.com/redcreen/archive/2011/05/04/2037057.html target=_blank rel="noopener noreffer">这里</a>）。</p><p>启动之前还是需要调高JVM线程数限制数量，不然启动会报错</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>vim /etc/sysctl.conf
+</span></span><span class=line><span class=cl># 添加这个
+</span></span><span class=line><span class=cl>vm.max_map_count=262144 
+</span></span><span class=line><span class=cl># 保存后执行这个命令
+</span></span><span class=line><span class=cl>sysctl -p
+</span></span></code></pre></td></tr></table></div></div><h2 id=概念>概念</h2><p>在进一步使用 Elasticsearch 之前，让我们先了解几个关键概念。</p><p>在逻辑层面：</p><ul><li>Index (索引)和Type (类型)：这里的 Index 是名词，在之前开始的时候，我们把**索引（index）和类型（type）**类比于SQL数据库中的 database 和 table，但是这样类比是不合适的。刚开始的ES版本一个索引可以有多个类型，在ES6之后每个索引只能有一个类型，所以他们现在都可以当做一张数据表了。</li><li>Document (文档)：Elasticsearch 使用 JSON 文档来表示一个对象，就像是关系数据库中一个 Table 中的一行数据</li><li>Field (字段)：每个文档包含多个字段，类似关系数据库中一个 Table 的列</li></ul><blockquote><blockquote><blockquote></blockquote></blockquote></blockquote><p>为什么要移除映射类型
+开始的时候，我们把**索引（index）和类型（type）**类比于SQL数据库中的 database 和 table，但是这样类比是不合适的。在SQL数据库中，表之间是相互独立的。一个表中的各列并不会影响到其它表中的同名的列。而在映射类型（mapping type）中却不是这样的。
+在同一个 Elasticsearch 索引中，其中不同映射类型中的同名字段在内部是由同一个 Lucene 字段来支持的。换句话说，使用上面的例子，user 类型中的 user_name 字段与 tweet 类型中的 user_name 字段是完全一样的，并且两个 user_name 字段在两个类型中必须具有相同的映射（定义）。
+这会在某些情况下导致一些混乱，比如，在同一个索引中，当你想在其中的一个类型中将 deleted 字段作为 date 类型，而在另一个类型中将其作为 boolean 字段。
+在此之上需要考虑一点，如果同一个索引中存储的各个实体如果只有很少或者根本没有同样的字段，这种情况会导致稀疏数据，并且会影响到Lucene的高效压缩数据的能力</p><p>在物理层面：</p><ul><li>Node (节点)：node 是一个运行着的 Elasticsearch 实例，一个 node 就是一个单独的 server</li><li>Cluster (集群)：cluster 是多个 node 的集合</li><li>Shard (分片)：数据分片，一个 index 可能会存在于多个 shard</li></ul><h2 id=使用>使用</h2><p>下面，我们将创建一个存储电影信息的 Document：</p><ul><li>Index 的名称为 movie</li><li>Type 为 adventure</li><li>Document 有两个字段：name 和 actors</li></ul><p>我们使用 Elasticsearch 提供的 RESTful API 来执行上述操作，如图所示：</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://s1.ax1x.com/2020/04/23/Jw9Ov6.png data-srcset="https://s1.ax1x.com/2020/04/23/Jw9Ov6.png, https://s1.ax1x.com/2020/04/23/Jw9Ov6.png 1.5x, https://s1.ax1x.com/2020/04/23/Jw9Ov6.png 2x" data-sizes=auto alt=https://s1.ax1x.com/2020/04/23/Jw9Ov6.png title=https://s1.ax1x.com/2020/04/23/Jw9Ov6.png></p><ul><li>用 url 表示一个资源，比如 /movie/adventure/1 就表示一个 index 为 movie，type 为 adventure，id 为 1 的 document</li><li>用 http 方法操作资源，如使用 GET 获取资源，使用 POST、PUT 新增或更新资源，使用 DELETE 删除资源等</li></ul><p>用<code>curl</code>命令实现上述操作：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>curl -i -X PUT &#34;localhost:9200/movie/adventure/1&#34; -H &#39;Content-Type: application/json&#39; -d &#39;{&#34;name&#34;: &#34;Life of Pi&#34;, &#34;actors&#34;: [&#34;Suraj&#34;, &#34;Irrfan&#34;]}&#39;
+</span></span></code></pre></td></tr></table></div></div><p>ES6之后需要加上head<code>Content-Type: application/json</code></p><p>上述命令返回：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>HTTP/1.1 201 Created
+</span></span><span class=line><span class=cl>Location: /movie/adventure/1
+</span></span><span class=line><span class=cl>content-type: application/json; charset=UTF-8
+</span></span><span class=line><span class=cl>content-length: 158
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>{&#34;_index&#34;:&#34;movie&#34;,&#34;_type&#34;:&#34;adventure&#34;,&#34;_id&#34;:&#34;4&#34;,&#34;_version&#34;:1,&#34;result&#34;:&#34;created&#34;,&#34;_shards&#34;:{&#34;total&#34;:2,&#34;successful&#34;:1,&#34;failed&#34;:0},&#34;_seq_no&#34;:1,&#34;_primary_term&#34;:1}
+</span></span></code></pre></td></tr></table></div></div><h2 id=elasticsearchyml配置说明>elasticsearch.yml配置说明</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>#集群的名称
+</span></span><span class=line><span class=cl>cluster.name: es6.2
+</span></span><span class=line><span class=cl>#节点名称,其余两个节点分别为node-2 和node-3
+</span></span><span class=line><span class=cl>node.name: node-1
+</span></span><span class=line><span class=cl>#指定该节点是否有资格被选举成为master节点，默认是true，es是默认集群中的第一台机器为master，如果这台机挂了就会重新选举master
+</span></span><span class=line><span class=cl>node.master: true
+</span></span><span class=line><span class=cl>#允许该节点存储数据(默认开启)
+</span></span><span class=line><span class=cl>node.data: true
+</span></span><span class=line><span class=cl>#索引数据的存储路径
+</span></span><span class=line><span class=cl>path.data: /usr/local/elk/elasticsearch/data
+</span></span><span class=line><span class=cl>#日志文件的存储路径
+</span></span><span class=line><span class=cl>path.logs: /usr/local/elk/elasticsearch/logs
+</span></span><span class=line><span class=cl>#设置为true来锁住内存。因为内存交换到磁盘对服务器性能来说是致命的，当jvm开始swapping时es的效率会降低，所以要保证它不swap
+</span></span><span class=line><span class=cl>bootstrap.memory_lock: true
+</span></span><span class=line><span class=cl>#绑定的ip地址
+</span></span><span class=line><span class=cl>network.host: 0.0.0.0
+</span></span><span class=line><span class=cl>#设置对外服务的http端口，默认为9200
+</span></span><span class=line><span class=cl>http.port: 9200
+</span></span><span class=line><span class=cl># 设置节点间交互的tcp端口,默认是9300 
+</span></span><span class=line><span class=cl>transport.tcp.port: 9300
+</span></span><span class=line><span class=cl>#Elasticsearch将绑定到可用的环回地址，并将扫描端口9300到9305以尝试连接到运行在同一台服务器上的其他节点。
+</span></span><span class=line><span class=cl>#这提供了自动集群体验，而无需进行任何配置。数组设置或逗号分隔的设置。每个值的形式应该是host:port或host
+</span></span><span class=line><span class=cl>#（如果没有设置，port默认设置会transport.profiles.default.port 回落到transport.tcp.port）。
+</span></span><span class=line><span class=cl>#请注意，IPv6主机必须放在括号内。默认为127.0.0.1, [::1]
+</span></span><span class=line><span class=cl>discovery.zen.ping.unicast.hosts: [&#34;192.168.8.101:9300&#34;, &#34;192.168.8.103:9300&#34;, &#34;192.168.8.104:9300&#34;]
+</span></span><span class=line><span class=cl>#如果没有这种设置,遭受网络故障的集群就有可能将集群分成两个独立的集群 - 分裂的大脑 - 这将导致数据丢失
+</span></span><span class=line><span class=cl>discovery.zen.minimum_master_nodes: 3
+</span></span></code></pre></td></tr></table></div></div><p>参考：</p><ul><li><a href=https://blog.csdn.net/qq_34021712/article/details/79330028 target=_blank rel="noopener noreffer">Elasticsearch6.2集群搭建</a></li><li><a href=https://www.cnblogs.com/sunsky303/p/9438737.html target=_blank rel="noopener noreffer">Elasticsearch入门，这一篇就够了</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/elasticsearch_to_know/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/java/>Java</a>,&nbsp;<a href=/tags/elasticsearch/>Elasticsearch</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/python_curve_fit/ class=prev rel=prev title=Python曲线拟合><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Python曲线拟合</a>
+<a href=/linux_iptables/ class=next rel=next title=Linux之iptables>Linux之iptables<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

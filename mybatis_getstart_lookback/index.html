@@ -1,0 +1,246 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>MyBatis经典入门回顾 - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/mybatis_getstart_lookback/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="MyBatis经典入门回顾"><meta property="og:description" content="其实，无论是Mybatis、Hibernate都是ORM的一种实现框架，都是对JDBC的一种封装。 之前我写过一篇Spring Boot集成My"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2020-02-21T12:00:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="MyBatis"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="MyBatis经典入门回顾"><meta name=twitter:description content="其实，无论是Mybatis、Hibernate都是ORM的一种实现框架，都是对JDBC的一种封装。 之前我写过一篇Spring Boot集成My"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/mybatis_getstart_lookback/><link rel=prev href=https://example.com/qt%E4%B9%8B%E5%B8%83%E5%B1%80%E7%AE%A1%E7%90%86/><link rel=next href=https://example.com/java_synchronized_underlying/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"MyBatis经典入门回顾","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/mybatis_getstart_lookback\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"MyBatis","wordcount":1009,"url":"https:\/\/example.com\/mybatis_getstart_lookback\/","datePublished":"2020-02-21T12:00:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/mybatis_getstart_lookback/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/mybatis_getstart_lookback/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">MyBatis经典入门回顾</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/java/><i class="far fa-folder fa-fw" aria-hidden=true></i>Java</a>&nbsp;<a href=/categories/><i class="far fa-folder fa-fw" aria-hidden=true></i>Categories</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2020-02-21>2020-02-21</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1009 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 3 分钟&nbsp;<span id=/mybatis_getstart_lookback/ class=leancloud_visitors data-flag-title=MyBatis经典入门回顾>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#mybatis工作流程>Mybatis工作流程</a></li><li><a href=#pomxml>pom.xml</a></li><li><a href=#数据库配置jdbcproperties>数据库配置jdbc.properties</a></li><li><a href=#mybatis配置文件>mybatis配置文件</a></li><li><a href=#添加dao接口>添加Dao接口</a></li><li><a href=#xml映射文件>xml映射文件</a></li><li><a href=#测试类>测试类</a></li></ul></nav></div></div><div class=content id=content><img src=https://mybatis.org/images/mybatis-logo.png width=600px><p>其实，无论是Mybatis、Hibernate都是ORM的一种实现框架，都是对<strong>JDBC</strong>的一种封装。</p><p>之前我写过一篇<a href=2019/10/27/Spring-Boot%e9%9b%86%e6%88%90MyBatis%e6%93%8d%e4%bd%9cMySQL/ rel>Spring Boot集成MyBatis操作MySQL</a>，不过在这里让我们脱离Spring（不过很多代码是一样的,Dao类，Model类，数据库配置），就单独回顾下MyBatis的使用，来了解下MyBatis的使用流程。</p><h2 id=mybatis工作流程>Mybatis工作流程</h2><ul><li>通过Reader对象读取Mybatis配置文件</li><li>通过SqlSessionFactoryBuilder对象创建SqlSessionFactory对象</li><li>获取当前线程的SQLSession</li><li>事务默认开启</li><li>通过SQLSession读取映射文件中的操作编号，从而读取SQL语句</li><li>提交事务</li><li>关闭资源</li></ul><p><strong>SqlSessionFactory</strong>是一个很重要的类，每个基于 MyBatis 的应用都是以一个 SqlSessionFactory 的实例为核心的。SqlSessionFactory 的实例可以通过 SqlSessionFactoryBuilder 获得。而 SqlSessionFactoryBuilder 则可以从 XML 配置文件或一个预先定制的 Configuration 的实例构建出 SqlSessionFactory 的实例。</p><h2 id=pomxml>pom.xml</h2><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34;?&gt;
+</span></span><span class=line><span class=cl>&lt;project xmlns=&#34;http://maven.apache.org/POM/4.0.0&#34;
+</span></span><span class=line><span class=cl>         xmlns:xsi=&#34;http://www.w3.org/2001/XMLSchema-instance&#34;
+</span></span><span class=line><span class=cl>         xsi:schemaLocation=&#34;http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd&#34;&gt;
+</span></span><span class=line><span class=cl>    &lt;modelVersion&gt;4.0.0&lt;/modelVersion&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    &lt;groupId&gt;com.51lucy.test&lt;/groupId&gt;
+</span></span><span class=line><span class=cl>    &lt;artifactId&gt;mybatis-simple&lt;/artifactId&gt;
+</span></span><span class=line><span class=cl>    &lt;version&gt;1.0&lt;/version&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    &lt;dependencies&gt;
+</span></span><span class=line><span class=cl>        &lt;dependency&gt;
+</span></span><span class=line><span class=cl>            &lt;groupId&gt;org.mybatis&lt;/groupId&gt;
+</span></span><span class=line><span class=cl>            &lt;artifactId&gt;mybatis&lt;/artifactId&gt;
+</span></span><span class=line><span class=cl>            &lt;version&gt;3.5.3&lt;/version&gt;
+</span></span><span class=line><span class=cl>        &lt;/dependency&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        &lt;dependency&gt;
+</span></span><span class=line><span class=cl>            &lt;groupId&gt;mysql&lt;/groupId&gt;
+</span></span><span class=line><span class=cl>            &lt;artifactId&gt;mysql-connector-java&lt;/artifactId&gt;
+</span></span><span class=line><span class=cl>            &lt;version&gt;5.1.41&lt;/version&gt;
+</span></span><span class=line><span class=cl>        &lt;/dependency&gt;
+</span></span><span class=line><span class=cl>    &lt;/dependencies&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>&lt;/project&gt;
+</span></span></code></pre></td></tr></table></div></div><h2 id=数据库配置jdbcproperties>数据库配置jdbc.properties</h2><p>在<strong>src/main/resources</strong>文件夹下创建<code>jdbc.properties</code>文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>jdbc.driverClassName=com.mysql.jdbc.Driver
+</span></span><span class=line><span class=cl>jdbc.url=jdbc:mysql://localhost:3306/spring_db
+</span></span><span class=line><span class=cl>jdbc.username=root
+</span></span><span class=line><span class=cl>jdbc.password=***********
+</span></span></code></pre></td></tr></table></div></div><h2 id=mybatis配置文件>mybatis配置文件</h2><p>在<strong>src/main/resources</strong>文件夹下创建<code>mybatis-config.xml</code>文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; ?&gt;
+</span></span><span class=line><span class=cl>&lt;!DOCTYPE configuration
+</span></span><span class=line><span class=cl>        PUBLIC &#34;-//mybatis.org//DTD Config 3.0//EN&#34;
+</span></span><span class=line><span class=cl>        &#34;http://mybatis.org/dtd/mybatis-3-config.dtd&#34;&gt;
+</span></span><span class=line><span class=cl>&lt;configuration&gt;
+</span></span><span class=line><span class=cl>    &lt;properties resource=&#34;jdbc.properties&#34;/&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    &lt;environments default=&#34;development&#34;&gt;
+</span></span><span class=line><span class=cl>        &lt;!-- 设置一个默认的连接环境信息 --&gt;
+</span></span><span class=line><span class=cl>        &lt;environment id=&#34;development&#34;&gt;
+</span></span><span class=line><span class=cl>            &lt;transactionManager type=&#34;JDBC&#34;/&gt;
+</span></span><span class=line><span class=cl>            &lt;dataSource type=&#34;POOLED&#34;&gt;
+</span></span><span class=line><span class=cl>                &lt;property name=&#34;driver&#34; value=&#34;${jdbc.driverClassName}&#34;/&gt;
+</span></span><span class=line><span class=cl>                &lt;property name=&#34;url&#34; value=&#34;${jdbc.url}&#34;/&gt;
+</span></span><span class=line><span class=cl>                &lt;property name=&#34;username&#34; value=&#34;${jdbc.username}&#34;/&gt;
+</span></span><span class=line><span class=cl>                &lt;property name=&#34;password&#34; value=&#34;${jdbc.password}&#34;/&gt;
+</span></span><span class=line><span class=cl>            &lt;/dataSource&gt;
+</span></span><span class=line><span class=cl>        &lt;/environment&gt;
+</span></span><span class=line><span class=cl>    &lt;/environments&gt;
+</span></span><span class=line><span class=cl>    &lt;mappers&gt;
+</span></span><span class=line><span class=cl>        &lt;mapper resource=&#34;mappers/User.xml&#34;/&gt;
+</span></span><span class=line><span class=cl>    &lt;/mappers&gt;
+</span></span><span class=line><span class=cl>&lt;/configuration&gt;
+</span></span></code></pre></td></tr></table></div></div><h2 id=添加dao接口>添加Dao接口</h2><p>UserDao接口（其实就是Mapper接口）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span><span class=lnt>6
+</span><span class=lnt>7
+</span><span class=lnt>8
+</span><span class=lnt>9
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>com</span><span class=p>.</span><span class=nx>lucy</span><span class=p>.</span><span class=nx>test</span><span class=p>.</span><span class=nx>dao</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>com</span><span class=p>.</span><span class=nx>lucy</span><span class=p>.</span><span class=nx>test</span><span class=p>.</span><span class=nx>model</span><span class=p>.</span><span class=nx>User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>public</span> <span class=kd>interface</span> <span class=nx>UserDao</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>User</span> <span class=nf>findByName</span><span class=p>(</span><span class=nx>String</span> <span class=nx>name</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=kt>int</span> <span class=nf>insertUser</span><span class=p>(</span><span class=nx>User</span> <span class=nx>user</span><span class=p>);</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=xml映射文件>xml映射文件</h2><p>在<strong>src/main/resources/mappers</strong>文件夹下创建<code>User.xml</code>文件：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>&lt;?xml version=&#34;1.0&#34; encoding=&#34;UTF-8&#34; ?&gt;
+</span></span><span class=line><span class=cl>&lt;!DOCTYPE mapper
+</span></span><span class=line><span class=cl>        PUBLIC &#34;-//mybatis.org//DTD Mapper 3.0//EN&#34;
+</span></span><span class=line><span class=cl>        &#34;http://mybatis.org/dtd/mybatis-3-mapper.dtd&#34;&gt;
+</span></span><span class=line><span class=cl>&lt;!--namespace要写对--&gt;
+</span></span><span class=line><span class=cl>&lt;mapper namespace=&#34;com.lucy.test.dao.UserDao&#34;&gt;
+</span></span><span class=line><span class=cl>    &lt;select id=&#34;findByName&#34; parameterType=&#34;java.lang.String&#34;  resultType=&#34;com.lucy.test.model.User&#34;&gt;
+</span></span><span class=line><span class=cl>        select  uid, name, age, address, created_time
+</span></span><span class=line><span class=cl>        from  user
+</span></span><span class=line><span class=cl>        where name = #{name}
+</span></span><span class=line><span class=cl>    &lt;/select&gt;
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    &lt;insert id=&#34;insertUser&#34; parameterType=&#34;com.lucy.test.model.User&#34;&gt;
+</span></span><span class=line><span class=cl>        insert into user(name, age, address, created_time) VALUES (
+</span></span><span class=line><span class=cl>        #{name}, #{age}, #{address}, #{createdDatetime}
+</span></span><span class=line><span class=cl>        )
+</span></span><span class=line><span class=cl>    &lt;/insert&gt;
+</span></span><span class=line><span class=cl>&lt;/mapper&gt;
+</span></span></code></pre></td></tr></table></div></div><h2 id=测试类>测试类</h2><p>让我们写个测试类看看效果：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-go data-lang=go><span class=line><span class=cl><span class=kn>package</span> <span class=nx>com</span><span class=p>.</span><span class=nx>lucy</span><span class=p>.</span><span class=nx>test</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>com</span><span class=p>.</span><span class=nx>lucy</span><span class=p>.</span><span class=nx>test</span><span class=p>.</span><span class=nx>dao</span><span class=p>.</span><span class=nx>UserDao</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>com</span><span class=p>.</span><span class=nx>lucy</span><span class=p>.</span><span class=nx>test</span><span class=p>.</span><span class=nx>model</span><span class=p>.</span><span class=nx>User</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>org</span><span class=p>.</span><span class=nx>apache</span><span class=p>.</span><span class=nx>ibatis</span><span class=p>.</span><span class=nx>io</span><span class=p>.</span><span class=nx>Resources</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>org</span><span class=p>.</span><span class=nx>apache</span><span class=p>.</span><span class=nx>ibatis</span><span class=p>.</span><span class=nx>session</span><span class=p>.</span><span class=nx>SqlSession</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>org</span><span class=p>.</span><span class=nx>apache</span><span class=p>.</span><span class=nx>ibatis</span><span class=p>.</span><span class=nx>session</span><span class=p>.</span><span class=nx>SqlSessionFactory</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>org</span><span class=p>.</span><span class=nx>apache</span><span class=p>.</span><span class=nx>ibatis</span><span class=p>.</span><span class=nx>session</span><span class=p>.</span><span class=nx>SqlSessionFactoryBuilder</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>java</span><span class=p>.</span><span class=nx>io</span><span class=p>.</span><span class=nx>IOException</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=kn>import</span> <span class=nx>java</span><span class=p>.</span><span class=nx>io</span><span class=p>.</span><span class=nx>InputStream</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=nx>public</span> <span class=nx>class</span> <span class=nx>Main</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=nx>public</span> <span class=nx>static</span> <span class=nx>void</span> <span class=nf>main</span><span class=p>(</span><span class=nx>String</span><span class=p>[]</span> <span class=nx>args</span><span class=p>)</span> <span class=nx>throws</span> <span class=nx>IOException</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=nx>String</span> <span class=nx>resource</span> <span class=p>=</span> <span class=s>&#34;mybatis-config.xml&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>        <span class=nx>InputStream</span> <span class=nx>inputStream</span> <span class=p>=</span> <span class=nx>Resources</span><span class=p>.</span><span class=nf>getResourceAsStream</span><span class=p>(</span><span class=nx>resource</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>        <span class=nx>SqlSessionFactory</span> <span class=nx>sqlSessionFactory</span> <span class=p>=</span> <span class=nx>new</span> <span class=nf>SqlSessionFactoryBuilder</span><span class=p>().</span><span class=nf>build</span><span class=p>(</span><span class=nx>inputStream</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=nx>SqlSession</span> <span class=nx>sqlSession</span> <span class=p>=</span> <span class=nx>sqlSessionFactory</span><span class=p>.</span><span class=nf>openSession</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=nx>try</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>UserDao</span> <span class=nx>userMapper</span> <span class=p>=</span> <span class=nx>sqlSession</span><span class=p>.</span><span class=nf>getMapper</span><span class=p>(</span><span class=nx>UserDao</span><span class=p>.</span><span class=nx>class</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>User</span> <span class=nx>user</span> <span class=p>=</span> <span class=nx>userMapper</span><span class=p>.</span><span class=nf>findByName</span><span class=p>(</span><span class=s>&#34;meng&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>            <span class=nx>System</span><span class=p>.</span><span class=nx>out</span><span class=p>.</span><span class=nb>println</span><span class=p>(</span><span class=nx>user</span><span class=p>.</span><span class=nf>toString</span><span class=p>());</span>
+</span></span><span class=line><span class=cl>            <span class=nx>sqlSession</span><span class=p>.</span><span class=nf>commit</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=nf>catch</span> <span class=p>(</span><span class=nx>Exception</span> <span class=nx>ex</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>ex</span><span class=p>.</span><span class=nf>printStackTrace</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span> <span class=nx>finally</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>            <span class=nx>sqlSession</span><span class=p>.</span><span class=nb>close</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>        <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>参考：</p><ul><li><a href=https://www.javacodegeeks.com/2012/11/mybatis-tutorial-crud-operations-and-mapping-relationships-part-1.html target=_blank rel="noopener noreffer">MyBatis Tutorial – CRUD Operations and Mapping Relationships – Part 1</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/mybatis_getstart_lookback/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/mybatis/>MyBatis</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/qt%E4%B9%8B%E5%B8%83%E5%B1%80%E7%AE%A1%E7%90%86/ class=prev rel=prev title=Qt之布局管理><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Qt之布局管理</a>
+<a href=/java_synchronized_underlying/ class=next rel=next title=Java之synchronized的实现原理>Java之synchronized的实现原理<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

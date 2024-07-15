@@ -1,0 +1,492 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>一步步自己做个Docker之Linux Namespace 简介 - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/docker-linux-namespace-intro/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="一步步自己做个Docker之Linux Namespace 简介"><meta property="og:description" content="本文环境： OS：Ubuntu 18.04.3 LTS 内核版本： 5.0.0-36-generic Linux Namespaces Docker的所用的两个关键技术，一个是Namespaces，一个是Cgroups。它俩都不"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-11-28T16:10:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="Docker"><meta property="article:tag" content="Namespace"><meta property="article:tag" content="Cgroup"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="一步步自己做个Docker之Linux Namespace 简介"><meta name=twitter:description content="本文环境： OS：Ubuntu 18.04.3 LTS 内核版本： 5.0.0-36-generic Linux Namespaces Docker的所用的两个关键技术，一个是Namespaces，一个是Cgroups。它俩都不"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/docker-linux-namespace-intro/><link rel=prev href=https://example.com/cefsharp_summary/><link rel=next href=https://example.com/min_spanning_tree/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"一步步自己做个Docker之Linux Namespace 简介","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/docker-linux-namespace-intro\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Docker, Namespace, Cgroup","wordcount":4322,"url":"https:\/\/example.com\/docker-linux-namespace-intro\/","datePublished":"2019-11-28T16:10:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/docker-linux-namespace-intro/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/docker-linux-namespace-intro/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">一步步自己做个Docker之Linux Namespace 简介</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/docker/><i class="far fa-folder fa-fw" aria-hidden=true></i>Docker</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2019-11-28>2019-11-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 4322 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 9 分钟&nbsp;<span id=/docker-linux-namespace-intro/ class=leancloud_visitors data-flag-title="一步步自己做个Docker之Linux Namespace 简介">
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#linux-namespaces>Linux Namespaces</a><ul><li><a href=#尝试一下namespace>尝试一下Namespace</a></li><li><a href=#三个系统调用>三个系统调用</a><ul><li><a href=#clone创建新进程并设置它的namespace>clone：创建新进程并设置它的Namespace</a></li><li><a href=#setns让进程加入已经存在namespace>setns：让进程加入已经存在Namespace</a></li><li><a href=#unshare让进程加入新的namespace>unshare：让进程加入新的Namespace</a></li></ul></li></ul></li><li><a href=#c程序中使用clone系统调用>C程序中使用clone系统调用</a><ul><li><a href=#lets-go>Let&rsquo;s Go</a></li><li><a href=#参考资料>参考资料</a></li></ul></li></ul></nav></div></div><div class=content id=content><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/docker-logo.png data-srcset="/images/docker-logo.png, /images/docker-logo.png 1.5x, /images/docker-logo.png 2x" data-sizes=auto alt=/images/docker-logo.png title="docker logo"></p><p>本文环境：</p><ul><li>OS：Ubuntu 18.04.3 LTS</li><li>内核版本： 5.0.0-36-generic</li></ul><h2 id=linux-namespaces>Linux Namespaces</h2><p>Docker的所用的两个关键技术，一个是<code>Namespaces</code>，一个是<code>Cgroups</code>。它俩都不是新技术，Linux内核很早就支持，但是Docker把它们有机地结合起来，加上自己创新，使得现在容器技术非常流行。<br><code>Linux Namespaces</code>其实是做到了进程之间全局资源的隔离，譬如，<code>UTS Namespace</code>隔离了Hostname空间。这意味着在新的<code>UTS Namespace</code>中的进程，可以拥有不同于宿主机的主机名。</p><p>目前Linux内核主要实现了以下几种不同的资源<code>Namespace</code>：</p><table><thead><tr><th>名称</th><th>宏定义</th><th>隔离的内容</th></tr></thead><tbody><tr><td>IPC</td><td>CLONE_NEWIPC</td><td>System V IPC, POSIX message queues (since Linux 2.6.19)</td></tr><tr><td>Network</td><td>CLONE_NEWNET</td><td>network device interfaces, IPv4 and IPv6 protocol stacks, IP routing tables, firewall rules, the /proc/net and /sys/class/net directory trees, sockets, etc (since Linux 2.6.24)</td></tr><tr><td>Mount</td><td>CLONE_NEWNS</td><td>Mount points (since Linux 2.4.19)</td></tr><tr><td>PID</td><td>CLONE_NEWPID</td><td>Process IDs (since Linux 2.6.24)</td></tr><tr><td>User</td><td>CLONE_NEWUSER</td><td>User and group IDs (started in Linux 2.6.23 and completed in Linux 3.8)</td></tr><tr><td>UTS</td><td>CLONE_NEWUTS</td><td>Hostname and NIS domain name (since Linux 2.6.19)</td></tr><tr><td>Cgroup</td><td>CLONE_NEWCGROUP</td><td>Cgroup root directory (since Linux 4.6)</td></tr></tbody></table><p>要注意一点的是，不是所有的系统资源都能隔离，时间就是个例外，没有对应的<code>Namespace</code>，因此同一台Linux启动的容器时间都是相同的。</p><h3 id=尝试一下namespace>尝试一下Namespace</h3><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>lucy@lucy-computer:~$ unshare -h
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>用法：
+</span></span><span class=line><span class=cl> unshare [选项] [&lt;程序&gt; [&lt;参数&gt;...]]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>以某些未与父(进程)共享的名字空间运行某个程序。
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>选项：
+</span></span><span class=line><span class=cl> -m, --mount[=&lt;文件&gt;]      取消共享 mounts 名字空间
+</span></span><span class=line><span class=cl> -u, --uts[=&lt;文件&gt;]        取消共享 UTS 名字空间(主机名等)
+</span></span><span class=line><span class=cl> -i, --ipc[=&lt;文件&gt;]        取消共享 System V IPC 名字空间
+</span></span><span class=line><span class=cl> -n, --net[=&lt;file&gt;]        取消共享网络名字空间
+</span></span><span class=line><span class=cl> -p, --pid[=&lt;文件&gt;]        取消共享 pid 名字空间
+</span></span><span class=line><span class=cl> -U, --user[=&lt;文件&gt;]       取消共享用户名字空间
+</span></span><span class=line><span class=cl> -C, --cgroup[=&lt;文件&gt;]     取消共享 cgroup 名字空间
+</span></span><span class=line><span class=cl> -f, --fork                在启动&lt;程序&gt;前 fork
+</span></span><span class=line><span class=cl>     --mount-proc[=&lt;目录&gt;] 先挂载 proc 文件系统(连带打开 --mount)
+</span></span><span class=line><span class=cl> -r, --map-root-user       将当前用户映射为 root (连带打开 --user)
+</span></span><span class=line><span class=cl>     --propagation slave|shared|private|unchanged
+</span></span><span class=line><span class=cl>                           修改 mount 名字空间中的 mount 传播
+</span></span><span class=line><span class=cl> -s, --setgroups allow|deny  控制用户名字空间中的 setgroups 系统调用
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl> -h, --help                display this help
+</span></span><span class=line><span class=cl> -V, --version             display version
+</span></span></code></pre></td></tr></table></div></div><p><code>unshare</code>命令可以让你在新的名称空间集中启动一个新的程序（unshared本身的含义就是不和父进程共享）。<br>下面的例子使用了<code>UTS namespace</code>，可以看到在新的<code>/bin/sh</code>进程中修改hostname，并没有影响宿主机：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ sudo su                   # become root user
+</span></span><span class=line><span class=cl>$ hostname                  # check current hostname
+</span></span><span class=line><span class=cl>lucy-computer  
+</span></span><span class=line><span class=cl>$ unshare -u /bin/sh        # create a shell in new UTS namespace
+</span></span><span class=line><span class=cl>$ hostname my-new-hostname  # set hostname
+</span></span><span class=line><span class=cl>$ hostname                  # confirm new hostname
+</span></span><span class=line><span class=cl>my-new-hostname  
+</span></span><span class=line><span class=cl>$ exit                      # exit new UTS namespace
+</span></span><span class=line><span class=cl>$ hostname                  # confirm original hostname unchanged
+</span></span><span class=line><span class=cl>lucy-computer
+</span></span></code></pre></td></tr></table></div></div><h3 id=三个系统调用>三个系统调用</h3><p><code>unshare</code>命令很棒，但是当我们想要对程序中的命名空间进行更细粒度的控制时，那该怎么办呢？<br>Linux 内核提供的功能都会提供<code>系统调用</code>接口供应用程序使用，<code>Namespace</code>也不例外。和<code>Namespace</code>相关的系统调用主要有三个：</p><ul><li><a href=http://man7.org/linux/man-pages/man2/clone.2.html target=_blank rel="noopener noreffer">clone</a></li><li><a href=http://man7.org/linux/man-pages/man2/setns.2.html target=_blank rel="noopener noreffer">setns</a></li><li><a href=http://man7.org/linux/man-pages/man2/unshare.2.html target=_blank rel="noopener noreffer">unshare</a></li></ul><p><strong>注意</strong>：这些系统调用都是 linux 内核实现的，不能直接适用于其他操作系统。</p><p>查看一下它们对应的C语言函数原型：</p><h4 id=clone创建新进程并设置它的namespace>clone：创建新进程并设置它的Namespace</h4><p><code>clone</code>类似于<code>fork</code>系统调用，可以创建一个新的进程，不同的是你可以指定要子进程要执行的函数以及通过参数控制子进程的运行环境。</p><blockquote><p>实际上，clone() 是在 C 语言库中定义的一个封装(wrapper)函数，它负责建立新进程的堆栈并且调用对编程者隐藏的 clone() 系统调用。Clone() 其实是 linux 系统调用 fork() 的一种更通用的实现方式，它可以通过 flags 来控制使用多少功能。</p></blockquote><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define _GNU_SOURCE
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sched.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span>
+</span></span><span class=line><span class=cl><span class=kt>int</span> <span class=nf>clone</span><span class=p>(</span><span class=kt>int</span> <span class=p>(</span><span class=o>*</span><span class=n>fn</span><span class=p>)(</span><span class=kt>void</span> <span class=o>*</span><span class=p>),</span> <span class=kt>void</span> <span class=o>*</span><span class=n>child_stack</span><span class=p>,</span> <span class=kt>int</span> <span class=n>flags</span><span class=p>,</span> <span class=kt>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><ul><li>fn：指定一个由新进程执行的函数。当这个函数返回时，子进程终止。该函数返回一个整数，表示子进程的退出代码。</li><li>child_stack：传入子进程使用的栈空间，也就是把用户态堆栈指针赋给子进程的 esp 寄存器。调用进程(指调用 clone() 的进程)应该总是为子进程分配新的堆栈。</li><li>flags：表示使用哪些 CLONE_ 开头的标志位，与 namespace 相关的有CLONE_NEWIPC、CLONE_NEWNET、CLONE_NEWNS、CLONE_NEWPID、CLONE_NEWUSER、CLONE_NEWUTS 和 CLONE_NEWCGROUP，如果要同时隔离多个 namespace，<strong>可以使用 | (按位或)组合这些参数</strong>。</li><li>arg：指向传递给 fn() 函数的参数。</li></ul><h4 id=setns让进程加入已经存在namespace>setns：让进程加入已经存在Namespace</h4><p>setns 能够把某个进程加入到给定的 namespace，它的定义是这样的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define _GNU_SOURCE
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sched.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>setns</span><span class=p>(</span><span class=kt>int</span> <span class=n>fd</span><span class=p>,</span> <span class=kt>int</span> <span class=n>nstype</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p>和<code>clone()</code>函数一样，C 语言库中的<code>setns()</code>函数也是对<code>setns系统调用</code>的封装。</p><ul><li>fd：表示要加入 namespace 的文件描述符。它是一个指向 /proc/[pid]/ns 目录中文件的文件描述符，可以通过直接打开该目录下的链接文件或者打开一个挂载了该目录下链接文件的文件得到。</li><li>nstype：参数 nstype 让调用者可以检查 fd 指向的 namespace 类型是否符合实际要求。若把该参数设置为 0 表示不检查。</li></ul><h4 id=unshare让进程加入新的namespace>unshare：让进程加入新的Namespace</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-c data-lang=c><span class=line><span class=cl><span class=cp>#define _GNU_SOURCE
+</span></span></span><span class=line><span class=cl><span class=cp>#include</span> <span class=cpf>&lt;sched.h&gt;</span><span class=cp>
+</span></span></span><span class=line><span class=cl><span class=cp></span><span class=kt>int</span> <span class=nf>unshare</span><span class=p>(</span><span class=kt>int</span> <span class=n>flags</span><span class=p>);</span>
+</span></span></code></pre></td></tr></table></div></div><p><code>unshare()</code>函数比较简单，只有一个参数<code>flags</code>，它的含义和<code>clone()</code>的<code>flags</code>相同。<code>unshare</code>和 <code>setns</code> 的区别是，<code>setns</code> 只能让进程加入到已经存在的<code>namespace</code>中，而<code>unshare</code>则让进程离开当前的<code>namespace</code>，加入到新建的<code>namespace</code>中。</p><p><code>unshare()</code>和<code>clone()</code>的区别在于：<code>unshare()</code>是把当前进程进入到新的<code>namespace</code>；<code>clone()</code>是创建新的进程，然后让新创建的进程（子进程）加入到新的<code>namespace</code>。</p><h2 id=c程序中使用clone系统调用>C程序中使用clone系统调用</h2><p>我们先来看看 clone 一个简单的使用例子：创建一个新的进程，并执行 /bin/bash，这样就可以接受命令，方便我们查看新进程的信息。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1>#define _GNU_SOURCE</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;sched.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;sys/wait.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;stdio.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;stdlib.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;unistd.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;string.h&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>//</span> <span class=err>设置子进程要使用的栈空间</span>
+</span></span><span class=line><span class=cl><span class=c1>#define STACK_SIZE (1024*1024)</span>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=n>char</span> <span class=n>container_stack</span><span class=p>[</span><span class=n>STACK_SIZE</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#define errExit(code, msg); {if(code == -1){perror(msg); exit(-1);} }</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>char</span><span class=o>*</span> <span class=k>const</span> <span class=n>container_args</span><span class=p>[]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;/bin/bash&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>NULL</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=ne>int</span> <span class=n>container_func</span><span class=p>(</span><span class=n>void</span> <span class=o>*</span><span class=n>arg</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>pid_t</span> <span class=n>pid</span> <span class=o>=</span> <span class=n>getpid</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Container[</span><span class=si>%d</span><span class=s2>] - inside the container!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>用一个新的</span><span class=n>bash来替换掉当前子进程</span><span class=err>，</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>这样我们就能通过</span> <span class=n>bash</span> <span class=err>查看当前子进程的情况</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=n>bash退出后</span><span class=err>，子进程执行完毕</span>
+</span></span><span class=line><span class=cl>    <span class=n>execv</span><span class=p>(</span><span class=n>container_args</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=n>container_args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>从这里开始的代码将不会被执行到，因为当前子进程已经被上面的</span><span class=n>bash替换掉了</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>所以如果执行到这里，一定是出错了</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Container[</span><span class=si>%d</span><span class=s2>] - oops!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ne>int</span> <span class=n>main</span><span class=p>(</span><span class=ne>int</span> <span class=n>argc</span><span class=p>,</span> <span class=n>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>pid_t</span> <span class=n>pid</span> <span class=o>=</span> <span class=n>getpid</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Parent[</span><span class=si>%d</span><span class=s2>] - create a container!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>创建并启动子进程，调用该函数后，父进程将继续往后执行，也就是执行后面的</span><span class=n>waitpid</span>
+</span></span><span class=line><span class=cl>    <span class=n>pid_t</span> <span class=n>child_pid</span> <span class=o>=</span> <span class=n>clone</span><span class=p>(</span><span class=n>container_func</span><span class=p>,</span>  <span class=o>//</span> <span class=err>子进程将执行</span><span class=n>container_func这个函数</span>
+</span></span><span class=line><span class=cl>                    <span class=n>container_stack</span> <span class=o>+</span> <span class=n>sizeof</span><span class=p>(</span><span class=n>container_stack</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                    <span class=o>//</span> <span class=err>这里</span><span class=n>SIGCHLD是子进程退出后返回给父进程的信号</span><span class=err>，跟</span><span class=n>namespace无关</span>
+</span></span><span class=line><span class=cl>                    <span class=n>SIGCHLD</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                    <span class=n>NULL</span><span class=p>);</span>  <span class=o>//</span> <span class=err>传给</span><span class=n>child_func的参数</span>
+</span></span><span class=line><span class=cl>    <span class=n>errExit</span><span class=p>(</span><span class=n>child_pid</span><span class=p>,</span> <span class=s2>&#34;clone&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>waitpid</span><span class=p>(</span><span class=n>child_pid</span><span class=p>,</span> <span class=n>NULL</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span> <span class=o>//</span> <span class=err>等待子进程结束</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Parent[</span><span class=si>%d</span><span class=s2>] - container exited!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>这段代码不长，但是做了很多事情：</p><ul><li>通过<code>clone()</code>创建出一个子进程，并设置启动时的参数</li><li>在子进程中调用 execv 来执行 /bin/bash，等待用户进行交互</li><li>子进程退出之后，父进程也跟着退出</li></ul><p>我们可以用<code>ls -l /proc/$$/ns</code>查看当前进程所在命名空间的信息，运行程序：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>lucy@lucy-computer:~$ gcc container.c -o container
+</span></span><span class=line><span class=cl>lucy@lucy-computer:~$ ./container 
+</span></span><span class=line><span class=cl>Parent[19644] - create a container!
+</span></span><span class=line><span class=cl>Container[19645] - inside the container!
+</span></span><span class=line><span class=cl>lucy@lucy-computer:~$ ls -l /proc/$$/ns
+</span></span><span class=line><span class=cl>总用量 0
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 cgroup -&gt; &#39;cgroup:[4026531835]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 ipc -&gt; &#39;ipc:[4026531839]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 mnt -&gt; &#39;mnt:[4026531840]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 net -&gt; &#39;net:[4026531992]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 pid -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 pid_for_children -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 user -&gt; &#39;user:[4026531837]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:36 uts -&gt; &#39;uts:[4026531838]&#39;
+</span></span><span class=line><span class=cl>lucy@lucy-computer:~$ exit
+</span></span><span class=line><span class=cl>exit
+</span></span><span class=line><span class=cl>Parent[19644] - container exited!
+</span></span><span class=line><span class=cl>lucy@lucy-computer:~$ ls -l /proc/$$/ns
+</span></span><span class=line><span class=cl>总用量 0
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 cgroup -&gt; &#39;cgroup:[4026531835]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 ipc -&gt; &#39;ipc:[4026531839]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 mnt -&gt; &#39;mnt:[4026531840]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 net -&gt; &#39;net:[4026531992]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 pid -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 pid_for_children -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 user -&gt; &#39;user:[4026531837]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 lucy lucy 0 11月 28 15:39 uts -&gt; &#39;uts:[4026531838]&#39;
+</span></span></code></pre></td></tr></table></div></div><p>各类命名空间id都是一样，因为我们只是单单使用了<code>clone</code>，未设置要隔离的命名空间，现在，我们加入<code>UTS Namespace</code>隔离，<code>UTS namespace</code> 功能最简单，它只隔离了 hostname 和 NIS domain name 两个资源。<br>同一个 namespace 里面的进程看到的 hostname 和 domain name 是相同的，这两个值可以通过 <code>sethostname(2)</code> 和 <code>setdomainname(2)</code> 来进行设置，也可以通过 <code>uname(2)</code>、<code>gethostname(2)</code> 和 <code>getdomainname(2)</code> 来读取。<br><strong>注意</strong>： UTS 的名字来自于<code>uname</code>函数用到的结构体<code>struct utsname</code>，这个结构体的名字源自于<code>UNIX Time-sharing System</code>。<br>代码主要修改两个地方：clone 的参数加上了 CLONE_NEWUTS，子进程函数中使用<code>sethostname</code>来设置 hostname。</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span><span class=lnt>63
+</span><span class=lnt>64
+</span><span class=lnt>65
+</span><span class=lnt>66
+</span><span class=lnt>67
+</span><span class=lnt>68
+</span><span class=lnt>69
+</span><span class=lnt>70
+</span><span class=lnt>71
+</span><span class=lnt>72
+</span><span class=lnt>73
+</span><span class=lnt>74
+</span><span class=lnt>75
+</span><span class=lnt>76
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1>#define _GNU_SOURCE</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;sched.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;sys/wait.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;sys/utsname.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;stdio.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;stdlib.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;unistd.h&gt;</span>
+</span></span><span class=line><span class=cl><span class=c1>#include &lt;string.h&gt;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>//</span> <span class=err>设置子进程要使用的栈空间</span>
+</span></span><span class=line><span class=cl><span class=c1>#define STACK_SIZE (1024*1024)</span>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=n>char</span> <span class=n>container_stack</span><span class=p>[</span><span class=n>STACK_SIZE</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#define errExit(code, msg); {if(code == -1){perror(msg); exit(-1);} }</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>char</span><span class=o>*</span> <span class=k>const</span> <span class=n>container_args</span><span class=p>[]</span> <span class=o>=</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;/bin/bash&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>    <span class=n>NULL</span>
+</span></span><span class=line><span class=cl><span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=k>static</span> <span class=ne>int</span> <span class=n>container_func</span><span class=p>(</span><span class=n>void</span> <span class=o>*</span><span class=n>hostname</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>pid_t</span> <span class=n>pid</span> <span class=o>=</span> <span class=n>getpid</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Container[</span><span class=si>%d</span><span class=s2>] - inside the container!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>使用</span> <span class=n>sethostname</span> <span class=err>设置子进程的</span> <span class=n>hostname</span> <span class=err>信息</span>
+</span></span><span class=line><span class=cl>    <span class=n>struct</span> <span class=n>utsname</span> <span class=n>uts</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>sethostname</span><span class=p>(</span><span class=n>hostname</span><span class=p>,</span> <span class=n>strlen</span><span class=p>(</span><span class=n>hostname</span><span class=p>))</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>errExit</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=s2>&#34;sethostname&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>};</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>使用</span> <span class=n>uname</span> <span class=err>获取子进程的机器信息，并打印</span> <span class=n>hostname</span> <span class=err>出来</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>uname</span><span class=p>(</span><span class=o>&amp;</span><span class=n>uts</span><span class=p>)</span> <span class=o>==</span> <span class=o>-</span><span class=mi>1</span><span class=p>){</span>
+</span></span><span class=line><span class=cl>        <span class=n>errExit</span><span class=p>(</span><span class=o>-</span><span class=mi>1</span><span class=p>,</span> <span class=s2>&#34;uname&#34;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Container[</span><span class=si>%d</span><span class=s2>] - container uts.nodename: [</span><span class=si>%s</span><span class=s2>]!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>,</span> <span class=n>uts</span><span class=o>.</span><span class=n>nodename</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>用一个新的</span><span class=n>bash来替换掉当前子进程</span><span class=err>，</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>这样我们就能通过</span> <span class=n>bash</span> <span class=err>查看当前子进程的情况</span><span class=o>.</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=n>bash退出后</span><span class=err>，子进程执行完毕</span>
+</span></span><span class=line><span class=cl>    <span class=n>execv</span><span class=p>(</span><span class=n>container_args</span><span class=p>[</span><span class=mi>0</span><span class=p>],</span> <span class=n>container_args</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>从这里开始的代码将不会被执行到，因为当前子进程已经被上面的</span><span class=n>bash替换掉了</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>所以如果执行到这里，一定是出错了</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Container[</span><span class=si>%d</span><span class=s2>] - oops!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>1</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=ne>int</span> <span class=n>main</span><span class=p>(</span><span class=ne>int</span> <span class=n>argc</span><span class=p>,</span> <span class=n>char</span> <span class=o>*</span><span class=n>argv</span><span class=p>[])</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=n>pid_t</span> <span class=n>pid</span> <span class=o>=</span> <span class=n>getpid</span><span class=p>();</span>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Parent[</span><span class=si>%d</span><span class=s2>] - create a container!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>把第一个参数作为子进程的</span> <span class=n>hostname</span><span class=err>，默认是</span> <span class=err>`</span><span class=n>container</span><span class=err>`</span>
+</span></span><span class=line><span class=cl>    <span class=n>char</span> <span class=o>*</span><span class=n>hostname</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=k>if</span> <span class=p>(</span><span class=n>argc</span> <span class=o>&lt;</span> <span class=mi>2</span><span class=p>)</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>hostname</span> <span class=o>=</span> <span class=s2>&#34;container&#34;</span><span class=p>;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span> <span class=k>else</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=n>hostname</span> <span class=o>=</span> <span class=n>argv</span><span class=p>[</span><span class=mi>1</span><span class=p>];</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=o>//</span> <span class=err>创建并启动子进程，调用该函数后，父进程将继续往后执行，也就是执行后面的</span><span class=n>waitpid</span>
+</span></span><span class=line><span class=cl>    <span class=n>pid_t</span> <span class=n>child_pid</span> <span class=o>=</span> <span class=n>clone</span><span class=p>(</span><span class=n>container_func</span><span class=p>,</span>  <span class=o>//</span> <span class=err>子进程将执行</span><span class=n>container_func这个函数</span>
+</span></span><span class=line><span class=cl>                    <span class=n>container_stack</span> <span class=o>+</span> <span class=n>sizeof</span><span class=p>(</span><span class=n>container_stack</span><span class=p>),</span>
+</span></span><span class=line><span class=cl>                    <span class=o>//</span> <span class=n>CLONE_NEWUTS表示创建新的UTS</span> <span class=n>namespace</span>
+</span></span><span class=line><span class=cl>                    <span class=n>CLONE_NEWUTS</span> <span class=o>|</span> <span class=n>SIGCHLD</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>                    <span class=n>hostname</span><span class=p>);</span>  <span class=o>//</span> <span class=err>传给</span><span class=n>child_func的参数</span>
+</span></span><span class=line><span class=cl>    <span class=n>errExit</span><span class=p>(</span><span class=n>child_pid</span><span class=p>,</span> <span class=s2>&#34;clone&#34;</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>waitpid</span><span class=p>(</span><span class=n>child_pid</span><span class=p>,</span> <span class=n>NULL</span><span class=p>,</span> <span class=mi>0</span><span class=p>);</span> <span class=o>//</span> <span class=err>等待子进程结束</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>printf</span><span class=p>(</span><span class=s2>&#34;Parent[</span><span class=si>%d</span><span class=s2>] - container exited!</span><span class=se>\n</span><span class=s2>&#34;</span><span class=p>,</span> <span class=n>pid</span><span class=p>);</span>
+</span></span><span class=line><span class=cl>    <span class=k>return</span> <span class=mi>0</span><span class=p>;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span></code></pre></td></tr></table></div></div><p>执行程序，发现容器中hostname与宿主机已经不一样了，容器中<code>UTS Namespace</code>id也跟宿主机不一样了（这里需要root权限）：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>sudo su
+</span></span><span class=line><span class=cl>root@lucy-computer:/home/lucy# gcc container.c -o container
+</span></span><span class=line><span class=cl>root@lucy-computer:/home/lucy# ./container 
+</span></span><span class=line><span class=cl>Parent[21091] - create a container!
+</span></span><span class=line><span class=cl>Container[21092] - inside the container!
+</span></span><span class=line><span class=cl>Container[21092] - container uts.nodename: [container]!
+</span></span><span class=line><span class=cl>root@container:/home/lucy# hostname
+</span></span><span class=line><span class=cl>container
+</span></span><span class=line><span class=cl>root@container:/home/lucy# ls -l /proc/$$/ns
+</span></span><span class=line><span class=cl>总用量 0
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 cgroup -&gt; &#39;cgroup:[4026531835]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 ipc -&gt; &#39;ipc:[4026531839]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 mnt -&gt; &#39;mnt:[4026531840]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 net -&gt; &#39;net:[4026531992]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 pid -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 pid_for_children -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 user -&gt; &#39;user:[4026531837]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 uts -&gt; &#39;uts:[4026532944]&#39;
+</span></span><span class=line><span class=cl>root@container:/home/lucy# exit
+</span></span><span class=line><span class=cl>exit
+</span></span><span class=line><span class=cl>Parent[21091] - container exited!
+</span></span><span class=line><span class=cl>root@lucy-computer:/home/lucy# ls -l /proc/$$/ns
+</span></span><span class=line><span class=cl>总用量 0
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 cgroup -&gt; &#39;cgroup:[4026531835]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 ipc -&gt; &#39;ipc:[4026531839]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 mnt -&gt; &#39;mnt:[4026531840]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 net -&gt; &#39;net:[4026531992]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 pid -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 pid_for_children -&gt; &#39;pid:[4026531836]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 user -&gt; &#39;user:[4026531837]&#39;
+</span></span><span class=line><span class=cl>lrwxrwxrwx 1 root root 0 11月 28 16:00 uts -&gt; &#39;uts:[4026531838]&#39;
+</span></span><span class=line><span class=cl>root@lucy-computer:/home/lucy# hostname
+</span></span><span class=line><span class=cl>lucy-computer
+</span></span></code></pre></td></tr></table></div></div><h3 id=lets-go>Let&rsquo;s Go</h3><p>C语言很底层，能控制到很多细节，但是它对于大部分人有点困难，接下来我们会有Go语言来一步步实现Docker容器。</p><h3 id=参考资料>参考资料</h3><ul><li><a href=https://cizixs.com/2017/08/29/linux-namespace/ target=_blank rel="noopener noreffer">cizixs.com/2017/08/29/linux-namespace</a></li><li><a href=https://www.cnblogs.com/sparkdev/p/9365405.html target=_blank rel="noopener noreffer">Linux Namespace : 简介</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/docker-linux-namespace-intro/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/docker/>Docker</a>,&nbsp;<a href=/tags/namespace/>Namespace</a>,&nbsp;<a href=/tags/cgroup/>Cgroup</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/cefsharp_summary/ class=prev rel=prev title=CefSharp浅尝辄止><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>CefSharp浅尝辄止</a>
+<a href=/min_spanning_tree/ class=next rel=next title=最小生成树回顾>最小生成树回顾<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

@@ -1,0 +1,965 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>Vagrant本地快速启动Kubernetes集群 - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/vagrant_kubernetes_cluster/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="Vagrant本地快速启动Kubernetes集群"><meta property="og:description" content="Kubernetes，简称 k8s（k，8 个字符，s——明白了？）或者 “kube”，是一个开源的 Linux 容器自动化运维平台，它消除了容器化应用程序在"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2019-12-16T13:00:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="Kubernetes"><meta property="article:tag" content="Vagrant"><meta property="article:tag" content="Virtualbox"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="Vagrant本地快速启动Kubernetes集群"><meta name=twitter:description content="Kubernetes，简称 k8s（k，8 个字符，s——明白了？）或者 “kube”，是一个开源的 Linux 容器自动化运维平台，它消除了容器化应用程序在"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/vagrant_kubernetes_cluster/><link rel=prev href=https://example.com/min_spanning_tree/><link rel=next href=https://example.com/tun-tap/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"Vagrant本地快速启动Kubernetes集群","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/vagrant_kubernetes_cluster\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"kubernetes, vagrant, virtualbox","wordcount":5715,"url":"https:\/\/example.com\/vagrant_kubernetes_cluster\/","datePublished":"2019-12-16T13:00:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/vagrant_kubernetes_cluster/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/vagrant_kubernetes_cluster/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">Vagrant本地快速启动Kubernetes集群</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span>&nbsp;<span class=post-category>收录于 <a href=/categories/kubernetes/><i class="far fa-folder fa-fw" aria-hidden=true></i>Kubernetes</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2019-12-16>2019-12-16</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 5715 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 12 分钟&nbsp;<span id=/vagrant_kubernetes_cluster/ class=leancloud_visitors data-flag-title=Vagrant本地快速启动Kubernetes集群>
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#安装vagrant>安装Vagrant</a></li><li><a href=#安装virtualbox>安装VirtualBox</a></li><li><a href=#启动虚拟机>启动虚拟机</a></li><li><a href=#启动kubernetes集群>启动Kubernetes集群</a></li><li><a href=#安装官方dashboard>安装官方Dashboard</a><ul><li><a href=#访问dashboard>访问Dashboard</a><ul><li><a href=#kubectl-proxy>kubectl proxy</a></li><li><a href=#nodeport>NodePort</a></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><p><img class=lazyload src=/svg/loading.min.svg data-src=https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex data-srcset="https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex, https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex 1.5x, https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex 2x" data-sizes=auto alt=https://image-static.segmentfault.com/311/703/311703680-5b80e2877f8c8_articlex title="k8s logo"></p><p>Kubernetes，简称 <strong>k8s</strong>（k，8 个字符，s——明白了？）或者 “kube”，是一个开源的 Linux 容器自动化运维平台，它消除了容器化应用程序在部署、伸缩时涉及到的许多手动操作。换句话说，你可以将多台主机组合成集群来运行 Linux 容器，而 Kubernetes 可以帮助你简单高效地管理那些集群。构成这些集群的主机还可以跨越公有云、私有云以及混合云。</p><p>本文环境：</p><ul><li>OS：Ubuntu 18.04.3 LTS</li><li>Vagrant版本：2.2.6</li><li>VirtualBox版本：6.0.14 r133895 (Qt5.9.5)</li><li>Kubernetes版本：1.16.3</li></ul><h2 id=安装vagrant>安装Vagrant</h2><p>Vagrant是一个基于Ruby的工具，用于创建和部署虚拟化开发环境。它使用Oracle的开源<strong>VirtualBox</strong>（其实也可以用别的）虚拟化系统，使用Chef创建自动化虚拟环境。
+首先到<a href=https://www.vagrantup.com/downloads.html target=_blank rel="noopener noreffer">官网</a>下载最新的<code>Vagrant</code>，现在最新的版本是<strong>2.2.6</strong>，当然你也可以通过命令行下载：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>wget https://releases.hashicorp.com/vagrant/2.2.6/vagrant_2.2.6_x86_64.deb
+</span></span></code></pre></td></tr></table></div></div><p>验证<code>Vagrant</code>安装成功</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ vagrant --version
+</span></span><span class=line><span class=cl>Vagrant 2.2.6
+</span></span></code></pre></td></tr></table></div></div><h2 id=安装virtualbox>安装VirtualBox</h2><p>Vagrant是基于虚拟机（<code>VirtualBox</code>，<code>VMware</code>这些）的，所以我们还需要安装<code>VirtualBox</code>。在Vagrant官网可以它适配的<code>VirtualBox</code>版本</p><blockquote><p>Vagrant comes with support out of the box for VirtualBox, a free, cross-platform consumer virtualization product.
+The VirtualBox provider is compatible with VirtualBox versions 4.0.x, 4.1.x, 4.2.x, 4.3.x, 5.0.x, 5.1.x, 5.2.x, and 6.0.x.</p></blockquote><p>这里我下载6.0版本的<code>VirtualBox</code>，<a href=https://www.virtualbox.org/wiki/Download_Old_Builds_6_0 target=_blank rel="noopener noreffer">下载地址</a></p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>wget</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>download</span><span class=o>.</span><span class=n>virtualbox</span><span class=o>.</span><span class=n>org</span><span class=o>/</span><span class=n>virtualbox</span><span class=o>/</span><span class=mf>6.0</span><span class=o>.</span><span class=mi>14</span><span class=o>/</span><span class=n>virtualbox</span><span class=o>-</span><span class=mf>6.0</span><span class=n>_6</span><span class=o>.</span><span class=mf>0.14</span><span class=o>-</span><span class=mi>133895</span><span class=o>~</span><span class=n>Ubuntu</span><span class=o>~</span><span class=n>bionic_amd64</span><span class=o>.</span><span class=n>deb</span>
+</span></span></code></pre></td></tr></table></div></div><p><strong>注意：不要通过apt-get安装VirtualBox</strong>，因为5.1.0版本开始，VirtualBox已经不需要<strong>DKMS</strong>，apt官方源中VirtualBox比较老，是会带上<code>DKMS</code>的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>DKMS</span> <span class=n>isn</span><span class=s1>&#39;t required by VirtualBox since 5.1.0. Which means that you downloaded VirtualBox from your Debian &#34;store&#34;. That&#39;</span><span class=n>s</span> <span class=n>a</span> <span class=n>fork</span><span class=p>,</span> <span class=ow>not</span> <span class=n>supported</span><span class=o>.</span> <span class=n>You</span> <span class=n>can</span> <span class=n>either</span> <span class=n>ask</span> <span class=ow>in</span> <span class=n>their</span> <span class=n>forums</span> <span class=k>for</span> <span class=n>help</span><span class=p>,</span> <span class=ow>or</span> <span class=n>completely</span> <span class=n>remove</span><span class=o>/</span><span class=n>uninstall</span><span class=o>/</span><span class=n>delete</span><span class=o>/</span><span class=n>purge</span> <span class=n>their</span> <span class=n>version</span> <span class=ow>and</span> <span class=n>install</span> <span class=n>the</span> <span class=n>official</span> <span class=n>version</span> <span class=n>from</span> <span class=n>the</span> <span class=n>Downloads</span> <span class=n>section</span> <span class=n>of</span> <span class=n>VirtualBox</span> <span class=p>(</span><span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>www</span><span class=o>.</span><span class=n>virtualbox</span><span class=o>.</span><span class=n>org</span><span class=o>/</span><span class=n>wiki</span><span class=o>/</span><span class=n>Downloads</span><span class=p>)</span><span class=o>.</span>
+</span></span></code></pre></td></tr></table></div></div><h2 id=启动虚拟机>启动虚拟机</h2><p><code>Vagrant</code>跟docker类似，可以提供一致性环境的，它可以编写<code>Vagrantfile</code>（类似<code>docker-compose.yml</code>）来定义虚拟机中安装什么软件，环境和配置，它使用ruby语法。<code>Vagrant</code>也做了<a href=https://app.vagrantup.com/boxes/search target=_blank rel="noopener noreffer">box源</a>，类似docker image。<br>下面给出一个小栗子感受下，这里使用<code>ubuntu/xenial64</code>（Ubuntu 16.06 64位）这个box</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span><span class=lnt>38
+</span><span class=lnt>39
+</span><span class=lnt>40
+</span><span class=lnt>41
+</span><span class=lnt>42
+</span><span class=lnt>43
+</span><span class=lnt>44
+</span><span class=lnt>45
+</span><span class=lnt>46
+</span><span class=lnt>47
+</span><span class=lnt>48
+</span><span class=lnt>49
+</span><span class=lnt>50
+</span><span class=lnt>51
+</span><span class=lnt>52
+</span><span class=lnt>53
+</span><span class=lnt>54
+</span><span class=lnt>55
+</span><span class=lnt>56
+</span><span class=lnt>57
+</span><span class=lnt>58
+</span><span class=lnt>59
+</span><span class=lnt>60
+</span><span class=lnt>61
+</span><span class=lnt>62
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># -*- mode: ruby -*-</span>
+</span></span><span class=line><span class=cl><span class=c1># vi: set ft=ruby :</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># All Vagrant configuration is done below. The &#34;2&#34; in Vagrant.configure</span>
+</span></span><span class=line><span class=cl><span class=c1># configures the configuration version (we support older styles for</span>
+</span></span><span class=line><span class=cl><span class=c1># backwards compatibility). Please don&#39;t change it unless you know what</span>
+</span></span><span class=line><span class=cl><span class=c1># you&#39;re doing.</span>
+</span></span><span class=line><span class=cl><span class=n>Vagrant</span><span class=o>.</span><span class=n>configure</span><span class=p>(</span><span class=s2>&#34;2&#34;</span><span class=p>)</span> <span class=k>do</span> <span class=o>|</span><span class=n>config</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>  <span class=c1>##### DEFINE VM #####</span>
+</span></span><span class=line><span class=cl>  <span class=c1># The most common configuration options are documented and commented below.</span>
+</span></span><span class=line><span class=cl>  <span class=c1># For a complete reference, please see the online documentation at</span>
+</span></span><span class=line><span class=cl>  <span class=c1># https://docs.vagrantup.com.</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># Every Vagrant development environment requires a box. You can search for</span>
+</span></span><span class=line><span class=cl>  <span class=c1># boxes at https://app.vagrantup.com/boxes/search.</span>
+</span></span><span class=line><span class=cl>  <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>box</span> <span class=o>=</span> <span class=s2>&#34;ubuntu/xenial64&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>hostname</span> <span class=o>=</span> <span class=s2>&#34;ubuntu-01&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>box_check_update</span> <span class=o>=</span> <span class=bp>false</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># Create a private network, which allows host-only access to the machine</span>
+</span></span><span class=line><span class=cl>  <span class=c1># using a specific IP.</span>
+</span></span><span class=line><span class=cl>  <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>network</span> <span class=s2>&#34;private_network&#34;</span><span class=p>,</span> <span class=n>ip</span><span class=p>:</span> <span class=s2>&#34;192.168.10.50&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># Create a public network, which generally matched to bridged network.</span>
+</span></span><span class=line><span class=cl>  <span class=c1># Bridged networks make the machine appear as another physical device on</span>
+</span></span><span class=line><span class=cl>  <span class=c1># your network.</span>
+</span></span><span class=line><span class=cl>  <span class=c1># config.vm.network &#34;public_network&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># Share an additional folder to the guest VM. The first argument is</span>
+</span></span><span class=line><span class=cl>  <span class=c1># the path on the host to the actual folder. The second argument is</span>
+</span></span><span class=line><span class=cl>  <span class=c1># the path on the guest to mount the folder. And the optional third</span>
+</span></span><span class=line><span class=cl>  <span class=c1># argument is a set of non-required options.</span>
+</span></span><span class=line><span class=cl>  <span class=c1># config.vm.synced_folder &#34;../data&#34;, &#34;/vagrant_data&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># Provider-specific configuration so you can fine-tune various</span>
+</span></span><span class=line><span class=cl>  <span class=c1># backing providers for Vagrant. These expose provider-specific options.</span>
+</span></span><span class=line><span class=cl>  <span class=c1># Example for VirtualBox:</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#</span>
+</span></span><span class=line><span class=cl>  <span class=c1># config.vm.provider &#34;virtualbox&#34; do |vb|</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#   # Display the VirtualBox GUI when booting the machine</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#   vb.gui = true</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#   # Customize the amount of memory on the VM:</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#   vb.memory = &#34;1024&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=c1># end</span>
+</span></span><span class=line><span class=cl>  <span class=c1>#</span>
+</span></span><span class=line><span class=cl>  <span class=c1># View the documentation for the provider you are using for more</span>
+</span></span><span class=line><span class=cl>  <span class=c1># information on available options.</span>
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>  <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>provider</span> <span class=s2>&#34;virtualbox&#34;</span> <span class=k>do</span> <span class=o>|</span><span class=n>v</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>    <span class=n>v</span><span class=o>.</span><span class=n>name</span> <span class=o>=</span> <span class=s2>&#34;ubuntu-for-fun&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>v</span><span class=o>.</span><span class=n>customize</span> <span class=p>[</span><span class=s2>&#34;modifyvm&#34;</span><span class=p>,</span> <span class=p>:</span><span class=n>id</span><span class=p>,</span> <span class=s2>&#34;--memory&#34;</span><span class=p>,</span> <span class=s2>&#34;2048&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>    <span class=n>v</span><span class=o>.</span><span class=n>customize</span> <span class=p>[</span><span class=s2>&#34;modifyvm&#34;</span><span class=p>,</span> <span class=p>:</span><span class=n>id</span><span class=p>,</span> <span class=s2>&#34;--cpus&#34;</span><span class=p>,</span> <span class=s2>&#34;2&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>  <span class=n>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>  <span class=c1># Create a forwarded port mapping which allows access to a specific port</span>
+</span></span><span class=line><span class=cl>  <span class=c1># within the machine from a port on the host machine. In the example below,</span>
+</span></span><span class=line><span class=cl>  <span class=c1># accessing &#34;localhost:8080&#34; will access port 80 on the guest machine.</span>
+</span></span><span class=line><span class=cl>  <span class=c1># config.vm.network &#34;forwarded_port&#34;, guest: 80, host: 8080</span>
+</span></span><span class=line><span class=cl><span class=n>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>更多虚拟机的配置可以查看<a href=https://www.vagrantup.com/docs/vagrantfile/machine_settings.html target=_blank rel="noopener noreffer">官方文档</a><br>在Vagrantfile对应的目录下终端键入：<code>vagrant up</code>，然后<code>Vagrant</code>会帮我们下载<code>ubuntu/xenial64</code>这个box，不过在中国下载速度非常慢，在运行<code>vagrant up</code>时我们可以看到这个box的下载url，你可以用<strong>迅雷</strong>这些工具直接下载，然后在本地手动添加box</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=o>$</span> <span class=n>vagrant</span> <span class=n>up</span>
+</span></span><span class=line><span class=cl><span class=n>Bringing</span> <span class=n>machine</span> <span class=s1>&#39;default&#39;</span> <span class=n>up</span> <span class=n>with</span> <span class=s1>&#39;virtualbox&#39;</span> <span class=n>provider</span><span class=o>...</span>
+</span></span><span class=line><span class=cl><span class=o>==&gt;</span> <span class=n>default</span><span class=p>:</span> <span class=n>Box</span> <span class=s1>&#39;ubuntu/xenial64&#39;</span> <span class=n>could</span> <span class=ow>not</span> <span class=n>be</span> <span class=n>found</span><span class=o>.</span> <span class=n>Attempting</span> <span class=n>to</span> <span class=n>find</span> <span class=ow>and</span> <span class=n>install</span><span class=o>...</span>
+</span></span><span class=line><span class=cl>    <span class=n>default</span><span class=p>:</span> <span class=n>Box</span> <span class=n>Provider</span><span class=p>:</span> <span class=n>virtualbox</span>
+</span></span><span class=line><span class=cl>    <span class=n>default</span><span class=p>:</span> <span class=n>Box</span> <span class=n>Version</span><span class=p>:</span> <span class=o>&gt;=</span> <span class=mi>0</span>
+</span></span><span class=line><span class=cl><span class=o>==&gt;</span> <span class=n>default</span><span class=p>:</span> <span class=n>Loading</span> <span class=n>metadata</span> <span class=k>for</span> <span class=n>box</span> <span class=s1>&#39;ubuntu/xenial64&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>default</span><span class=p>:</span> <span class=n>URL</span><span class=p>:</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>vagrantcloud</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>ubuntu</span><span class=o>/</span><span class=n>xenial64</span>
+</span></span><span class=line><span class=cl><span class=o>==&gt;</span> <span class=n>default</span><span class=p>:</span> <span class=n>Adding</span> <span class=n>box</span> <span class=s1>&#39;ubuntu/xenial64&#39;</span> <span class=p>(</span><span class=n>v20191217</span><span class=o>.</span><span class=mf>0.0</span><span class=p>)</span> <span class=k>for</span> <span class=n>provider</span><span class=p>:</span> <span class=n>virtualbox</span>
+</span></span><span class=line><span class=cl>    <span class=n>default</span><span class=p>:</span> <span class=n>Downloading</span><span class=p>:</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>vagrantcloud</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>ubuntu</span><span class=o>/</span><span class=n>boxes</span><span class=o>/</span><span class=n>xenial64</span><span class=o>/</span><span class=n>versions</span><span class=o>/</span><span class=mf>20191217.0</span><span class=o>.</span><span class=mi>0</span><span class=o>/</span><span class=n>providers</span><span class=o>/</span><span class=n>virtualbox</span><span class=o>.</span><span class=n>box</span>
+</span></span><span class=line><span class=cl><span class=o>==&gt;</span> <span class=n>default</span><span class=p>:</span> <span class=n>Box</span> <span class=n>download</span> <span class=n>is</span> <span class=n>resuming</span> <span class=n>from</span> <span class=n>prior</span> <span class=n>download</span> <span class=n>progress</span>
+</span></span><span class=line><span class=cl>    <span class=n>default</span><span class=p>:</span> <span class=n>Download</span> <span class=n>redirected</span> <span class=n>to</span> <span class=n>host</span><span class=p>:</span> <span class=n>cloud</span><span class=o>-</span><span class=n>images</span><span class=o>.</span><span class=n>ubuntu</span><span class=o>.</span><span class=n>com</span>
+</span></span><span class=line><span class=cl>    <span class=o>.........</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>$</span> <span class=n>cd</span> <span class=o>~/</span><span class=n>box</span><span class=o>-</span><span class=n>add</span>
+</span></span><span class=line><span class=cl><span class=o>$</span> <span class=n>ls</span>
+</span></span><span class=line><span class=cl><span class=n>metadata</span><span class=o>.</span><span class=n>json</span>  <span class=n>virtualbox</span><span class=o>.</span><span class=n>box</span>
+</span></span><span class=line><span class=cl><span class=o>$</span> <span class=n>vagrant</span> <span class=n>box</span> <span class=n>add</span> <span class=n>metadata</span><span class=o>.</span><span class=n>json</span>
+</span></span><span class=line><span class=cl><span class=o>==&gt;</span> <span class=n>box</span><span class=p>:</span> <span class=n>Loading</span> <span class=n>metadata</span> <span class=k>for</span> <span class=n>box</span> <span class=s1>&#39;metadata.json&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>box</span><span class=p>:</span> <span class=n>URL</span><span class=p>:</span> <span class=n>file</span><span class=p>:</span><span class=o>///</span><span class=n>home</span><span class=o>/</span><span class=n>lucy</span><span class=o>/</span><span class=n>vm</span><span class=o>-</span><span class=n>add</span><span class=o>/</span><span class=n>metadata</span><span class=o>.</span><span class=n>json</span>
+</span></span><span class=line><span class=cl><span class=o>==&gt;</span> <span class=n>box</span><span class=p>:</span> <span class=n>Adding</span> <span class=n>box</span> <span class=s1>&#39;ubuntu/xenial64&#39;</span> <span class=p>(</span><span class=n>v20191217</span><span class=o>.</span><span class=mf>0.0</span><span class=p>)</span> <span class=k>for</span> <span class=n>provider</span><span class=p>:</span> <span class=n>virtualbox</span>
+</span></span><span class=line><span class=cl>    <span class=n>box</span><span class=p>:</span> <span class=n>Downloading</span><span class=p>:</span> <span class=o>./</span><span class=n>virtualbox</span><span class=o>.</span><span class=n>box</span>
+</span></span><span class=line><span class=cl><span class=o>==&gt;</span> <span class=n>box</span><span class=p>:</span> <span class=n>Successfully</span> <span class=n>added</span> <span class=n>box</span> <span class=s1>&#39;ubuntu/xenial64&#39;</span> <span class=p>(</span><span class=n>v20191217</span><span class=o>.</span><span class=mf>0.0</span><span class=p>)</span> <span class=k>for</span> <span class=s1>&#39;virtualbox&#39;</span><span class=o>!</span>
+</span></span><span class=line><span class=cl><span class=o>$</span> <span class=n>vagrant</span> <span class=n>box</span> <span class=n>list</span>
+</span></span><span class=line><span class=cl><span class=n>ubuntu</span><span class=o>/</span><span class=n>xenial64</span> <span class=p>(</span><span class=n>virtualbox</span><span class=p>,</span> <span class=mf>20191217.0</span><span class=o>.</span><span class=mi>0</span><span class=p>)</span>
+</span></span></code></pre></td></tr></table></div></div><p>下载box的URL是<code>https://vagrantcloud.com/ubuntu/boxes/xenial64/versions/20191217.0.0/providers/virtualbox.box</code>，可以看到下载的版本是<strong>20191217.0.0</strong>，另外注意一下这里添加box的是使用一个<code>metadata.json</code>文件，使用这样的方式可以定义box版本号，它的内容是：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>{
+</span></span><span class=line><span class=cl>    &#34;name&#34;: &#34;ubuntu/xenial64&#34;,
+</span></span><span class=line><span class=cl>    &#34;versions&#34;: [{
+</span></span><span class=line><span class=cl>        &#34;version&#34;: &#34;20191217.0.0&#34;,
+</span></span><span class=line><span class=cl>        &#34;providers&#34;: [{
+</span></span><span class=line><span class=cl>            &#34;name&#34;: &#34;virtualbox&#34;,
+</span></span><span class=line><span class=cl>            &#34;url&#34;: &#34;./virtualbox.box&#34;
+</span></span><span class=line><span class=cl>        }]
+</span></span><span class=line><span class=cl>    }]
+</span></span><span class=line><span class=cl>}
+</span></span></code></pre></td></tr></table></div></div><p>启动虚拟机你可能会遇到下面的错误：</p><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/virtualbox-error.png data-srcset="/images/virtualbox-error.png, /images/virtualbox-error.png 1.5x, /images/virtualbox-error.png 2x" data-sizes=auto alt=/images/virtualbox-error.png title="upload successful"></p><p>解决方法是在<strong>BIOS</strong>中将<strong>Intel Virtualization Technology</strong>改为Enable。<br>启动虚拟机后，你可以通过<code>vagrant ssh</code>进入虚拟机。</p><h2 id=启动kubernetes集群>启动Kubernetes集群</h2><p>这里我编写了一个<code>Vagrantfile</code>，一键启动集群：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span><span class=lnt>134
+</span><span class=lnt>135
+</span><span class=lnt>136
+</span><span class=lnt>137
+</span><span class=lnt>138
+</span><span class=lnt>139
+</span><span class=lnt>140
+</span><span class=lnt>141
+</span><span class=lnt>142
+</span><span class=lnt>143
+</span><span class=lnt>144
+</span><span class=lnt>145
+</span><span class=lnt>146
+</span><span class=lnt>147
+</span><span class=lnt>148
+</span><span class=lnt>149
+</span><span class=lnt>150
+</span><span class=lnt>151
+</span><span class=lnt>152
+</span><span class=lnt>153
+</span><span class=lnt>154
+</span><span class=lnt>155
+</span><span class=lnt>156
+</span><span class=lnt>157
+</span><span class=lnt>158
+</span><span class=lnt>159
+</span><span class=lnt>160
+</span><span class=lnt>161
+</span><span class=lnt>162
+</span><span class=lnt>163
+</span><span class=lnt>164
+</span><span class=lnt>165
+</span><span class=lnt>166
+</span><span class=lnt>167
+</span><span class=lnt>168
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=c1># -*- mode: ruby -*-</span>
+</span></span><span class=line><span class=cl><span class=c1># vi: set ft=ruby :</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>k8sVersion</span> <span class=o>=</span> <span class=s1>&#39;1.16.3&#39;</span>
+</span></span><span class=line><span class=cl><span class=n>servers</span> <span class=o>=</span> <span class=p>[</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>name</span> <span class=o>=&gt;</span> <span class=s2>&#34;k8s-head&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>type</span> <span class=o>=&gt;</span> <span class=s2>&#34;master&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>box</span> <span class=o>=&gt;</span> <span class=s2>&#34;ubuntu/xenial64&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>box_version</span> <span class=o>=&gt;</span> <span class=s2>&#34;20191217.0.0&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>eth1</span> <span class=o>=&gt;</span> <span class=s2>&#34;192.168.205.10&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>mem</span> <span class=o>=&gt;</span> <span class=s2>&#34;2048&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>cpu</span> <span class=o>=&gt;</span> <span class=s2>&#34;2&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>name</span> <span class=o>=&gt;</span> <span class=s2>&#34;k8s-node-1&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>type</span> <span class=o>=&gt;</span> <span class=s2>&#34;node&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>box</span> <span class=o>=&gt;</span> <span class=s2>&#34;ubuntu/xenial64&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>box_version</span> <span class=o>=&gt;</span> <span class=s2>&#34;20191217.0.0&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>eth1</span> <span class=o>=&gt;</span> <span class=s2>&#34;192.168.205.11&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>mem</span> <span class=o>=&gt;</span> <span class=s2>&#34;2048&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>cpu</span> <span class=o>=&gt;</span> <span class=s2>&#34;2&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>},</span>
+</span></span><span class=line><span class=cl>    <span class=p>{</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>name</span> <span class=o>=&gt;</span> <span class=s2>&#34;k8s-node-2&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>type</span> <span class=o>=&gt;</span> <span class=s2>&#34;node&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>box</span> <span class=o>=&gt;</span> <span class=s2>&#34;ubuntu/xenial64&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>box_version</span> <span class=o>=&gt;</span> <span class=s2>&#34;20191217.0.0&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>eth1</span> <span class=o>=&gt;</span> <span class=s2>&#34;192.168.205.12&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>mem</span> <span class=o>=&gt;</span> <span class=s2>&#34;2048&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>        <span class=p>:</span><span class=n>cpu</span> <span class=o>=&gt;</span> <span class=s2>&#34;2&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># This script to install k8s using kubeadm will get executed after a box is provisioned</span>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=n>configureBox</span> <span class=o>=</span> <span class=o>&lt;&lt;-</span><span class=n>SCRIPT</span>
+</span></span><span class=line><span class=cl>    <span class=n>cp</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span><span class=o>.</span><span class=n>bak</span>
+</span></span><span class=line><span class=cl>    <span class=c1># use Aliyun apt source</span>
+</span></span><span class=line><span class=cl>    <span class=n>cat</span> <span class=o>&gt;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span><span class=o>&lt;&lt;</span><span class=n>EOF</span>
+</span></span><span class=line><span class=cl><span class=c1># 默认注释了源码镜像以提高 apt update 速度，如有需要可自行取消注释</span>
+</span></span><span class=line><span class=cl><span class=n>deb</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>mirrors</span><span class=o>.</span><span class=n>tuna</span><span class=o>.</span><span class=n>tsinghua</span><span class=o>.</span><span class=n>edu</span><span class=o>.</span><span class=n>cn</span><span class=o>/</span><span class=n>ubuntu</span><span class=o>/</span> <span class=n>xenial</span> <span class=n>main</span> <span class=n>restricted</span> <span class=n>universe</span> <span class=n>multiverse</span>
+</span></span><span class=line><span class=cl><span class=c1># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial main restricted universe multiverse</span>
+</span></span><span class=line><span class=cl><span class=n>deb</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>mirrors</span><span class=o>.</span><span class=n>tuna</span><span class=o>.</span><span class=n>tsinghua</span><span class=o>.</span><span class=n>edu</span><span class=o>.</span><span class=n>cn</span><span class=o>/</span><span class=n>ubuntu</span><span class=o>/</span> <span class=n>xenial</span><span class=o>-</span><span class=n>updates</span> <span class=n>main</span> <span class=n>restricted</span> <span class=n>universe</span> <span class=n>multiverse</span>
+</span></span><span class=line><span class=cl><span class=c1># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-updates main restricted universe multiverse</span>
+</span></span><span class=line><span class=cl><span class=n>deb</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>mirrors</span><span class=o>.</span><span class=n>tuna</span><span class=o>.</span><span class=n>tsinghua</span><span class=o>.</span><span class=n>edu</span><span class=o>.</span><span class=n>cn</span><span class=o>/</span><span class=n>ubuntu</span><span class=o>/</span> <span class=n>xenial</span><span class=o>-</span><span class=n>backports</span> <span class=n>main</span> <span class=n>restricted</span> <span class=n>universe</span> <span class=n>multiverse</span>
+</span></span><span class=line><span class=cl><span class=c1># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-backports main restricted universe multiverse</span>
+</span></span><span class=line><span class=cl><span class=n>deb</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>mirrors</span><span class=o>.</span><span class=n>tuna</span><span class=o>.</span><span class=n>tsinghua</span><span class=o>.</span><span class=n>edu</span><span class=o>.</span><span class=n>cn</span><span class=o>/</span><span class=n>ubuntu</span><span class=o>/</span> <span class=n>xenial</span><span class=o>-</span><span class=n>security</span> <span class=n>main</span> <span class=n>restricted</span> <span class=n>universe</span> <span class=n>multiverse</span>
+</span></span><span class=line><span class=cl><span class=c1># deb-src https://mirrors.tuna.tsinghua.edu.cn/ubuntu/ xenial-security main restricted universe multiverse</span>
+</span></span><span class=line><span class=cl><span class=n>EOF</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=k>export</span> <span class=n>DEBIAN_FRONTEND</span><span class=o>=</span><span class=n>noninteractive</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># install docker v17.03</span>
+</span></span><span class=line><span class=cl>    <span class=c1># reason for not using docker provision is that it always installs latest version of the docker, but kubeadm requires 17.03 or older</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>update</span>
+</span></span><span class=line><span class=cl>    <span class=c1># step 1: 安装必要的一些系统工具</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>install</span> <span class=o>-</span><span class=n>y</span> <span class=n>apt</span><span class=o>-</span><span class=n>transport</span><span class=o>-</span><span class=n>https</span> <span class=n>ca</span><span class=o>-</span><span class=n>certificates</span> <span class=n>curl</span> <span class=n>software</span><span class=o>-</span><span class=n>properties</span><span class=o>-</span><span class=n>common</span>
+</span></span><span class=line><span class=cl>    <span class=c1># step 2: 安装GPG证书</span>
+</span></span><span class=line><span class=cl>    <span class=n>curl</span> <span class=o>-</span><span class=n>fsSL</span> <span class=n>http</span><span class=p>:</span><span class=o>//</span><span class=n>mirrors</span><span class=o>.</span><span class=n>aliyun</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>docker</span><span class=o>-</span><span class=n>ce</span><span class=o>/</span><span class=n>linux</span><span class=o>/</span><span class=n>ubuntu</span><span class=o>/</span><span class=n>gpg</span> <span class=o>|</span> <span class=n>sudo</span> <span class=n>apt</span><span class=o>-</span><span class=n>key</span> <span class=n>add</span> <span class=o>-</span>
+</span></span><span class=line><span class=cl>    <span class=n>add</span><span class=o>-</span><span class=n>apt</span><span class=o>-</span><span class=n>repository</span> <span class=s2>&#34;deb [arch=amd64] http://mirrors.aliyun.com/docker-ce/linux/$(. /etc/os-release; echo &#34;</span><span class=o>$</span><span class=n>ID</span><span class=s2>&#34;) $(lsb_release -cs) stable&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>update</span> <span class=o>&amp;&amp;</span> <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>install</span> <span class=o>-</span><span class=n>y</span> <span class=n>docker</span><span class=o>-</span><span class=n>ce</span><span class=o>=$</span><span class=p>(</span><span class=n>apt</span><span class=o>-</span><span class=n>cache</span> <span class=n>madison</span> <span class=n>docker</span><span class=o>-</span><span class=n>ce</span> <span class=o>|</span> <span class=n>grep</span> <span class=mf>17.03</span> <span class=o>|</span> <span class=n>head</span> <span class=o>-</span><span class=mi>1</span> <span class=o>|</span> <span class=n>awk</span> <span class=s1>&#39;{print $3}&#39;</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=c1># run docker commands as vagrant user (sudo not required)</span>
+</span></span><span class=line><span class=cl>    <span class=n>usermod</span> <span class=o>-</span><span class=n>aG</span> <span class=n>docker</span> <span class=n>vagrant</span>
+</span></span><span class=line><span class=cl>    <span class=c1># 修改docker配置</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>bash</span> <span class=o>-</span><span class=n>c</span> <span class=s1>&#39;cat &gt; /etc/docker/daemon.json &lt;&lt;EOF</span>
+</span></span><span class=line><span class=cl><span class=p>{</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;exec-opts&#34;</span><span class=p>:</span> <span class=p>[</span><span class=s2>&#34;native.cgroupdriver=systemd&#34;</span><span class=p>],</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;log-driver&#34;</span><span class=p>:</span> <span class=s2>&#34;json-file&#34;</span><span class=p>,</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;log-opts&#34;</span><span class=p>:</span> <span class=p>{</span>
+</span></span><span class=line><span class=cl>    <span class=s2>&#34;max-size&#34;</span><span class=p>:</span> <span class=s2>&#34;100m&#34;</span>
+</span></span><span class=line><span class=cl>  <span class=p>},</span>
+</span></span><span class=line><span class=cl>  <span class=s2>&#34;storage-driver&#34;</span><span class=p>:</span> <span class=s2>&#34;overlay2&#34;</span>
+</span></span><span class=line><span class=cl><span class=p>}</span>
+</span></span><span class=line><span class=cl><span class=n>EOF</span><span class=s1>&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>systemctl</span> <span class=n>daemon</span><span class=o>-</span><span class=n>reload</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>systemctl</span> <span class=n>restart</span> <span class=n>docker</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># install kubeadm</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>install</span> <span class=o>-</span><span class=n>y</span> <span class=n>apt</span><span class=o>-</span><span class=n>transport</span><span class=o>-</span><span class=n>https</span> <span class=n>curl</span>
+</span></span><span class=line><span class=cl>    <span class=n>curl</span> <span class=o>-</span><span class=n>s</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>mirrors</span><span class=o>.</span><span class=n>aliyun</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>doc</span><span class=o>/</span><span class=n>apt</span><span class=o>-</span><span class=n>key</span><span class=o>.</span><span class=n>gpg</span> <span class=o>|</span> <span class=n>sudo</span> <span class=n>apt</span><span class=o>-</span><span class=n>key</span> <span class=n>add</span> <span class=o>-</span>  <span class=c1># aliyun GPG</span>
+</span></span><span class=line><span class=cl>    <span class=n>cat</span> <span class=o>&lt;&lt;</span><span class=n>EOF</span> <span class=o>&gt;/</span><span class=n>etc</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span><span class=n>sources</span><span class=o>.</span><span class=n>list</span><span class=o>.</span><span class=n>d</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>.</span><span class=n>list</span>
+</span></span><span class=line><span class=cl>    <span class=n>deb</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>mirrors</span><span class=o>.</span><span class=n>aliyun</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>/</span><span class=n>apt</span><span class=o>/</span> <span class=n>kubernetes</span><span class=o>-</span><span class=n>xenial</span> <span class=n>main</span>
+</span></span><span class=line><span class=cl><span class=n>EOF</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>update</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>install</span> <span class=o>-</span><span class=n>y</span> <span class=n>kubelet</span><span class=o>=</span><span class=c1>#{k8sVersion}-00 kubeadm=#{k8sVersion}-00 kubectl=#{k8sVersion}-00</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>mark</span> <span class=n>hold</span> <span class=n>kubelet</span> <span class=n>kubeadm</span> <span class=n>kubectl</span>
+</span></span><span class=line><span class=cl>    <span class=c1># kubelet requires swap off</span>
+</span></span><span class=line><span class=cl>    <span class=n>swapoff</span> <span class=o>-</span><span class=n>a</span>
+</span></span><span class=line><span class=cl>    <span class=c1># keep swap off after reboot</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s1>&#39;/ swap / s/^\(.*\)$/#</span><span class=se>\1</span><span class=s1>/g&#39;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>fstab</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ip of this box</span>
+</span></span><span class=line><span class=cl>    <span class=n>IP_ADDR</span><span class=o>=</span><span class=err>`</span><span class=n>ifconfig</span> <span class=n>enp0s8</span> <span class=o>|</span> <span class=n>grep</span> <span class=n>Mask</span> <span class=o>|</span> <span class=n>awk</span> <span class=s1>&#39;{print $2}&#39;</span><span class=o>|</span> <span class=n>cut</span> <span class=o>-</span><span class=n>f2</span> <span class=o>-</span><span class=n>d</span><span class=p>:</span><span class=err>`</span>
+</span></span><span class=line><span class=cl>    <span class=c1># set node-ip</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>sh</span> <span class=o>-</span><span class=n>c</span> <span class=s1>&#39;echo KUBELET_EXTRA_ARGS= &gt;&gt; /etc/default/kubelet&#39;</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s2>&#34;/^[^#]*KUBELET_EXTRA_ARGS=/c\KUBELET_EXTRA_ARGS=--node-ip=$IP_ADDR&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>default</span><span class=o>/</span><span class=n>kubelet</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>systemctl</span> <span class=n>restart</span> <span class=n>kubelet</span>
+</span></span><span class=line><span class=cl><span class=n>SCRIPT</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=n>configureMaster</span> <span class=o>=</span> <span class=o>&lt;&lt;-</span><span class=n>SCRIPT</span>
+</span></span><span class=line><span class=cl>    <span class=k>export</span> <span class=n>DEBIAN_FRONTEND</span><span class=o>=</span><span class=n>noninteractive</span>
+</span></span><span class=line><span class=cl>    <span class=n>echo</span> <span class=s2>&#34;This is master&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=c1># ip of this box</span>
+</span></span><span class=line><span class=cl>    <span class=n>IP_ADDR</span><span class=o>=</span><span class=err>`</span><span class=n>ifconfig</span> <span class=n>enp0s8</span> <span class=o>|</span> <span class=n>grep</span> <span class=n>Mask</span> <span class=o>|</span> <span class=n>awk</span> <span class=s1>&#39;{print $2}&#39;</span><span class=o>|</span> <span class=n>cut</span> <span class=o>-</span><span class=n>f2</span> <span class=o>-</span><span class=n>d</span><span class=p>:</span><span class=err>`</span>
+</span></span><span class=line><span class=cl>    <span class=c1># install k8s master</span>
+</span></span><span class=line><span class=cl>    <span class=n>HOST_NAME</span><span class=o>=$</span><span class=p>(</span><span class=n>hostname</span> <span class=o>-</span><span class=n>s</span><span class=p>)</span>
+</span></span><span class=line><span class=cl>    <span class=n>kubeadm</span> <span class=n>init</span> <span class=o>--</span><span class=n>image</span><span class=o>-</span><span class=n>repository</span> <span class=n>registry</span><span class=o>.</span><span class=n>aliyuncs</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>google_containers</span>  <span class=o>--</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>version</span> <span class=n>v</span><span class=c1>#{k8sVersion} \</span>
+</span></span><span class=line><span class=cl>    <span class=o>--</span><span class=n>apiserver</span><span class=o>-</span><span class=n>advertise</span><span class=o>-</span><span class=n>address</span><span class=o>=$</span><span class=n>IP_ADDR</span> <span class=o>--</span><span class=n>apiserver</span><span class=o>-</span><span class=n>cert</span><span class=o>-</span><span class=n>extra</span><span class=o>-</span><span class=n>sans</span><span class=o>=$</span><span class=n>IP_ADDR</span>  <span class=o>--</span><span class=n>node</span><span class=o>-</span><span class=n>name</span> <span class=o>$</span><span class=n>HOST_NAME</span> <span class=o>--</span><span class=n>pod</span><span class=o>-</span><span class=n>network</span><span class=o>-</span><span class=n>cidr</span><span class=o>=</span><span class=mf>172.16</span><span class=o>.</span><span class=mf>0.0</span><span class=o>/</span><span class=mi>16</span>
+</span></span><span class=line><span class=cl>    <span class=c1>#copying credentials to regular user - vagrant</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=o>--</span><span class=n>user</span><span class=o>=</span><span class=n>vagrant</span> <span class=n>mkdir</span> <span class=o>-</span><span class=n>p</span> <span class=o>/</span><span class=n>home</span><span class=o>/</span><span class=n>vagrant</span><span class=o>/.</span><span class=n>kube</span>
+</span></span><span class=line><span class=cl>    <span class=n>cp</span> <span class=o>-</span><span class=n>i</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>/</span><span class=n>admin</span><span class=o>.</span><span class=n>conf</span> <span class=o>/</span><span class=n>home</span><span class=o>/</span><span class=n>vagrant</span><span class=o>/.</span><span class=n>kube</span><span class=o>/</span><span class=n>config</span>
+</span></span><span class=line><span class=cl>    <span class=n>chown</span> <span class=o>$</span><span class=p>(</span><span class=n>id</span> <span class=o>-</span><span class=n>u</span> <span class=n>vagrant</span><span class=p>):</span><span class=o>$</span><span class=p>(</span><span class=n>id</span> <span class=o>-</span><span class=n>g</span> <span class=n>vagrant</span><span class=p>)</span> <span class=o>/</span><span class=n>home</span><span class=o>/</span><span class=n>vagrant</span><span class=o>/.</span><span class=n>kube</span><span class=o>/</span><span class=n>config</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=c1># install Calico pod network addon</span>
+</span></span><span class=line><span class=cl>    <span class=k>export</span> <span class=n>KUBECONFIG</span><span class=o>=/</span><span class=n>etc</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>/</span><span class=n>admin</span><span class=o>.</span><span class=n>conf</span>
+</span></span><span class=line><span class=cl>    <span class=n>wget</span> <span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>docs</span><span class=o>.</span><span class=n>projectcalico</span><span class=o>.</span><span class=n>org</span><span class=o>/</span><span class=n>v3</span><span class=o>.</span><span class=mi>10</span><span class=o>/</span><span class=n>getting</span><span class=o>-</span><span class=n>started</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>/</span><span class=n>installation</span><span class=o>/</span><span class=n>hosted</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>datastore</span><span class=o>/</span><span class=n>calico</span><span class=o>-</span><span class=n>networking</span><span class=o>/</span><span class=mf>1.7</span><span class=o>/</span><span class=n>calico</span><span class=o>.</span><span class=n>yaml</span>
+</span></span><span class=line><span class=cl>    <span class=c1># Pod的ip范围</span>
+</span></span><span class=line><span class=cl>    <span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s1>&#39;s/192.168.0.0/172.16.0.0/g&#39;</span> <span class=n>calico</span><span class=o>.</span><span class=n>yaml</span>
+</span></span><span class=line><span class=cl>    <span class=n>kubectl</span> <span class=n>apply</span> <span class=o>-</span><span class=n>f</span> <span class=n>calico</span><span class=o>.</span><span class=n>yaml</span>
+</span></span><span class=line><span class=cl>    <span class=n>kubeadm</span> <span class=n>token</span> <span class=n>create</span> <span class=o>--</span><span class=nb>print</span><span class=o>-</span><span class=n>join</span><span class=o>-</span><span class=n>command</span> <span class=o>&gt;&gt;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>kubeadm_join_cmd</span><span class=o>.</span><span class=n>sh</span>
+</span></span><span class=line><span class=cl>    <span class=n>chmod</span> <span class=o>+</span><span class=n>x</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>kubeadm_join_cmd</span><span class=o>.</span><span class=n>sh</span>
+</span></span><span class=line><span class=cl>    <span class=c1># required for setting up password less ssh between guest VMs</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>sed</span> <span class=o>-</span><span class=n>i</span> <span class=s2>&#34;/^[^#]*PasswordAuthentication[[:space:]]no/c\PasswordAuthentication yes&#34;</span> <span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>ssh</span><span class=o>/</span><span class=n>sshd_config</span>
+</span></span><span class=line><span class=cl>    <span class=n>sudo</span> <span class=n>service</span> <span class=n>sshd</span> <span class=n>restart</span>
+</span></span><span class=line><span class=cl><span class=n>SCRIPT</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=o>$</span><span class=n>configureNode</span> <span class=o>=</span> <span class=o>&lt;&lt;-</span><span class=n>SCRIPT</span>
+</span></span><span class=line><span class=cl>    <span class=k>export</span> <span class=n>DEBIAN_FRONTEND</span><span class=o>=</span><span class=n>noninteractive</span>
+</span></span><span class=line><span class=cl>    <span class=n>echo</span> <span class=s2>&#34;This is worker&#34;</span>
+</span></span><span class=line><span class=cl>    <span class=n>apt</span><span class=o>-</span><span class=n>get</span> <span class=n>install</span> <span class=o>-</span><span class=n>y</span> <span class=n>sshpass</span>
+</span></span><span class=line><span class=cl>    <span class=n>sshpass</span> <span class=o>-</span><span class=n>p</span> <span class=s2>&#34;vagrant&#34;</span> <span class=n>scp</span> <span class=o>-</span><span class=n>o</span> <span class=n>StrictHostKeyChecking</span><span class=o>=</span><span class=n>no</span> <span class=n>vagrant</span><span class=err>@</span><span class=mf>192.168</span><span class=o>.</span><span class=mf>205.10</span><span class=p>:</span><span class=o>/</span><span class=n>etc</span><span class=o>/</span><span class=n>kubeadm_join_cmd</span><span class=o>.</span><span class=n>sh</span> <span class=o>.</span>
+</span></span><span class=line><span class=cl>    <span class=n>sh</span> <span class=o>./</span><span class=n>kubeadm_join_cmd</span><span class=o>.</span><span class=n>sh</span>
+</span></span><span class=line><span class=cl><span class=n>SCRIPT</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>Vagrant</span><span class=o>.</span><span class=n>configure</span><span class=p>(</span><span class=s2>&#34;2&#34;</span><span class=p>)</span> <span class=k>do</span> <span class=o>|</span><span class=n>config</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    <span class=n>servers</span><span class=o>.</span><span class=n>each</span> <span class=k>do</span> <span class=o>|</span><span class=n>opts</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>        <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>define</span> <span class=n>opts</span><span class=p>[:</span><span class=n>name</span><span class=p>]</span> <span class=k>do</span> <span class=o>|</span><span class=n>config</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>box</span> <span class=o>=</span> <span class=n>opts</span><span class=p>[:</span><span class=n>box</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>box_version</span> <span class=o>=</span> <span class=n>opts</span><span class=p>[:</span><span class=n>box_version</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>hostname</span> <span class=o>=</span> <span class=n>opts</span><span class=p>[:</span><span class=n>name</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>network</span> <span class=p>:</span><span class=n>private_network</span><span class=p>,</span> <span class=n>ip</span><span class=p>:</span> <span class=n>opts</span><span class=p>[:</span><span class=n>eth1</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>provider</span> <span class=s2>&#34;virtualbox&#34;</span> <span class=k>do</span> <span class=o>|</span><span class=n>v</span><span class=o>|</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>                <span class=n>v</span><span class=o>.</span><span class=n>name</span> <span class=o>=</span> <span class=n>opts</span><span class=p>[:</span><span class=n>name</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            	<span class=n>v</span><span class=o>.</span><span class=n>customize</span> <span class=p>[</span><span class=s2>&#34;modifyvm&#34;</span><span class=p>,</span> <span class=p>:</span><span class=n>id</span><span class=p>,</span> <span class=s2>&#34;--groups&#34;</span><span class=p>,</span> <span class=s2>&#34;/Salamander Development&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>                <span class=n>v</span><span class=o>.</span><span class=n>customize</span> <span class=p>[</span><span class=s2>&#34;modifyvm&#34;</span><span class=p>,</span> <span class=p>:</span><span class=n>id</span><span class=p>,</span> <span class=s2>&#34;--memory&#34;</span><span class=p>,</span> <span class=n>opts</span><span class=p>[:</span><span class=n>mem</span><span class=p>]]</span>
+</span></span><span class=line><span class=cl>                <span class=n>v</span><span class=o>.</span><span class=n>customize</span> <span class=p>[</span><span class=s2>&#34;modifyvm&#34;</span><span class=p>,</span> <span class=p>:</span><span class=n>id</span><span class=p>,</span> <span class=s2>&#34;--cpus&#34;</span><span class=p>,</span> <span class=n>opts</span><span class=p>[:</span><span class=n>cpu</span><span class=p>]]</span>
+</span></span><span class=line><span class=cl>                <span class=n>v</span><span class=o>.</span><span class=n>customize</span> <span class=p>[</span><span class=s2>&#34;modifyvm&#34;</span><span class=p>,</span> <span class=p>:</span><span class=n>id</span><span class=p>,</span> <span class=s2>&#34;--natdnshostresolver1&#34;</span><span class=p>,</span> <span class=s2>&#34;on&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>                <span class=n>v</span><span class=o>.</span><span class=n>customize</span> <span class=p>[</span><span class=s2>&#34;modifyvm&#34;</span><span class=p>,</span> <span class=p>:</span><span class=n>id</span><span class=p>,</span> <span class=s2>&#34;--natdnsproxy1&#34;</span><span class=p>,</span> <span class=s2>&#34;on&#34;</span><span class=p>]</span>
+</span></span><span class=line><span class=cl>            <span class=n>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=c1># we cannot use this because we can&#39;t install the docker version we want - https://github.com/hashicorp/vagrant/issues/4871</span>
+</span></span><span class=line><span class=cl>            <span class=c1>#config.vm.provision &#34;docker&#34;</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>provision</span> <span class=s2>&#34;shell&#34;</span><span class=p>,</span> <span class=n>inline</span><span class=p>:</span> <span class=o>$</span><span class=n>configureBox</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>            <span class=k>if</span> <span class=n>opts</span><span class=p>[:</span><span class=n>type</span><span class=p>]</span> <span class=o>==</span> <span class=s2>&#34;master&#34;</span>
+</span></span><span class=line><span class=cl>                <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>provision</span> <span class=s2>&#34;shell&#34;</span><span class=p>,</span> <span class=n>inline</span><span class=p>:</span> <span class=o>$</span><span class=n>configureMaster</span>
+</span></span><span class=line><span class=cl>            <span class=k>else</span>
+</span></span><span class=line><span class=cl>                <span class=n>config</span><span class=o>.</span><span class=n>vm</span><span class=o>.</span><span class=n>provision</span> <span class=s2>&#34;shell&#34;</span><span class=p>,</span> <span class=n>inline</span><span class=p>:</span> <span class=o>$</span><span class=n>configureNode</span>
+</span></span><span class=line><span class=cl>            <span class=n>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>        <span class=n>end</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    <span class=n>end</span>
+</span></span><span class=line><span class=cl><span class=n>end</span>
+</span></span></code></pre></td></tr></table></div></div><p>启动集群<code>vagrant up</code>，这里需要耐心等待几分钟，因为要启动三个虚拟机、安装一些软件和设置环境。<br>启动集群后，进入<strong>Master节点</strong><code>vagrant ssh k8s-head</code>查看集群状态：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ kubectl get nodes
+</span></span><span class=line><span class=cl>NAME         STATUS   ROLES    AGE    VERSION
+</span></span><span class=line><span class=cl>k8s-head     Ready    master   5h7m   v1.15.7
+</span></span><span class=line><span class=cl>k8s-node-1   Ready    &lt;none&gt;   5h5m   v1.15.7
+</span></span><span class=line><span class=cl>k8s-node-2   Ready    &lt;none&gt;   5h2m   v1.15.7
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ kubectl get pods --all-namespaces
+</span></span><span class=line><span class=cl>NAMESPACE              NAME                                         READY   STATUS    RESTARTS   AGE
+</span></span><span class=line><span class=cl>kube-system            calico-node-j5kw8                            2/2     Running   4          5h7m
+</span></span><span class=line><span class=cl>kube-system            calico-node-kq89s                            2/2     Running   0          5h6m
+</span></span><span class=line><span class=cl>kube-system            calico-node-twvdl                            2/2     Running   0          5h2m
+</span></span><span class=line><span class=cl>kube-system            coredns-94d74667-jhjl8                       1/1     Running   2          5h7m
+</span></span><span class=line><span class=cl>kube-system            coredns-94d74667-qd9qv                       1/1     Running   2          5h7m
+</span></span><span class=line><span class=cl>kube-system            etcd-k8s-head                                1/1     Running   2          5h6m
+</span></span><span class=line><span class=cl>kube-system            kube-apiserver-k8s-head                      1/1     Running   2          5h6m
+</span></span><span class=line><span class=cl>kube-system            kube-controller-manager-k8s-head             1/1     Running   2          5h6m
+</span></span><span class=line><span class=cl>kube-system            kube-proxy-7d8wj                             1/1     Running   0          5h2m
+</span></span><span class=line><span class=cl>kube-system            kube-proxy-hn89g                             1/1     Running   0          5h6m
+</span></span><span class=line><span class=cl>kube-system            kube-proxy-t8qf9                             1/1     Running   2          5h7m
+</span></span><span class=line><span class=cl>kube-system            kube-scheduler-k8s-head                      1/1     Running   2          5h6m
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ kubectl cluster-info
+</span></span><span class=line><span class=cl>Kubernetes master is running at https://192.168.205.10:6443
+</span></span><span class=line><span class=cl>KubeDNS is running at https://192.168.205.10:6443/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ kubectl get componentstatuses
+</span></span><span class=line><span class=cl>NAME                 STATUS    MESSAGE             ERROR
+</span></span><span class=line><span class=cl>scheduler            Healthy   ok                  
+</span></span><span class=line><span class=cl>controller-manager   Healthy   ok                  
+</span></span><span class=line><span class=cl>etcd-0               Healthy   {&#34;health&#34;:&#34;true&#34;}
+</span></span></code></pre></td></tr></table></div></div><p>节点都是<strong>Ready</strong>和pods都是<strong>Running</strong>说明集群成功启动了，<code>kubectl cluster-info</code>可以查看集群信息，<code>kubectl get componentstatuses</code>可以查看各组件信息。</p><h2 id=安装官方dashboard>安装官方Dashboard</h2><p><a href=https://github.com/kubernetes/dashboard target=_blank rel="noopener noreffer">Dashboard</a>是Kubernetes的一个插件，代码单独放在Github的一个仓库里。<br>按照<a href=https://kubernetes.io/docs/tasks/access-application-cluster/web-ui-dashboard/ target=_blank rel="noopener noreffer">官方文档</a>，步骤也蛮简单的，首先执行命令：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ kubectl apply -f https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml
+</span></span></code></pre></td></tr></table></div></div><p>查看一下Dashboard的服务：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>$ kubectl  get pod,deploy,svc -n kubernetes-dashboard
+</span></span><span class=line><span class=cl>NAME                                             READY   STATUS    RESTARTS   AGE
+</span></span><span class=line><span class=cl>pod/dashboard-metrics-scraper-6c554969c6-jqhjx   1/1     Running   0          5h5m
+</span></span><span class=line><span class=cl>pod/kubernetes-dashboard-56c5f95c6b-jrj58        1/1     Running   5          5h5m
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                                              READY   UP-TO-DATE   AVAILABLE   AGE
+</span></span><span class=line><span class=cl>deployment.extensions/dashboard-metrics-scraper   1/1     1            1           5h5m
+</span></span><span class=line><span class=cl>deployment.extensions/kubernetes-dashboard        1/1     1            1           5h5m
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>NAME                                TYPE        CLUSTER-IP       EXTERNAL-IP   PORT(S)    AGE
+</span></span><span class=line><span class=cl>service/dashboard-metrics-scraper   ClusterIP   10.106.117.224   &lt;none&gt;        8000/TCP   5h5m
+</span></span><span class=line><span class=cl>service/kubernetes-dashboard        ClusterIP   10.98.23.78      &lt;none&gt;        443/TCP    5h5m
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 我们可以看到官方的dashboard帮我们启动了web-ui，并且帮我们启动了一个Metric服务
+</span></span><span class=line><span class=cl># 但是dashboard默认使用的https的443端口
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl># 测试下Dashboard是否正常
+</span></span><span class=line><span class=cl>$ curl https://10.98.23.78:443 -k -I
+</span></span><span class=line><span class=cl>HTTP/1.1 200 OK
+</span></span><span class=line><span class=cl>Accept-Ranges: bytes
+</span></span><span class=line><span class=cl>Cache-Control: no-store
+</span></span><span class=line><span class=cl>Content-Length: 1262
+</span></span><span class=line><span class=cl>Content-Type: text/html; charset=utf-8
+</span></span><span class=line><span class=cl>Last-Modified: Fri, 06 Dec 2019 15:14:02 GMT
+</span></span><span class=line><span class=cl>Date: Tue, 31 Dec 2019 06:35:55 GMT
+</span></span></code></pre></td></tr></table></div></div><h3 id=访问dashboard>访问Dashboard</h3><p>访问Dashboard有好几种方式</p><ul><li>将kubernetes-dashboard Service暴露 NodePort，使用 http://NodeIP:nodePort 地址访问 dashboard</li><li>使用Ingress之类的入口服务进行代理访问</li><li>通过 API server 访问 dashboard（https 6443端口和http 8080端口方式）</li><li>通过 kubectl proxy 访问 dashboard</li></ul><h4 id=kubectl-proxy>kubectl proxy</h4><p>首先这里我们通过<code>kubectl proxy</code>，在<strong>k8s-head</strong>节点执行：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ kubectl proxy --address=&#39;0.0.0.0&#39; --accept-hosts=&#39;^*$&#39;
+</span></span></code></pre></td></tr></table></div></div><p>在访问之前，我们需要先创建一个<strong>User</strong>（一个<strong>ServiceAccount</strong>，k8s内概念），创建dashboard-adminuser.yaml文件，写入</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>apiVersion: v1
+</span></span><span class=line><span class=cl>kind: ServiceAccount
+</span></span><span class=line><span class=cl>metadata:
+</span></span><span class=line><span class=cl>  name: admin-user
+</span></span><span class=line><span class=cl>  namespace: kubernetes-dashboard
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>---
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>apiVersion: rbac.authorization.k8s.io/v1
+</span></span><span class=line><span class=cl>kind: ClusterRoleBinding
+</span></span><span class=line><span class=cl>metadata:
+</span></span><span class=line><span class=cl>  name: admin-user
+</span></span><span class=line><span class=cl>roleRef:
+</span></span><span class=line><span class=cl>  apiGroup: rbac.authorization.k8s.io
+</span></span><span class=line><span class=cl>  kind: ClusterRole
+</span></span><span class=line><span class=cl>  name: cluster-admin
+</span></span><span class=line><span class=cl>subjects:
+</span></span><span class=line><span class=cl>- kind: ServiceAccount
+</span></span><span class=line><span class=cl>  name: admin-user
+</span></span><span class=line><span class=cl>  namespace: kubernetes-dashboard
+</span></span></code></pre></td></tr></table></div></div><p>执行<code>kubectl apply -f dashboard-adminuser.yaml</code>。<br>查看用户token（之后在浏览器中输入）</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ kubectl -n kubernetes-dashboard describe secret $(kubectl -n kubernetes-dashboard get secret | grep admin-user | awk &#39;{print $1}&#39;)
+</span></span><span class=line><span class=cl>Name:         admin-user-token-mxmtr
+</span></span><span class=line><span class=cl>Namespace:    kubernetes-dashboard
+</span></span><span class=line><span class=cl>Labels:       &lt;none&gt;
+</span></span><span class=line><span class=cl>Annotations:  kubernetes.io/service-account.name: admin-user
+</span></span><span class=line><span class=cl>              kubernetes.io/service-account.uid: 54ddc041-f3af-41fa-a824-6a3e29f0ffa3
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Type:  kubernetes.io/service-account-token
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>Data
+</span></span><span class=line><span class=cl>====
+</span></span><span class=line><span class=cl>ca.crt:     1025 bytes
+</span></span><span class=line><span class=cl>namespace:  20 bytes
+</span></span><span class=line><span class=cl>token:      eyJhbGciOiJSUzI1NiIsImtpZCI6IiJ9.eyJpc3MiOiJrdWJlcm5ldGVzL3NlcnZpY2VhY2NvdW50Iiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9uYW1lc3BhY2UiOiJrdWJlcm5ldGVzLWRhc2hib2FyZCIsImt1YmVybmV0ZXMuaW8vc2VydmljZWFjY291bnQvc2VjcmV0Lm5hbWUiOiJhZG1pbi11c2VyLXRva2VuLW14bXRyIiwia3ViZXJuZXRlcy5pby9zZXJ2aWNlYWNjb3VudC9zZXJ2aWNlLWFjY291bnQubmFtZSI6ImFkbWluLXVzZXIiLCJrdWJlcm5ldGVzLmlvL3NlcnZpY2VhY2NvdW50L3NlcnZpY2UtYWNjb3VudC51aWQiOiI1NGRkYzA0MS1mM2FmLTQxZmEtYTgyNC02YTNlMjlmMGZmYTMiLCJzdWIiOiJzeXN0ZW06c2VydmljZWFjY291bnQ6a3ViZXJuZXRlcy1kYXNoYm9hcmQ6YWRtaW4tdXNlciJ9.osyqbUwS4pLDEhZ0iL0aAu2f5me82bGTEfXEW8ycS5-JRar4iYcWkqhJZ9FhZV47P0WKLT9UWiLcDw1rVPZbMSHrRnFZcRHmLO35tVBaijjvgsgm2X5856G-HS1VNMgQBSZXiQXr1Lt3Dj9JHHksbiLGg-3wRy7HqD-I8JcR1pHZ_ViOqQ1j6WIbvhfEE3FpTuuSPAcjwVNutXAfur6oJktjYAcwMjWTQ4-yMQ2NRSWM7AcJtjp_7p3WwnHmO6fH6LtrGQzmXwHh5ICmei2LrAE2cxwN251aMVnrPGt00Ff4ij2-yLyI4VZOgAsNuPegctm-GuCOTGNX9Ew-o1si_Q
+</span></span></code></pre></td></tr></table></div></div><p>为了在宿主机上能访问，我们需要用VirutalBox管理界面添加一个端口映射：</p><p><img class=lazyload src=/svg/loading.min.svg data-src=https://s2.ax1x.com/2019/12/31/l1FsQP.png data-srcset="https://s2.ax1x.com/2019/12/31/l1FsQP.png, https://s2.ax1x.com/2019/12/31/l1FsQP.png 1.5x, https://s2.ax1x.com/2019/12/31/l1FsQP.png 2x" data-sizes=auto alt=https://s2.ax1x.com/2019/12/31/l1FsQP.png title="upload successful"></p><p>好了，现在我们可以访问Dashboard了，浏览内输入<code>http://localhost:31694/api/v1/namespaces/kubernetes-dashboard/services/https:kubernetes-dashboard:/proxy/.</code>，可以看到
+<img class=lazyload src=/svg/loading.min.svg data-src=/images/k8s-dashboard.png data-srcset="/images/k8s-dashboard.png, /images/k8s-dashboard.png 1.5x, /images/k8s-dashboard.png 2x" data-sizes=auto alt=/images/k8s-dashboard.png title=/images/k8s-dashboard.png></p><h4 id=nodeport>NodePort</h4><p>这个过程比<code>kubectl proxy</code>简单，再安装Dashboard之前，把<code>Service</code>类型改成<code>NodePort</code>即可：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>$ wget https://raw.githubusercontent.com/kubernetes/dashboard/v2.0.0-beta8/aio/deploy/recommended.yaml  #下载yaml
+</span></span><span class=line><span class=cl>$ vim recommended.yaml
+</span></span></code></pre></td></tr></table></div></div><p>找到Service部分，改成NodePort</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-gdscript3 data-lang=gdscript3><span class=line><span class=cl><span class=n>kind</span><span class=p>:</span> <span class=n>Service</span>
+</span></span><span class=line><span class=cl><span class=n>apiVersion</span><span class=p>:</span> <span class=n>v1</span>
+</span></span><span class=line><span class=cl><span class=n>metadata</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>  <span class=n>labels</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>k8s</span><span class=o>-</span><span class=n>app</span><span class=p>:</span> <span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>
+</span></span><span class=line><span class=cl>  <span class=n>name</span><span class=p>:</span> <span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>
+</span></span><span class=line><span class=cl>  <span class=n>namespace</span><span class=p>:</span> <span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>
+</span></span><span class=line><span class=cl><span class=n>spec</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>  <span class=n>type</span><span class=p>:</span> <span class=n>NodePort</span>  <span class=c1># 这个是新增部分</span>
+</span></span><span class=line><span class=cl>  <span class=n>ports</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=o>-</span> <span class=n>port</span><span class=p>:</span> <span class=mi>443</span>
+</span></span><span class=line><span class=cl>      <span class=n>targetPort</span><span class=p>:</span> <span class=mi>8443</span>
+</span></span><span class=line><span class=cl>  <span class=n>selector</span><span class=p>:</span>
+</span></span><span class=line><span class=cl>    <span class=n>k8s</span><span class=o>-</span><span class=n>app</span><span class=p>:</span> <span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>
+</span></span><span class=line><span class=cl><span class=err>```</span>
+</span></span><span class=line><span class=cl><span class=err>查看，</span><span class=n>Service的随机端口</span><span class=err>：</span>
+</span></span><span class=line><span class=cl><span class=err>```</span>
+</span></span><span class=line><span class=cl><span class=o>$</span> <span class=n>kubectl</span> <span class=n>get</span> <span class=n>pods</span><span class=p>,</span><span class=n>svc</span> <span class=o>--</span><span class=n>all</span><span class=o>-</span><span class=n>namespaces</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>NAMESPACE</span>              <span class=n>NAME</span>                                             <span class=n>READY</span>   <span class=n>STATUS</span>    <span class=n>RESTARTS</span>   <span class=n>AGE</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>calico</span><span class=o>-</span><span class=n>node</span><span class=o>-</span><span class=n>ffn9k</span>                            <span class=mi>2</span><span class=o>/</span><span class=mi>2</span>     <span class=n>Running</span>   <span class=mi>10</span>         <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>calico</span><span class=o>-</span><span class=n>node</span><span class=o>-</span><span class=n>fz8v6</span>                            <span class=mi>2</span><span class=o>/</span><span class=mi>2</span>     <span class=n>Running</span>   <span class=mi>12</span>         <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>calico</span><span class=o>-</span><span class=n>node</span><span class=o>-</span><span class=n>gvjft</span>                            <span class=mi>2</span><span class=o>/</span><span class=mi>2</span>     <span class=n>Running</span>   <span class=mi>8</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>coredns</span><span class=o>-</span><span class=mi>94</span><span class=n>d74667</span><span class=o>-</span><span class=mi>8j</span><span class=n>p5k</span>                       <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>4</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>coredns</span><span class=o>-</span><span class=mi>94</span><span class=n>d74667</span><span class=o>-</span><span class=n>tlph7</span>                       <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>4</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>etcd</span><span class=o>-</span><span class=n>k8s</span><span class=o>-</span><span class=n>head</span>                                <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>4</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>kube</span><span class=o>-</span><span class=n>apiserver</span><span class=o>-</span><span class=n>k8s</span><span class=o>-</span><span class=n>head</span>                      <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>4</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>kube</span><span class=o>-</span><span class=n>controller</span><span class=o>-</span><span class=n>manager</span><span class=o>-</span><span class=n>k8s</span><span class=o>-</span><span class=n>head</span>             <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>4</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>kube</span><span class=o>-</span><span class=n>proxy</span><span class=o>-</span><span class=mi>4</span><span class=n>rsp4</span>                             <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>5</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>kube</span><span class=o>-</span><span class=n>proxy</span><span class=o>-</span><span class=n>dccdc</span>                             <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>5</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>kube</span><span class=o>-</span><span class=n>proxy</span><span class=o>-</span><span class=n>x82tl</span>                             <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>4</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>pod</span><span class=o>/</span><span class=n>kube</span><span class=o>-</span><span class=n>scheduler</span><span class=o>-</span><span class=n>k8s</span><span class=o>-</span><span class=n>head</span>                      <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>4</span>          <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>   <span class=n>pod</span><span class=o>/</span><span class=n>dashboard</span><span class=o>-</span><span class=n>metrics</span><span class=o>-</span><span class=n>scraper</span><span class=o>-</span><span class=mi>6</span><span class=n>c554969c6</span><span class=o>-</span><span class=n>wmwpt</span>   <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>0</span>          <span class=mi>18</span><span class=n>m</span>
+</span></span><span class=line><span class=cl><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>   <span class=n>pod</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span><span class=o>-</span><span class=mi>56</span><span class=n>c5f95c6b</span><span class=o>-</span><span class=n>s66g8</span>        <span class=mi>1</span><span class=o>/</span><span class=mi>1</span>     <span class=n>Running</span>   <span class=mi>0</span>          <span class=mi>18</span><span class=n>m</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=n>NAMESPACE</span>              <span class=n>NAME</span>                                <span class=n>TYPE</span>        <span class=n>CLUSTER</span><span class=o>-</span><span class=ne>IP</span>       <span class=n>EXTERNAL</span><span class=o>-</span><span class=ne>IP</span>   <span class=n>PORT</span><span class=p>(</span><span class=n>S</span><span class=p>)</span>                  <span class=n>AGE</span>
+</span></span><span class=line><span class=cl><span class=n>default</span>                <span class=n>service</span><span class=o>/</span><span class=n>kubernetes</span>                  <span class=n>ClusterIP</span>   <span class=mf>10.96</span><span class=o>.</span><span class=mf>0.1</span>        <span class=o>&lt;</span><span class=n>none</span><span class=o>&gt;</span>        <span class=mi>443</span><span class=o>/</span><span class=n>TCP</span>                  <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>service</span><span class=o>/</span><span class=n>calico</span><span class=o>-</span><span class=n>typha</span>                <span class=n>ClusterIP</span>   <span class=mf>10.104</span><span class=o>.</span><span class=mf>182.223</span>   <span class=o>&lt;</span><span class=n>none</span><span class=o>&gt;</span>        <span class=mi>5473</span><span class=o>/</span><span class=n>TCP</span>                 <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kube</span><span class=o>-</span><span class=n>system</span>            <span class=n>service</span><span class=o>/</span><span class=n>kube</span><span class=o>-</span><span class=n>dns</span>                    <span class=n>ClusterIP</span>   <span class=mf>10.96</span><span class=o>.</span><span class=mf>0.10</span>       <span class=o>&lt;</span><span class=n>none</span><span class=o>&gt;</span>        <span class=mi>53</span><span class=o>/</span><span class=n>UDP</span><span class=p>,</span><span class=mi>53</span><span class=o>/</span><span class=n>TCP</span><span class=p>,</span><span class=mi>9153</span><span class=o>/</span><span class=n>TCP</span>   <span class=mi>32</span><span class=n>d</span>
+</span></span><span class=line><span class=cl><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>   <span class=n>service</span><span class=o>/</span><span class=n>dashboard</span><span class=o>-</span><span class=n>metrics</span><span class=o>-</span><span class=n>scraper</span>   <span class=n>ClusterIP</span>   <span class=mf>10.99</span><span class=o>.</span><span class=mf>243.131</span>    <span class=o>&lt;</span><span class=n>none</span><span class=o>&gt;</span>        <span class=mi>8000</span><span class=o>/</span><span class=n>TCP</span>                 <span class=mi>18</span><span class=n>m</span>
+</span></span><span class=line><span class=cl><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>   <span class=n>service</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span>        <span class=n>NodePort</span>    <span class=mf>10.96</span><span class=o>.</span><span class=mf>23.239</span>     <span class=o>&lt;</span><span class=n>none</span><span class=o>&gt;</span>        <span class=mi>443</span><span class=p>:</span><span class=mi>30646</span><span class=o>/</span><span class=n>TCP</span>            <span class=mi>18</span><span class=n>m</span>
+</span></span><span class=line><span class=cl><span class=err>```</span>
+</span></span><span class=line><span class=cl><span class=err>可以看到暴露端口是</span><span class=o>**</span><span class=mi>30646</span><span class=o>**</span><span class=err>，访问</span><span class=n>Master节点上的30646端口</span><span class=err>`</span><span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=mf>192.168</span><span class=o>.</span><span class=mf>205.10</span><span class=p>:</span><span class=mi>30646</span><span class=err>`，需要填写的</span><span class=o>**</span><span class=n>token</span><span class=o>**</span><span class=err>和上面`</span><span class=n>kubectl</span> <span class=n>proxy</span><span class=err>`遇到的问题一样，先创建</span><span class=o>**</span><span class=n>ServiceAccount</span><span class=o>**</span><span class=err>和</span><span class=o>**</span><span class=n>ClusterRoleBinding</span><span class=o>**</span><span class=err>，然后查看这个账号的</span><span class=n>token</span><span class=err>。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>#### API Server</span>
+</span></span><span class=line><span class=cl><span class=err>首先，我们需要导出</span><span class=n>p12证书</span><span class=err>：</span>
+</span></span><span class=line><span class=cl><span class=err>```</span>
+</span></span><span class=line><span class=cl><span class=c1># 生成 client-certificate-data</span>
+</span></span><span class=line><span class=cl><span class=n>grep</span> <span class=s1>&#39;client-certificate-data&#39;</span> <span class=o>~/.</span><span class=n>kube</span><span class=o>/</span><span class=n>config</span> <span class=o>|</span> <span class=n>head</span> <span class=o>-</span><span class=n>n</span> <span class=mi>1</span> <span class=o>|</span> <span class=n>awk</span> <span class=s1>&#39;{print $2}&#39;</span> <span class=o>|</span> <span class=n>base64</span> <span class=o>-</span><span class=n>d</span> <span class=o>&gt;&gt;</span> <span class=n>kubecfg</span><span class=o>.</span><span class=n>crt</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 生成 client-key-data</span>
+</span></span><span class=line><span class=cl><span class=n>grep</span> <span class=s1>&#39;client-key-data&#39;</span> <span class=o>~/.</span><span class=n>kube</span><span class=o>/</span><span class=n>config</span> <span class=o>|</span> <span class=n>head</span> <span class=o>-</span><span class=n>n</span> <span class=mi>1</span> <span class=o>|</span> <span class=n>awk</span> <span class=s1>&#39;{print $2}&#39;</span> <span class=o>|</span> <span class=n>base64</span> <span class=o>-</span><span class=n>d</span> <span class=o>&gt;&gt;</span> <span class=n>kubecfg</span><span class=o>.</span><span class=n>key</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1># 生成 p12</span>
+</span></span><span class=line><span class=cl><span class=n>openssl</span> <span class=n>pkcs12</span> <span class=o>-</span><span class=k>export</span> <span class=o>-</span><span class=n>clcerts</span> <span class=o>-</span><span class=n>inkey</span> <span class=n>kubecfg</span><span class=o>.</span><span class=n>key</span> <span class=o>-</span><span class=ow>in</span> <span class=n>kubecfg</span><span class=o>.</span><span class=n>crt</span> <span class=o>-</span><span class=n>out</span> <span class=n>kubecfg</span><span class=o>.</span><span class=n>p12</span> <span class=o>-</span><span class=n>name</span> <span class=s2>&#34;kubernetes-client&#34;</span>
+</span></span><span class=line><span class=cl><span class=err>```</span>
+</span></span><span class=line><span class=cl><span class=err>然后，在在</span> <span class=n>chrome</span> <span class=err>导入了</span> <span class=n>p12</span> <span class=err>证书（点击“设置”，“管理证书”那里导入）。</span>  
+</span></span><span class=line><span class=cl><span class=err>访问链接：`</span><span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=mf>192.168</span><span class=o>.</span><span class=mf>205.10</span><span class=p>:</span><span class=mi>6443</span><span class=o>/</span><span class=n>api</span><span class=o>/</span><span class=n>v1</span><span class=o>/</span><span class=n>namespaces</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span><span class=o>/</span><span class=n>services</span><span class=o>/</span><span class=n>https</span><span class=p>:</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span><span class=p>:</span><span class=o>/</span><span class=n>proxy</span><span class=err>`，就可以看到</span><span class=o>**</span><span class=err>登录界面</span><span class=o>**</span><span class=err>了（注意：</span><span class=o>**</span><span class=err>新版的</span><span class=n>Dashboard</span><span class=err>，命名空间移动到了</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard中</span><span class=o>**</span><span class=err>）</span>  
+</span></span><span class=line><span class=cl><span class=o>!</span><span class=p>[](</span><span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>s2</span><span class=o>.</span><span class=n>ax1x</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=mi>2020</span><span class=o>/</span><span class=mi>01</span><span class=o>/</span><span class=mi>26</span><span class=o>/</span><span class=mi>1</span><span class=n>mG9UJ</span><span class=o>.</span><span class=n>png</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>**</span><span class=n>token</span><span class=o>**</span><span class=err>的填写跟上面`</span><span class=n>kubectl</span> <span class=n>proxy</span><span class=err>`一样，当然你也可以直接用</span><span class=n>master节点中</span><span class=err>`</span><span class=o>$</span><span class=n>HOME</span><span class=o>/.</span><span class=n>kube</span><span class=o>/</span><span class=n>config</span><span class=err>`文件来登录。</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>## kubernetes常用命令</span>
+</span></span><span class=line><span class=cl><span class=err>```</span>
+</span></span><span class=line><span class=cl><span class=c1>## 查看</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>cluster</span><span class=o>-</span><span class=n>info</span>    <span class=o>----</span><span class=err>查看集群信息</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>pods</span> <span class=o>--</span><span class=n>all</span><span class=o>-</span><span class=n>namespaces</span> <span class=o>------</span><span class=err>查看所有</span><span class=n>pod信息</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>cs</span>    <span class=o>----</span><span class=err>查看各组件（</span><span class=n>componentstatuses</span><span class=err>）信息，可以简写为</span><span class=n>rc</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>pods</span> <span class=o>-</span><span class=n>n</span> <span class=n>default</span>   <span class=o>----</span><span class=err>列出</span><span class=n>default命名空间所有的pods</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>pods</span> <span class=o>-</span><span class=n>o</span> <span class=n>wide</span>    <span class=o>----</span><span class=err>查看</span><span class=n>pods所在的运行节点</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>pods</span> <span class=o>-</span><span class=n>o</span> <span class=n>yaml</span>    <span class=o>----</span><span class=err>查看</span><span class=n>pods定义的详细信息</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>rc</span>    <span class=o>----</span><span class=err>查看</span><span class=n>Replication</span> <span class=n>Controller信息</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>service</span>    <span class=o>----</span><span class=err>查看</span><span class=n>service的信息</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>nodes</span>    <span class=o>----</span><span class=err>查看节点信息</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>pod</span> <span class=o>--</span><span class=n>selector</span> <span class=n>name</span><span class=o>=</span><span class=n>redis</span>    <span class=o>----</span><span class=err>按</span><span class=n>selector名来查找pod</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>exec</span> <span class=n>pod名字</span> <span class=n>env</span>    <span class=o>----</span><span class=err>查看运行的</span><span class=n>pod的环境变量</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span>  <span class=n>get</span> <span class=n>pod</span><span class=p>,</span><span class=n>deploy</span><span class=p>,</span><span class=n>svc</span> <span class=o>-</span><span class=n>n</span> <span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span> <span class=o>---</span><span class=err>一起查看</span><span class=n>pod</span><span class=err>，</span><span class=n>service</span><span class=err>，</span><span class=n>deployment信息</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>## 创建</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>create</span> <span class=o>-</span><span class=n>f</span> <span class=err>文件名</span>    <span class=o>----</span><span class=err>创建</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>replace</span> <span class=o>-</span><span class=n>f</span> <span class=err>文件名</span>  <span class=p>[</span><span class=o>--</span><span class=n>force</span><span class=p>]</span>    <span class=o>----</span><span class=err>重建</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=c1>## 删除</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>delete</span> <span class=o>-</span><span class=n>f</span> <span class=err>文件名</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>delete</span> <span class=n>pod</span> <span class=n>pod名</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>delete</span> <span class=n>rc</span> <span class=n>rc名</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>delete</span> <span class=n>service</span> <span class=n>service名</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>delete</span> <span class=n>pod</span> <span class=o>--</span><span class=n>all</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>run</span> <span class=n>mybusybox</span> <span class=o>--</span><span class=n>image</span><span class=o>=</span><span class=n>busybox</span>    <span class=o>----</span><span class=err>启动一个</span><span class=n>pod</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>run</span> <span class=n>mybusybox</span> <span class=o>--</span><span class=n>image</span><span class=o>=</span><span class=n>busybox</span> <span class=o>--</span><span class=n>replicas</span><span class=o>=</span><span class=mi>5</span>    <span class=o>----</span><span class=err>启动多个</span><span class=n>pod</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>delete</span> <span class=n>deployments</span> <span class=n>mybusybox</span>    <span class=o>----</span><span class=err>删除创建的</span><span class=n>pod</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>get</span> <span class=n>pods</span>    <span class=o>----</span><span class=err>列出当前所有的</span><span class=n>pod</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>describe</span> <span class=n>pod</span> <span class=p>[</span><span class=n>PODNAME</span><span class=p>]</span>    <span class=o>----</span><span class=err>查看</span><span class=n>pod的状态</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>run</span> <span class=n>mynginx</span> <span class=o>--</span><span class=n>image</span><span class=o>=</span><span class=n>nginx</span> <span class=o>--</span><span class=n>port</span><span class=o>=</span><span class=mi>80</span> <span class=o>--</span><span class=n>hostport</span><span class=o>=</span><span class=mi>8000</span>    <span class=o>----</span><span class=err>创建带有端口映射的</span><span class=n>pod</span>
+</span></span><span class=line><span class=cl><span class=n>kubectl</span> <span class=n>run</span> <span class=o>-</span><span class=n>i</span> <span class=o>--</span><span class=n>tty</span> <span class=n>busybox</span> <span class=o>--</span><span class=n>image</span><span class=o>=</span><span class=n>busybox</span>    <span class=o>----</span><span class=err>创建带有终端的</span><span class=n>pod</span>
+</span></span><span class=line><span class=cl><span class=err>```</span>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl><span class=err>参考</span>
+</span></span><span class=line><span class=cl><span class=o>*</span> <span class=p>[</span><span class=n>Github</span><span class=err>——</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>cluster</span><span class=o>-</span><span class=n>via</span><span class=o>-</span><span class=n>vagrant</span><span class=p>](</span><span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>github</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>ecomm</span><span class=o>-</span><span class=n>integration</span><span class=o>-</span><span class=n>ballerina</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>cluster</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>*</span> <span class=p>[</span><span class=n>Kubernetes</span> <span class=err>–</span> <span class=n>unable</span> <span class=n>to</span> <span class=n>login</span> <span class=n>to</span> <span class=n>the</span> <span class=n>Dashboard</span>
+</span></span><span class=line><span class=cl><span class=p>](</span><span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>www</span><span class=o>.</span><span class=n>australtech</span><span class=o>.</span><span class=n>net</span><span class=o>/</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>unable</span><span class=o>-</span><span class=n>to</span><span class=o>-</span><span class=n>login</span><span class=o>-</span><span class=n>to</span><span class=o>-</span><span class=n>the</span><span class=o>-</span><span class=n>dashboard</span><span class=o>/</span><span class=p>)</span>
+</span></span><span class=line><span class=cl><span class=o>*</span> <span class=p>[</span><span class=n>kubernetes</span><span class=o>-</span><span class=n>dashboard</span><span class=p>(</span><span class=mf>1.8</span><span class=o>.</span><span class=mi>3</span><span class=p>)</span><span class=err>部署与踩坑</span><span class=p>](</span><span class=n>https</span><span class=p>:</span><span class=o>//</span><span class=n>www</span><span class=o>.</span><span class=n>cnblogs</span><span class=o>.</span><span class=n>com</span><span class=o>/</span><span class=n>rainingnight</span><span class=o>/</span><span class=n>p</span><span class=o>/</span><span class=n>deploying</span><span class=o>-</span><span class=n>k8s</span><span class=o>-</span><span class=n>dashboard</span><span class=o>-</span><span class=n>ui</span><span class=o>.</span><span class=n>html</span><span class=c1>#api-server)</span>
+</span></span></code></pre></td></tr></table></div></div></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/vagrant_kubernetes_cluster/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/kubernetes/>Kubernetes</a>,&nbsp;<a href=/tags/vagrant/>Vagrant</a>,&nbsp;<a href=/tags/virtualbox/>Virtualbox</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/min_spanning_tree/ class=prev rel=prev title=最小生成树回顾><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>最小生成树回顾</a>
+<a href=/tun-tap/ class=next rel=next title=Linux网络虚拟化技术之tun/tap>Linux网络虚拟化技术之tun/tap<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>

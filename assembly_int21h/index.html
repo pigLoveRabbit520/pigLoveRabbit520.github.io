@@ -1,0 +1,425 @@
+<!doctype html><html lang=zh-CN><head><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=robots content="noodp"><title>DOS 系统功能调用（INT 21H） - pigLoveRabbit的网站</title><meta name=Description content="Javascript NodeJs C# software developer"><meta property="og:url" content="https://example.com/assembly_int21h/">
+<meta property="og:site_name" content="pigLoveRabbit的网站"><meta property="og:title" content="DOS 系统功能调用（INT 21H）"><meta property="og:description" content="INT表示interrupt（中断）， INT指令是X86汇编语言中最重要的指令之一，它的作用是引发中断，调用“中断例程”（interrupt"><meta property="og:locale" content="zh_CN"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2022-03-05T20:17:00+00:00"><meta property="article:modified_time" content="2023-11-08T12:34:22+08:00"><meta property="article:tag" content="Assembly"><meta property="og:image" content="https://example.com/logo.png"><meta name=twitter:card content="summary_large_image"><meta name=twitter:image content="https://example.com/logo.png"><meta name=twitter:title content="DOS 系统功能调用（INT 21H）"><meta name=twitter:description content="INT表示interrupt（中断）， INT指令是X86汇编语言中最重要的指令之一，它的作用是引发中断，调用“中断例程”（interrupt"><meta name=application-name content="pigLoveRabbit"><meta name=apple-mobile-web-app-title content="pigLoveRabbit"><meta name=theme-color content="#ffffff"><meta name=msapplication-TileColor content="#da532c"><link rel="shortcut icon" type=image/x-icon href=/favicon.ico><link rel=icon type=image/png sizes=32x32 href=/favicon-32x32.png><link rel=icon type=image/png sizes=16x16 href=/favicon-16x16.png><link rel=apple-touch-icon sizes=180x180 href=/apple-touch-icon.png><link rel=mask-icon href=/safari-pinned-tab.svg color=#5bbad5><link rel=manifest href=/site.webmanifest><link rel=canonical href=https://example.com/assembly_int21h/><link rel=prev href=https://example.com/core_dump_in_docker/><link rel=next href=https://example.com/win32_assembly/><link rel=stylesheet href=/css/style.min.css><link rel=preload href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.1.1/css/all.min.css></noscript><link rel=preload href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css as=style onload='this.onload=null,this.rel="stylesheet"'><noscript><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/animate.css@4.1.1/animate.min.css></noscript><script type=application/ld+json>{"@context":"http://schema.org","@type":"BlogPosting","headline":"DOS 系统功能调用（INT 21H）","inLanguage":"zh-CN","mainEntityOfPage":{"@type":"WebPage","@id":"https:\/\/example.com\/assembly_int21h\/"},"image":["https:\/\/example.com\/images\/Apple-Devices-Preview.png"],"genre":"posts","keywords":"Assembly","wordcount":1990,"url":"https:\/\/example.com\/assembly_int21h\/","datePublished":"2022-03-05T20:17:00+00:00","dateModified":"2023-11-08T12:34:22+08:00","license":"This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.","publisher":{"@type":"Organization","name":"xxxx","logo":"https:\/\/example.com\/images\/avatar.jpg"},"author":{"@type":"Person","name":"Salamander"},"description":""}</script></head><body data-header-desktop=fixed data-header-mobile=auto><script type=text/javascript>(window.localStorage&&localStorage.getItem("theme")?localStorage.getItem("theme")==="dark":"auto"==="auto"?window.matchMedia("(prefers-color-scheme: dark)").matches:"auto"==="dark")&&document.body.setAttribute("theme","dark")</script><div id=mask></div><div class=wrapper><header class=desktop id=header-desktop><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu><div class=menu-inner><a class=menu-item href=/posts/>所有文章 </a><a class=menu-item href=/tags/>标签 </a><a class=menu-item href=/categories/>分类 </a><a class=menu-item href=/categories/documentation/>文档 </a><a class=menu-item href=/about/>关于 </a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i> </a><span class="menu-item delimiter"></span><span class="menu-item search" id=search-desktop>
+<input type=text placeholder=搜索文章标题或内容... id=search-input-desktop>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-desktop title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-desktop title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-desktop><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i>
+</span></span><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题><i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="menu-item language" title=选择语言><i class="fa fa-globe" aria-hidden=true></i>
+<select class=language-select id=language-select-desktop onchange="location=this.value"><option value=/assembly_int21h/ selected>简体中文</option></select></a></div></div></div></header><header class=mobile id=header-mobile><div class=header-container><div class=header-wrapper><div class=header-title><a href=/ title=pigLoveRabbit的网站><span class=header-title-pre><i class='far fa-kiss-wink-heart fa-fw' aria-hidden=true></i></span>pigLoveRabbit</a></div><div class=menu-toggle id=menu-toggle-mobile><span></span><span></span><span></span></div></div><div class=menu id=menu-mobile><div class=search-wrapper><div class="search mobile" id=search-mobile><input type=text placeholder=搜索文章标题或内容... id=search-input-mobile>
+<a href=javascript:void(0); class="search-button search-toggle" id=search-toggle-mobile title=搜索><i class="fas fa-search fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class="search-button search-clear" id=search-clear-mobile title=清空><i class="fas fa-times-circle fa-fw" aria-hidden=true></i>
+</a><span class="search-button search-loading" id=search-loading-mobile><i class="fas fa-spinner fa-fw fa-spin" aria-hidden=true></i></span></div><a href=javascript:void(0); class=search-cancel id=search-cancel-mobile>取消</a></div><a class=menu-item href=/posts/ title>所有文章</a><a class=menu-item href=/tags/ title>标签</a><a class=menu-item href=/categories/ title>分类</a><a class=menu-item href=/categories/documentation/ title>文档</a><a class=menu-item href=/about/ title>关于</a><a class=menu-item href=https://github.com/pigLoveRabbit520 title=GitHub rel="noopener noreffer" target=_blank><i class='fab fa-github fa-fw' aria-hidden=true></i></a><a href=javascript:void(0); class="menu-item theme-switch" title=切换主题>
+<i class="fas fa-adjust fa-fw" aria-hidden=true></i>
+</a><a href=javascript:void(0); class=menu-item title=选择语言><i class="fa fa-globe fa-fw" aria-hidden=true></i>
+<select class=language-select onchange="location=this.value"><option value=/assembly_int21h/ selected>简体中文</option></select></a></div></div></header><div class="search-dropdown desktop"><div id=search-dropdown-desktop></div></div><div class="search-dropdown mobile"><div id=search-dropdown-mobile></div></div><main class=main><div class=container><div class=toc id=toc-auto><h2 class=toc-title>目录</h2><div class=toc-content id=toc-content-auto></div></div><article class="page single"><h1 class="single-title animate__animated animate__flipInX">DOS 系统功能调用（INT 21H）</h1><div class=post-meta><div class=post-meta-line><span class=post-author><a href=https://github.com/pigLoveRabbit520 title=Author target=_blank rel="noopener noreffer author" class=author><i class="fas fa-user-circle fa-fw" aria-hidden=true></i>Salamander</a></span></div><div class=post-meta-line><i class="far fa-calendar-alt fa-fw" aria-hidden=true></i>&nbsp;<time datetime=2022-03-05>2022-03-05</time>&nbsp;<i class="fas fa-pencil-alt fa-fw" aria-hidden=true></i>&nbsp;约 1990 字&nbsp;
+<i class="far fa-clock fa-fw" aria-hidden=true></i>&nbsp;预计阅读 4 分钟&nbsp;<span id=/assembly_int21h/ class=leancloud_visitors data-flag-title="DOS 系统功能调用（INT 21H）">
+<i class="far fa-eye fa-fw" aria-hidden=true></i>&nbsp;<span class=leancloud-visitors-count></span>&nbsp;次阅读
+</span>&nbsp;</div></div><div class="details toc" id=toc-static data-kept><div class="details-summary toc-title"><span>目录</span>
+<span><i class="details-icon fas fa-angle-right" aria-hidden=true></i></span></div><div class="details-content toc-content" id=toc-content-static><nav id=TableOfContents><ul><li><a href=#常见功能>常见功能</a></li><li><a href=#一些例子>一些例子</a><ul><li><ul><li><a href=#显示一个字符>显示一个字符</a></li><li><a href=#打印hello-world>打印hello world</a></li><li><a href=#读取键盘输入两个数求和>读取键盘输入两个数求和</a></li></ul></li></ul></li><li><a href=#调试工具debug常用命令>调试工具DEBUG常用命令</a><ul><li><ul><li><ul><li><a href=#r-查看和修改寄存器>R ——查看和修改寄存器</a></li><li><a href=#d-查看内存单元>D ——查看内存单元</a></li><li><a href=#t-p单步执行>T /P——单步执行</a></li></ul></li></ul></li></ul></li></ul></nav></div></div><div class=content id=content><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/dos_image.png data-srcset="/images/dos_image.png, /images/dos_image.png 1.5x, /images/dos_image.png 2x" data-sizes=auto alt=/images/dos_image.png title="upload successful"></p><p><code>INT</code>表示<code>interrupt</code>（中断）， INT指令是X86汇编语言中最重要的指令之一，它的作用是引发中断，调用“中断例程”（interrupt routine）。<br>中断是由于软件或硬件的信号，使CPU暂停执行当前的任务，转而去执行另一段子程序。</p><ul><li>硬中断（外中断）：由外部设备，如网卡、硬盘随机引发的，比如网卡收到数据包的时候，就会发出一个中断。</li><li>软中断（内中断）：由执行中的指令产生的，可以通过程序控制触发。</li></ul><p>可以通过 “ INT 中断码 ” 实现中断，内存中有一张<strong>中断向量表</strong>，用来存放中断码处理中断程序的入口地址。CPU在接受到中断信号后，暂停当前正在执行的程序，跳转到中断码对应的向量表地址处去执行中断。</p><p>我们理解上可以当<code>INT</code>就是调用系统内置的一些功能。<br>常用的中断：</p><ul><li><code>INT 21H</code>：DOS系统功能调用</li><li><code>INT 10H</code>：BIOS终端调用</li><li><code>INT 3H</code>：断点中断，用于调试程序</li></ul><p>这篇文章重点记录下DOS的系统功能调用，也就是<code>INT 21H</code>。</p><p>本文环境：</p><ul><li>操作系统：虚拟机中的Windows 10</li><li>Visual Studio Code</li><li>VSCode 插件：<a href="https://marketplace.visualstudio.com/items?itemName=xsro.masm-tasm" target=_blank rel="noopener noreffer">MASM/TASM</a>
+这个插件还蛮方便的，省去了自己配环境的麻烦，右键单击文件选择<code>Run ASM code</code>就可以执行代码：</li></ul><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/vsc_run_code.png data-srcset="/images/vsc_run_code.png, /images/vsc_run_code.png 1.5x, /images/vsc_run_code.png 2x" data-sizes=auto alt=/images/vsc_run_code.png title="upload successful"></p><p>DOS系统功能调用格式都是一致的，步骤如下：</p><ol><li>在<code>AH</code>寄存器中设置系统功能调用号。</li><li>在指定的寄存器中设置入口参数。</li><li>用<code>INT 21H</code>指令执行功能调用。</li><li>根据出口参数分析功能调用执行情况。</li></ol><h2 id=常见功能>常见功能</h2><p>DOS 系统功能调用 <code>INT 21H</code>，有数百种功能供用户使用。下面介绍几个常用的 DOS 系统功能调用，简要描述如表所示。</p><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/dos_api.png data-srcset="/images/dos_api.png, /images/dos_api.png 1.5x, /images/dos_api.png 2x" data-sizes=auto alt=/images/dos_api.png title="upload successful"><br>4C肯定天天用，毕竟用来返回DOS的，这里写点其他功能的例子。</p><h2 id=一些例子>一些例子</h2><p>汇编代码中，指令和寄存器名大写和小写没关系，所以这里ah和AH，dx和DX也没问题。但是4H和4还是有点不一样的，<code>4H</code>是16进制，不带h表示10进制。</p><h4 id=显示一个字符>显示一个字符</h4><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>assume cs:code, ds:data
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>; 数据段
+</span></span><span class=line><span class=cl>data segment  
+</span></span><span class=line><span class=cl>    message db &#39;hello&#39;
+</span></span><span class=line><span class=cl>data ends
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>; 代码段
+</span></span><span class=line><span class=cl>code segment  
+</span></span><span class=line><span class=cl>start: 
+</span></span><span class=line><span class=cl>    mov ax, data
+</span></span><span class=line><span class=cl>    mov ds, ax
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    mov dl, ds:[1h]
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    ;调用DOS系统功能，2表示输出DL寄存器的字符到显示器
+</span></span><span class=line><span class=cl>    mov ah, 2h
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    ;返回DOS
+</span></span><span class=line><span class=cl>    mov ah, 4ch
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>     
+</span></span><span class=line><span class=cl>code ends     
+</span></span><span class=line><span class=cl>end start
+</span></span></code></pre></td></tr></table></div></div><p>这个程序会输出一个<code>e</code>的字符。</p><h4 id=打印hello-world>打印hello world</h4><p>代码是用别人的，他的注释写的蛮好的：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt> 1
+</span><span class=lnt> 2
+</span><span class=lnt> 3
+</span><span class=lnt> 4
+</span><span class=lnt> 5
+</span><span class=lnt> 6
+</span><span class=lnt> 7
+</span><span class=lnt> 8
+</span><span class=lnt> 9
+</span><span class=lnt>10
+</span><span class=lnt>11
+</span><span class=lnt>12
+</span><span class=lnt>13
+</span><span class=lnt>14
+</span><span class=lnt>15
+</span><span class=lnt>16
+</span><span class=lnt>17
+</span><span class=lnt>18
+</span><span class=lnt>19
+</span><span class=lnt>20
+</span><span class=lnt>21
+</span><span class=lnt>22
+</span><span class=lnt>23
+</span><span class=lnt>24
+</span><span class=lnt>25
+</span><span class=lnt>26
+</span><span class=lnt>27
+</span><span class=lnt>28
+</span><span class=lnt>29
+</span><span class=lnt>30
+</span><span class=lnt>31
+</span><span class=lnt>32
+</span><span class=lnt>33
+</span><span class=lnt>34
+</span><span class=lnt>35
+</span><span class=lnt>36
+</span><span class=lnt>37
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>; 注：这里的关联并没有任何实际操作，相当于给我们自己的注释而已
+</span></span><span class=line><span class=cl>; 相当于即使不写这一行也没有关系
+</span></span><span class=line><span class=cl>assume cs:code, ds:data
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>; 数据段
+</span></span><span class=line><span class=cl>data segment  
+</span></span><span class=line><span class=cl>    ; 创建字符串
+</span></span><span class=line><span class=cl>    ; 汇编打印字符串要在尾部用 $ 标记字符串的结束位置
+</span></span><span class=line><span class=cl>    ; 将字符串用hello做一个标记，方便后面使用它
+</span></span><span class=line><span class=cl>    hello db &#39;Hello World!$&#39;
+</span></span><span class=line><span class=cl>data ends
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>; 代码段
+</span></span><span class=line><span class=cl>code segment  
+</span></span><span class=line><span class=cl>; 指令执行的起始，类似于C语言的main函数入口
+</span></span><span class=line><span class=cl>start:  
+</span></span><span class=line><span class=cl>    ; 汇编语言不会自动把数据段寄存器指向我们程序的数据段
+</span></span><span class=line><span class=cl>    ; 将数据段寄存器指向我们自己程序的数据段
+</span></span><span class=line><span class=cl>    mov ax, data
+</span></span><span class=line><span class=cl>    mov ds, ax
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    ; 打印字符串的参数
+</span></span><span class=line><span class=cl>    ; DS:DX=串地址，将字符串的偏移地址传入dx寄存器
+</span></span><span class=line><span class=cl>    ; 字符串是在数据段起始创建的，它的偏移地址是0H
+</span></span><span class=line><span class=cl>    ; offset hello 即找到标记为hello的数据段字符串的编译地址
+</span></span><span class=line><span class=cl>    ; 还可以写成 mov dx, 0H
+</span></span><span class=line><span class=cl>    mov dx, offset hello  
+</span></span><span class=line><span class=cl>    ; 打印字符串，ah=9H代表打印
+</span></span><span class=line><span class=cl>    mov ah, 9h
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    ; 正常退出程序，相当于高级语言的 return 0
+</span></span><span class=line><span class=cl>    mov ah, 4ch
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>     
+</span></span><span class=line><span class=cl>code ends     
+</span></span><span class=line><span class=cl>end start
+</span></span></code></pre></td></tr></table></div></div><h4 id=读取键盘输入两个数求和>读取键盘输入两个数求和</h4><p>这个例子复杂了点</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>  1
+</span><span class=lnt>  2
+</span><span class=lnt>  3
+</span><span class=lnt>  4
+</span><span class=lnt>  5
+</span><span class=lnt>  6
+</span><span class=lnt>  7
+</span><span class=lnt>  8
+</span><span class=lnt>  9
+</span><span class=lnt> 10
+</span><span class=lnt> 11
+</span><span class=lnt> 12
+</span><span class=lnt> 13
+</span><span class=lnt> 14
+</span><span class=lnt> 15
+</span><span class=lnt> 16
+</span><span class=lnt> 17
+</span><span class=lnt> 18
+</span><span class=lnt> 19
+</span><span class=lnt> 20
+</span><span class=lnt> 21
+</span><span class=lnt> 22
+</span><span class=lnt> 23
+</span><span class=lnt> 24
+</span><span class=lnt> 25
+</span><span class=lnt> 26
+</span><span class=lnt> 27
+</span><span class=lnt> 28
+</span><span class=lnt> 29
+</span><span class=lnt> 30
+</span><span class=lnt> 31
+</span><span class=lnt> 32
+</span><span class=lnt> 33
+</span><span class=lnt> 34
+</span><span class=lnt> 35
+</span><span class=lnt> 36
+</span><span class=lnt> 37
+</span><span class=lnt> 38
+</span><span class=lnt> 39
+</span><span class=lnt> 40
+</span><span class=lnt> 41
+</span><span class=lnt> 42
+</span><span class=lnt> 43
+</span><span class=lnt> 44
+</span><span class=lnt> 45
+</span><span class=lnt> 46
+</span><span class=lnt> 47
+</span><span class=lnt> 48
+</span><span class=lnt> 49
+</span><span class=lnt> 50
+</span><span class=lnt> 51
+</span><span class=lnt> 52
+</span><span class=lnt> 53
+</span><span class=lnt> 54
+</span><span class=lnt> 55
+</span><span class=lnt> 56
+</span><span class=lnt> 57
+</span><span class=lnt> 58
+</span><span class=lnt> 59
+</span><span class=lnt> 60
+</span><span class=lnt> 61
+</span><span class=lnt> 62
+</span><span class=lnt> 63
+</span><span class=lnt> 64
+</span><span class=lnt> 65
+</span><span class=lnt> 66
+</span><span class=lnt> 67
+</span><span class=lnt> 68
+</span><span class=lnt> 69
+</span><span class=lnt> 70
+</span><span class=lnt> 71
+</span><span class=lnt> 72
+</span><span class=lnt> 73
+</span><span class=lnt> 74
+</span><span class=lnt> 75
+</span><span class=lnt> 76
+</span><span class=lnt> 77
+</span><span class=lnt> 78
+</span><span class=lnt> 79
+</span><span class=lnt> 80
+</span><span class=lnt> 81
+</span><span class=lnt> 82
+</span><span class=lnt> 83
+</span><span class=lnt> 84
+</span><span class=lnt> 85
+</span><span class=lnt> 86
+</span><span class=lnt> 87
+</span><span class=lnt> 88
+</span><span class=lnt> 89
+</span><span class=lnt> 90
+</span><span class=lnt> 91
+</span><span class=lnt> 92
+</span><span class=lnt> 93
+</span><span class=lnt> 94
+</span><span class=lnt> 95
+</span><span class=lnt> 96
+</span><span class=lnt> 97
+</span><span class=lnt> 98
+</span><span class=lnt> 99
+</span><span class=lnt>100
+</span><span class=lnt>101
+</span><span class=lnt>102
+</span><span class=lnt>103
+</span><span class=lnt>104
+</span><span class=lnt>105
+</span><span class=lnt>106
+</span><span class=lnt>107
+</span><span class=lnt>108
+</span><span class=lnt>109
+</span><span class=lnt>110
+</span><span class=lnt>111
+</span><span class=lnt>112
+</span><span class=lnt>113
+</span><span class=lnt>114
+</span><span class=lnt>115
+</span><span class=lnt>116
+</span><span class=lnt>117
+</span><span class=lnt>118
+</span><span class=lnt>119
+</span><span class=lnt>120
+</span><span class=lnt>121
+</span><span class=lnt>122
+</span><span class=lnt>123
+</span><span class=lnt>124
+</span><span class=lnt>125
+</span><span class=lnt>126
+</span><span class=lnt>127
+</span><span class=lnt>128
+</span><span class=lnt>129
+</span><span class=lnt>130
+</span><span class=lnt>131
+</span><span class=lnt>132
+</span><span class=lnt>133
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>assume cs:code, ds:data, ss:stack
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>stack segment
+</span></span><span class=line><span class=cl>    dw 30h dup(0)
+</span></span><span class=line><span class=cl>stack ends
+</span></span><span class=line><span class=cl>  
+</span></span><span class=line><span class=cl>; 数据段
+</span></span><span class=line><span class=cl>data segment
+</span></span><span class=line><span class=cl>    buf db 20h, 0, 20h dup (0)
+</span></span><span class=line><span class=cl>    message db &#39;input a number:$&#39;
+</span></span><span class=line><span class=cl>    num dw ?
+</span></span><span class=line><span class=cl>data ends
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>code segment
+</span></span><span class=line><span class=cl>start:
+</span></span><span class=line><span class=cl>    mov ax, data
+</span></span><span class=line><span class=cl>    mov ds, ax
+</span></span><span class=line><span class=cl>    call printMsg
+</span></span><span class=line><span class=cl>    call readInput
+</span></span><span class=line><span class=cl>    call atoi
+</span></span><span class=line><span class=cl>    push num
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    ; again
+</span></span><span class=line><span class=cl>    call printMsg
+</span></span><span class=line><span class=cl>    call readInput
+</span></span><span class=line><span class=cl>    call atoi
+</span></span><span class=line><span class=cl>    push num
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    ; cal summ
+</span></span><span class=line><span class=cl>    call sum
+</span></span><span class=line><span class=cl>    call printAx
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>    mov ah, 4ch
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>printMsg:
+</span></span><span class=line><span class=cl>    mov dx, offset message
+</span></span><span class=line><span class=cl>    mov ah, 9h
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>    ret
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>readInput:
+</span></span><span class=line><span class=cl>    ; first byte to tell dos maximum characters buffer can hold
+</span></span><span class=line><span class=cl>    mov dx, 0h
+</span></span><span class=line><span class=cl>    mov ah, 0Ah
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>    ; print \n
+</span></span><span class=line><span class=cl>    mov dl, 0Ah
+</span></span><span class=line><span class=cl>    mov ah, 02h
+</span></span><span class=line><span class=cl>    int 21h
+</span></span><span class=line><span class=cl>    ret
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>atoi proc
+</span></span><span class=line><span class=cl>    mov dx,0
+</span></span><span class=line><span class=cl>    mov bx,10
+</span></span><span class=line><span class=cl>    mov si,2
+</span></span><span class=line><span class=cl>    mov num,0
+</span></span><span class=line><span class=cl>    mov ax,0
+</span></span><span class=line><span class=cl>lop:
+</span></span><span class=line><span class=cl>    mov al,buf[si]
+</span></span><span class=line><span class=cl>    cmp al,0Dh
+</span></span><span class=line><span class=cl>    je  final
+</span></span><span class=line><span class=cl>    sub al,30h
+</span></span><span class=line><span class=cl>    cmp num,0
+</span></span><span class=line><span class=cl>    je  do_delta
+</span></span><span class=line><span class=cl>    push ax
+</span></span><span class=line><span class=cl>    mov ax,num
+</span></span><span class=line><span class=cl>    mul bx
+</span></span><span class=line><span class=cl>    mov num,ax  
+</span></span><span class=line><span class=cl>    pop ax
+</span></span><span class=line><span class=cl>do_delta:
+</span></span><span class=line><span class=cl>    add num,ax
+</span></span><span class=line><span class=cl>    mov ax,0
+</span></span><span class=line><span class=cl>    inc si
+</span></span><span class=line><span class=cl>    jmp lop
+</span></span><span class=line><span class=cl>final:    
+</span></span><span class=line><span class=cl>    ret
+</span></span><span class=line><span class=cl>atoi endp
+</span></span><span class=line><span class=cl>; 内平衡
+</span></span><span class=line><span class=cl>sum:
+</span></span><span class=line><span class=cl>    mov bp, sp
+</span></span><span class=line><span class=cl>    mov ax, ss:[bp+2]
+</span></span><span class=line><span class=cl>    add ax, ss:[bp+4]  
+</span></span><span class=line><span class=cl>    
+</span></span><span class=line><span class=cl>    ret 4
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>printAx proc
+</span></span><span class=line><span class=cl>    ;initialize count
+</span></span><span class=line><span class=cl>    mov cx,0
+</span></span><span class=line><span class=cl>    mov dx,0
+</span></span><span class=line><span class=cl>    label1:
+</span></span><span class=line><span class=cl>        ; if ax is zero
+</span></span><span class=line><span class=cl>        cmp ax,0
+</span></span><span class=line><span class=cl>        je print1     
+</span></span><span class=line><span class=cl>        mov bx,10
+</span></span><span class=line><span class=cl>        div bx
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>        ;push it in the stack
+</span></span><span class=line><span class=cl>        push dx             
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>        ;increment the count
+</span></span><span class=line><span class=cl>        inc cx             
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>        ;set dx to 0
+</span></span><span class=line><span class=cl>        xor dx,dx
+</span></span><span class=line><span class=cl>        jmp label1
+</span></span><span class=line><span class=cl>    print1:
+</span></span><span class=line><span class=cl>        ;check if count
+</span></span><span class=line><span class=cl>        ;is greater than zero
+</span></span><span class=line><span class=cl>        cmp cx,0
+</span></span><span class=line><span class=cl>        je exit
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>        ;pop the top of stack
+</span></span><span class=line><span class=cl>        pop dx
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>        ;add 48 so that it
+</span></span><span class=line><span class=cl>        ;represents the ASCII
+</span></span><span class=line><span class=cl>        ;value of digits
+</span></span><span class=line><span class=cl>        add dx,48
+</span></span><span class=line><span class=cl>        ; print character
+</span></span><span class=line><span class=cl>        mov ah,02h
+</span></span><span class=line><span class=cl>        int 21h
+</span></span><span class=line><span class=cl>         
+</span></span><span class=line><span class=cl>        ;decrease the count
+</span></span><span class=line><span class=cl>        dec cx
+</span></span><span class=line><span class=cl>        jmp print1
+</span></span><span class=line><span class=cl>exit:
+</span></span><span class=line><span class=cl>        ret
+</span></span><span class=line><span class=cl>printAx endp
+</span></span><span class=line><span class=cl>
+</span></span><span class=line><span class=cl>code ends
+</span></span><span class=line><span class=cl>end start
+</span></span></code></pre></td></tr></table></div></div><p><img class=lazyload src=/svg/loading.min.svg data-src=/images/dos_cal_result.png data-srcset="/images/dos_cal_result.png, /images/dos_cal_result.png 1.5x, /images/dos_cal_result.png 2x" data-sizes=auto alt=/images/dos_cal_result.png title="upload successful"></p><h2 id=调试工具debug常用命令>调试工具DEBUG常用命令</h2><h5 id=r-查看和修改寄存器>R ——查看和修改寄存器</h5><h5 id=d-查看内存单元>D ——查看内存单元</h5><p>内存每16个字节单元为一小段，逻辑段必须从小段的首址开始。用D命令可以查看存储单元的地址和内容。<br>D命令格式为：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>D  段地址:起始偏移地址 [结尾偏移地址] [L范围]
+</span></span></code></pre></td></tr></table></div></div><p>例如：</p><div class=highlight><div class=chroma><table class=lntable><tr><td class=lntd><pre tabindex=0 class=chroma><code><span class=lnt>1
+</span><span class=lnt>2
+</span><span class=lnt>3
+</span><span class=lnt>4
+</span><span class=lnt>5
+</span></code></pre></td><td class=lntd><pre tabindex=0 class=chroma><code class=language-fallback data-lang=fallback><span class=line><span class=cl>D DS:0      查看数据段，从0号单元开始  
+</span></span><span class=line><span class=cl>D ES:0      查看附加段，从0号单元开始  
+</span></span><span class=line><span class=cl>D DS:100   查看数据段，从100H号单元开始  
+</span></span><span class=line><span class=cl>D 0200:5 15   查看0200H段的5号单元到15H号单元（在虚拟机上该命令不能执行）  
+</span></span><span class=line><span class=cl>D 0200:5 L 11  用L选择范围。查看0200H段的5号单元到15H号单元共10个单元  
+</span></span></code></pre></td></tr></table></div></div><h5 id=t-p单步执行>T /P——单步执行</h5><p>P可以跳过子程序或系统调用，其他方面T和P是类型的。</p><p>参考：</p><ul><li><a href=https://juejin.cn/post/6844903866153041928 target=_blank rel="noopener noreffer">从零入门8086汇编</a></li><li><a href=https://www.cnblogs.com/lfri/p/10780994.html target=_blank rel="noopener noreffer">调试工具DEBUG</a></li></ul></div><div class=post-footer id=post-footer><div class=post-info><div class=post-info-line><div class=post-info-mod><span>更新于 2023-11-08&nbsp;<a class=git-hash href=https://github.com/pigLoveRabbit520/commit/6fd7f9e9d51edd75bbed103d1be4a900b0c592bb target=_blank title="commit by pigLoveRabbit(1906747819@qq.com) 6fd7f9e9d51edd75bbed103d1be4a900b0c592bb: 使用Hugo框架">
+<i class="fas fa-hashtag fa-fw" aria-hidden=true></i>6fd7f9e</a></span></div></div><div class=post-info-line><div class=post-info-md><span><a class=link-to-markdown href=/assembly_int21h/index.md target=_blank>阅读原始文档</a></span></div><div class=post-info-share><span></span></div></div></div><div class=post-info-more><section class=post-tags><i class="fas fa-tags fa-fw" aria-hidden=true></i>&nbsp;<a href=/tags/assembly/>Assembly</a></section><section><span><a href=javascript:void(0); onclick=window.history.back()>返回</a></span>&nbsp;|&nbsp;<span><a href=/>主页</a></span></section></div><div class=post-nav><a href=/core_dump_in_docker/ class=prev rel=prev title="Node.js：容器中Core Dump"><i class="fas fa-angle-left fa-fw" aria-hidden=true></i>Node.js：容器中Core Dump</a>
+<a href=/win32_assembly/ class=next rel=next title=x86汇编>x86汇编<i class="fas fa-angle-right fa-fw" aria-hidden=true></i></a></div></div><div id=comments><div id=valine class=comment></div><noscript>Please enable JavaScript to view the comments powered by <a href=https://valine.js.org/>Valine</a>.</noscript></div></article></div></main><footer class=footer><div class=footer-container><div class=footer-line>由 <a href=https://gohugo.io/ target=_blank rel="noopener noreffer" title="Hugo 0.128.1">Hugo</a> 强力驱动 | 主题 - <a href=https://github.com/dillonzq/LoveIt target=_blank rel="noopener noreffer" title="LoveIt 0.2.11"><i class="far fa-kiss-wink-heart fa-fw" aria-hidden=true></i> LoveIt</a></div><div class=footer-line itemscope itemtype=http://schema.org/CreativeWork><i class="far fa-copyright fa-fw" aria-hidden=true></i><span itemprop=copyrightYear>2019 - 2024</span><span class=author itemprop=copyrightHolder>&nbsp;<a href=https://github.com/pigLoveRabbit520 target=_blank>pigLoveRabbit</a></span>&nbsp;|&nbsp;<span class=license><a rel="license external nofollow noopener noreffer" href=https://creativecommons.org/licenses/by-nc/4.0/ target=_blank>CC BY-NC 4.0</a></span></div></div></footer></div><div id=fixed-buttons><a href=# id=back-to-top class=fixed-button title=回到顶部><i class="fas fa-arrow-up fa-fw" aria-hidden=true></i>
+</a><a href=# id=view-comments class=fixed-button title=查看评论><i class="fas fa-comment fa-fw" aria-hidden=true></i></a></div><link rel=stylesheet href=/lib/valine/valine.min.css><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css><script type=text/javascript src=https://cdn.jsdelivr.net/npm/valine@1.5.0/dist/Valine.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/autocomplete.js@0.38.1/dist/autocomplete.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/algoliasearch@4.13.1/dist/algoliasearch-lite.umd.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/lazysizes@5.3.2/lazysizes.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/clipboard@2.0.11/dist/clipboard.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/copy-tex.min.js></script><script type=text/javascript src=https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/mhchem.min.js></script><script type=text/javascript>window.config={code:{copyTitle:"复制到剪贴板",maxShownLines:50},comment:{valine:{appId:"QGzwQXOqs5JOhN4RGPOkR2mR-MdYXbMMI",appKey:"WBmoGyJtbqUswvfLh6L8iEBr",avatar:"mp",el:"#valine",emojiCDN:"https://cdn.jsdelivr.net/npm/emoji-datasource-google@14.0.0/img/google/64/",emojiMaps:{100:"1f4af.png",alien:"1f47d.png",anger:"1f4a2.png",angry:"1f620.png",anguished:"1f627.png",astonished:"1f632.png",black_heart:"1f5a4.png",blue_heart:"1f499.png",blush:"1f60a.png",bomb:"1f4a3.png",boom:"1f4a5.png",broken_heart:"1f494.png",brown_heart:"1f90e.png",clown_face:"1f921.png",cold_face:"1f976.png",cold_sweat:"1f630.png",confounded:"1f616.png",confused:"1f615.png",cry:"1f622.png",crying_cat_face:"1f63f.png",cupid:"1f498.png",dash:"1f4a8.png",disappointed:"1f61e.png",disappointed_relieved:"1f625.png",dizzy:"1f4ab.png",dizzy_face:"1f635.png",drooling_face:"1f924.png",exploding_head:"1f92f.png",expressionless:"1f611.png",face_vomiting:"1f92e.png",face_with_cowboy_hat:"1f920.png",face_with_hand_over_mouth:"1f92d.png",face_with_head_bandage:"1f915.png",face_with_monocle:"1f9d0.png",face_with_raised_eyebrow:"1f928.png",face_with_rolling_eyes:"1f644.png",face_with_symbols_on_mouth:"1f92c.png",face_with_thermometer:"1f912.png",fearful:"1f628.png",flushed:"1f633.png",frowning:"1f626.png",ghost:"1f47b.png",gift_heart:"1f49d.png",green_heart:"1f49a.png",grimacing:"1f62c.png",grin:"1f601.png",grinning:"1f600.png",hankey:"1f4a9.png",hear_no_evil:"1f649.png",heart:"2764-fe0f.png",heart_decoration:"1f49f.png",heart_eyes:"1f60d.png",heart_eyes_cat:"1f63b.png",heartbeat:"1f493.png",heartpulse:"1f497.png",heavy_heart_exclamation_mark_ornament:"2763-fe0f.png",hole:"1f573-fe0f.png",hot_face:"1f975.png",hugging_face:"1f917.png",hushed:"1f62f.png",imp:"1f47f.png",innocent:"1f607.png",japanese_goblin:"1f47a.png",japanese_ogre:"1f479.png",joy:"1f602.png",joy_cat:"1f639.png",kiss:"1f48b.png",kissing:"1f617.png",kissing_cat:"1f63d.png",kissing_closed_eyes:"1f61a.png",kissing_heart:"1f618.png",kissing_smiling_eyes:"1f619.png",laughing:"1f606.png",left_speech_bubble:"1f5e8-fe0f.png",love_letter:"1f48c.png",lying_face:"1f925.png",mask:"1f637.png",money_mouth_face:"1f911.png",nauseated_face:"1f922.png",nerd_face:"1f913.png",neutral_face:"1f610.png",no_mouth:"1f636.png",open_mouth:"1f62e.png",orange_heart:"1f9e1.png",partying_face:"1f973.png",pensive:"1f614.png",persevere:"1f623.png",pleading_face:"1f97a.png",pouting_cat:"1f63e.png",purple_heart:"1f49c.png",rage:"1f621.png",relaxed:"263a-fe0f.png",relieved:"1f60c.png",revolving_hearts:"1f49e.png",right_anger_bubble:"1f5ef-fe0f.png",robot_face:"1f916.png",rolling_on_the_floor_laughing:"1f923.png",scream:"1f631.png",scream_cat:"1f640.png",see_no_evil:"1f648.png",shushing_face:"1f92b.png",skull:"1f480.png",skull_and_crossbones:"2620-fe0f.png",sleeping:"1f634.png",sleepy:"1f62a.png",slightly_frowning_face:"1f641.png",slightly_smiling_face:"1f642.png",smile:"1f604.png",smile_cat:"1f638.png",smiley:"1f603.png",smiley_cat:"1f63a.png",smiling_face_with_3_hearts:"1f970.png",smiling_imp:"1f608.png",smirk:"1f60f.png",smirk_cat:"1f63c.png",sneezing_face:"1f927.png",sob:"1f62d.png",space_invader:"1f47e.png",sparkling_heart:"1f496.png",speak_no_evil:"1f64a.png",speech_balloon:"1f4ac.png","star-struck":"1f929.png",stuck_out_tongue:"1f61b.png",stuck_out_tongue_closed_eyes:"1f61d.png",stuck_out_tongue_winking_eye:"1f61c.png",sunglasses:"1f60e.png",sweat:"1f613.png",sweat_drops:"1f4a6.png",sweat_smile:"1f605.png",thinking_face:"1f914.png",thought_balloon:"1f4ad.png",tired_face:"1f62b.png",triumph:"1f624.png",two_hearts:"1f495.png",unamused:"1f612.png",upside_down_face:"1f643.png",weary:"1f629.png",white_frowning_face:"2639-fe0f.png",white_heart:"1f90d.png",wink:"1f609.png",woozy_face:"1f974.png",worried:"1f61f.png",yawning_face:"1f971.png",yellow_heart:"1f49b.png",yum:"1f60b.png",zany_face:"1f92a.png",zipper_mouth_face:"1f910.png",zzz:"1f4a4.png"},enableQQ:!1,highlight:!0,lang:"zh-CN",pageSize:10,placeholder:"你的评论 ...",recordIP:!0,serverURLs:"https://leancloud.hugoloveit.com",visitor:!0}},math:{delimiters:[{display:!0,left:"$$",right:"$$"},{display:!0,left:"\\[",right:"\\]"},{display:!0,left:"\\begin{equation}",right:"\\end{equation}"},{display:!0,left:"\\begin{equation*}",right:"\\end{equation*}"},{display:!0,left:"\\begin{align}",right:"\\end{align}"},{display:!0,left:"\\begin{align*}",right:"\\end{align*}"},{display:!0,left:"\\begin{alignat}",right:"\\end{alignat}"},{display:!0,left:"\\begin{alignat*}",right:"\\end{alignat*}"},{display:!0,left:"\\begin{gather}",right:"\\end{gather}"},{display:!0,left:"\\begin{CD}",right:"\\end{CD}"},{display:!0,left:"$$",right:"$$"},{display:!1,left:"$",right:"$"},{display:!1,left:"\\(",right:"\\)"}],strict:!1},search:{algoliaAppID:"PASDMWALPK",algoliaIndex:"index.zh-cn",algoliaSearchKey:"b42948e51daaa93df92381c8e2ac0f93",highlightTag:"em",maxResultLength:10,noResultsFound:"没有找到结果",snippetLength:50,type:"algolia"}}</script><script type=text/javascript src=/js/theme.min.js></script></body></html>
