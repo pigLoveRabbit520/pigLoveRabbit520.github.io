@@ -1,1 +1,65 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>WebGL - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/webgl/</link><description>WebGL - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 02 Jul 2023 16:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/webgl/" rel="self" type="application/rss+xml"/><item><title>WebGL Shader</title><link>https://example.com/webgl-shader/</link><pubDate>Sun, 02 Jul 2023 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/webgl-shader/</guid><description>顶点着色器 vertex.glsl 1 2 3 4 5 6 7 8 9 varying vec3 vPosition; void main() { vPosition = position; // MVP vec4 modelViewPosition = modelViewMatrix * vec4( position, 1.0 ); vec4 projectedPosition = projectionMatrix * modelViewPosition; gl_Position = projectedPosition; } 片段着色器 fragment.glsl 1 2 3 4 5 varying vec3 vPosition; void main() { gl_FragColor = vec4(vPosition, 1); } 效果 用</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>WebGL - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/webgl/</link><description>WebGL - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 02 Jul 2023 16:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/webgl/" rel="self" type="application/rss+xml"/><item><title>WebGL Shader</title><link>https://example.com/webgl-shader/</link><pubDate>Sun, 02 Jul 2023 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/webgl-shader/</guid><description><![CDATA[<h5 id="顶点着色器">顶点着色器</h5>
+<p>vertex.glsl</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span><span class="lnt">9
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">varying</span> <span class="n">vec3</span> <span class="n">vPosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vPosition</span> <span class="o">=</span> <span class="n">position</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="o">//</span> <span class="n">MVP</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vec4</span> <span class="n">modelViewPosition</span> <span class="o">=</span> <span class="n">modelViewMatrix</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span> <span class="n">position</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">);</span>
+</span></span><span class="line"><span class="cl">    <span class="n">vec4</span> <span class="n">projectedPosition</span> <span class="o">=</span> <span class="n">projectionMatrix</span> <span class="o">*</span> <span class="n">modelViewPosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projectedPosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h5 id="片段着色器">片段着色器</h5>
+<p>fragment.glsl</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">varying</span> <span class="n">vec3</span> <span class="n">vPosition</span><span class="p">;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="n">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">vPosition</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="p">}</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><h4 id="效果">效果</h4>
+<p>用了PlaneGeometry</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">//</span> <span class="n">meshes</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">geometry</span> <span class="o">=</span> <span class="n">new</span> <span class="n">THREE</span><span class="o">.</span><span class="n">PlaneGeometry</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">material</span> <span class="o">=</span> <span class="n">new</span> <span class="n">THREE</span><span class="o">.</span><span class="n">ShaderMaterial</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">  <span class="n">vertexShader</span><span class="p">:</span> <span class="n">vertexShader</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">  <span class="n">fragmentShader</span><span class="p">:</span> <span class="n">fragmentShader</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl"><span class="p">})</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p></p>]]></description></item></channel></rss>

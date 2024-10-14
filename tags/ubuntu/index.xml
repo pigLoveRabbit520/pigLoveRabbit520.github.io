@@ -1,1 +1,23 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ubuntu - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/ubuntu/</link><description>Ubuntu - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 05 Jul 2024 16:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/ubuntu/" rel="self" type="application/rss+xml"/><item><title>Ubuntu上OptiX8 简单尝试</title><link>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</link><pubDate>Fri, 05 Jul 2024 16:00:00 +0000</pubDate><author>pigRabbit</author><guid>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</guid><description>CUDA 的安装参考之前的文章 需要安装 OptiX 8 这是Reference.pdf 新建一个 CMake 项目，目录结构是这样的 1 2 3 4 5 6 optix_example/ ├── CMakeLists.txt ├── src └── main.cpp └──</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Ubuntu - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/ubuntu/</link><description>Ubuntu - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 05 Jul 2024 16:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/ubuntu/" rel="self" type="application/rss+xml"/><item><title>Ubuntu上OptiX8 简单尝试</title><link>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</link><pubDate>Fri, 05 Jul 2024 16:00:00 +0000</pubDate><author>pigRabbit</author><guid>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</guid><description><![CDATA[<p>CUDA 的安装参考之前的<a href="/wsl2-install-cuda/" rel="">文章</a><br>
+需要安装 <a href="https://developer.nvidia.com/designworks/optix/download" target="_blank" rel="noopener noreffer ">OptiX 8</a><br>
+这是<a href="https://raytracing-docs.nvidia.com/optix8/api/OptiX_API_Reference.pdf" target="_blank" rel="noopener noreffer ">Reference.pdf</a></p>
+<p>新建一个 CMake 项目，目录结构是这样的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">optix_example/
+</span></span><span class="line"><span class="cl">├── CMakeLists.txt
+</span></span><span class="line"><span class="cl">├── src
+</span></span><span class="line"><span class="cl">    └── main.cpp
+</span></span><span class="line"><span class="cl">└── cmake
+</span></span><span class="line"><span class="cl">    └── FindOptiX80.cmake
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>CMakeLists.txt</code>文件：</p>]]></description></item></channel></rss>

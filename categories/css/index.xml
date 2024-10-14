@@ -1,1 +1,13 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Css - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/css/</link><description>Css - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 10 Jul 2022 14:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/css/" rel="self" type="application/rss+xml"/><item><title>几何中矩阵</title><link>https://example.com/matrix/</link><pubDate>Sun, 10 Jul 2022 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/matrix/</guid><description>css中应用 对元素的transform属性，我们可以应用矩阵 1 matrix(a,b,c,d,e,f) 这6参数，对应的矩阵就是： 注意书写方向是竖着的。 e, f参数其实就是x，y方向上</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Css - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/css/</link><description>Css - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 10 Jul 2022 14:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/css/" rel="self" type="application/rss+xml"/><item><title>几何中矩阵</title><link>https://example.com/matrix/</link><pubDate>Sun, 10 Jul 2022 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/matrix/</guid><description><![CDATA[<h2 id="css中应用">css中应用</h2>
+<p>对元素的<code>transform</code>属性，我们可以应用矩阵</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">matrix(a,b,c,d,e,f)	
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p>这6参数，对应的矩阵就是：</p>
+<p><br>
+注意书写方向是<strong>竖着的</strong>。  e, f参数其实就是x，y方向上偏移。</p>]]></description></item></channel></rss>

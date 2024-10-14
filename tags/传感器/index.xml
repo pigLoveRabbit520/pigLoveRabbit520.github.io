@@ -1,1 +1,62 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>传感器 - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/</link><description>传感器 - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 30 Aug 2019 10:37:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" rel="self" type="application/rss+xml"/><item><title>Arduino使用DHT11测量温湿度</title><link>https://example.com/arduino_dth11/</link><pubDate>Fri, 30 Aug 2019 10:37:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/arduino_dth11/</guid><description>概览 这篇文章很简单（就是一点电工知识），就是利用DHT11温湿度传感器测量温湿度值，并把结果显示在LCD1602显示器上。 实验元器件列表 元器</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>传感器 - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/</link><description>传感器 - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 30 Aug 2019 10:37:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/%E4%BC%A0%E6%84%9F%E5%99%A8/" rel="self" type="application/rss+xml"/><item><title>Arduino使用DHT11测量温湿度</title><link>https://example.com/arduino_dth11/</link><pubDate>Fri, 30 Aug 2019 10:37:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/arduino_dth11/</guid><description><![CDATA[<h2 id="概览">概览</h2>
+<p>这篇文章很简单（就是一点电工知识），就是利用<a href="https://baike.baidu.com/item/DHT11/1206271" target="_blank" rel="noopener noreffer ">DHT11</a>温湿度传感器测量温湿度值，并把结果显示在<a href="https://baike.baidu.com/item/LCD1602/6014393" target="_blank" rel="noopener noreffer ">LCD1602</a>显示器上。</p>
+<!-- more -->
+<h2 id="实验元器件列表">实验元器件列表</h2>
+<table>
+  <thead>
+      <tr>
+          <th style="text-align: left">元器件</th>
+          <th style="text-align: left">型号</th>
+          <th style="text-align: left">数量</th>
+          <th style="text-align: left">备注</th>
+      </tr>
+  </thead>
+  <tbody>
+      <tr>
+          <td style="text-align: left">主控板</td>
+          <td style="text-align: left">arduino Uno</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">温湿度传感器</td>
+          <td style="text-align: left">DHT11</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">液晶屏</td>
+          <td style="text-align: left">1602 LCD</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">电阻</td>
+          <td style="text-align: left">1K电阻</td>
+          <td style="text-align: left">4</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">面包板</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">面包板条线</td>
+          <td style="text-align: left"></td>
+          <td style="text-align: left">若个</td>
+          <td style="text-align: left"></td>
+      </tr>
+      <tr>
+          <td style="text-align: left">数据线</td>
+          <td style="text-align: left">Uno数据线</td>
+          <td style="text-align: left">1</td>
+          <td style="text-align: left"></td>
+      </tr>
+  </tbody>
+</table>
+<h2 id="工具和元器件介绍">工具和元器件介绍</h2>
+<h3 id="dht11温湿度传感器">DHT11温湿度传感器</h3>
+<p>
+DHT11 传感器接线方法并不复杂，DHT11封装有4个引脚，各个引脚说明如下：</p>]]></description></item></channel></rss>

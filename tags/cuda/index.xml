@@ -1,1 +1,29 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Cuda - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/cuda/</link><description>Cuda - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 05 Jul 2024 16:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/cuda/" rel="self" type="application/rss+xml"/><item><title>Ubuntu上OptiX8 简单尝试</title><link>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</link><pubDate>Fri, 05 Jul 2024 16:00:00 +0000</pubDate><author>pigRabbit</author><guid>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</guid><description>CUDA 的安装参考之前的文章 需要安装 OptiX 8 这是Reference.pdf 新建一个 CMake 项目，目录结构是这样的 1 2 3 4 5 6 optix_example/ ├── CMakeLists.txt ├── src └── main.cpp └──</description></item><item><title>二维异形件排版算法（摘抄）</title><link>https://example.com/irregular_packing_nesting_problem/</link><pubDate>Thu, 15 Feb 2024 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/irregular_packing_nesting_problem/</guid><description>算法简介 排样问题（Nesting Problem）又称为下料问题(Cutting and stock problems)或填充问题(Packing Problem</description></item><item><title>wsl2 install CUDA</title><link>https://example.com/wsl2-install-cuda/</link><pubDate>Sun, 10 Dec 2023 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/wsl2-install-cuda/</guid><description>驱动 网上有许多资料写道需要安装针对WSL特别驱动，但是现在已经不需要这么做了，只需要到NVIDIA官网将驱动升级到最新版本即可。根据参考资料</description></item><item><title>Ubuntu上安装NVIDIA显卡驱动和CUDA和cuDNN库</title><link>https://example.com/ubuntu_cuda_cudnn/</link><pubDate>Wed, 18 Sep 2019 16:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/ubuntu_cuda_cudnn/</guid><description>最近需要在用Pytorch做深度学习，为了加快训练速度，需要用到GPU运算，故在此记录一下安装过程。 我的本机环境： Ubuntu 18.04.3 LTS GeForce RTX 2080s 检查BIOS启</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Cuda - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/cuda/</link><description>Cuda - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 05 Jul 2024 16:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/cuda/" rel="self" type="application/rss+xml"/><item><title>Ubuntu上OptiX8 简单尝试</title><link>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</link><pubDate>Fri, 05 Jul 2024 16:00:00 +0000</pubDate><author>pigRabbit</author><guid>https://example.com/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</guid><description><![CDATA[<p>CUDA 的安装参考之前的<a href="/wsl2-install-cuda/" rel="">文章</a><br>
+需要安装 <a href="https://developer.nvidia.com/designworks/optix/download" target="_blank" rel="noopener noreffer ">OptiX 8</a><br>
+这是<a href="https://raytracing-docs.nvidia.com/optix8/api/OptiX_API_Reference.pdf" target="_blank" rel="noopener noreffer ">Reference.pdf</a></p>
+<p>新建一个 CMake 项目，目录结构是这样的</p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">optix_example/
+</span></span><span class="line"><span class="cl">├── CMakeLists.txt
+</span></span><span class="line"><span class="cl">├── src
+</span></span><span class="line"><span class="cl">    └── main.cpp
+</span></span><span class="line"><span class="cl">└── cmake
+</span></span><span class="line"><span class="cl">    └── FindOptiX80.cmake
+</span></span></code></pre></td></tr></table>
+</div>
+</div><p><code>CMakeLists.txt</code>文件：</p>]]></description></item><item><title>二维异形件排版算法（摘抄）</title><link>https://example.com/irregular_packing_nesting_problem/</link><pubDate>Thu, 15 Feb 2024 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/irregular_packing_nesting_problem/</guid><description>&lt;h3 id="算法简介">算法简介&lt;/h3>
+&lt;p>排样问题（Nesting Problem）又称为下料问题(Cutting and stock problems)或填充问题(Packing Problem)，其目标是在材料切割过程中寻找一个较高的材料利用率。排样问题属于经典的NP-Hard问题，其时间复杂度随着问题规模的增加迅速上升，难以在合理时间内精确求解大规模实例。相较于矩形排样问题，异形件排样问题的突出特点是裁片的边界轮廓复杂，计算过程中需要复杂的几何运算，其算法复杂度将进一步上升，是学术界和工业界公认的难以求解的问题。因此在大多数情况下，不规则形状排样算法主要是以启发式算法和智能搜索算法为主。&lt;/p></description></item><item><title>wsl2 install CUDA</title><link>https://example.com/wsl2-install-cuda/</link><pubDate>Sun, 10 Dec 2023 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/wsl2-install-cuda/</guid><description><![CDATA[<h5 id="驱动">驱动</h5>
+<p>网上有许多资料写道需要安装针对WSL特别驱动，但是现在已经不需要这么做了，只需要到NVIDIA官网将<a href="https://www.nvidia.com/Download/index.aspx" target="_blank" rel="noopener noreffer ">驱动</a>升级到最新版本即可。根据参考资料描述，驱动类型最好选择Game Ready版本而不是studio版本。<br>
+
+注意，该是安装Windows驱动，而不是安装Linux驱动，在Windows下安装驱动后，会自动将驱动以_libcuda.so_的形式集成至WSL2中，因此<strong>切勿在WSL Linux中重复安装驱动</strong>。</p>]]></description></item><item><title>Ubuntu上安装NVIDIA显卡驱动和CUDA和cuDNN库</title><link>https://example.com/ubuntu_cuda_cudnn/</link><pubDate>Wed, 18 Sep 2019 16:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/ubuntu_cuda_cudnn/</guid><description><![CDATA[<p></p>
+<p>最近需要在用<a href="https://pytorch.org/" target="_blank" rel="noopener noreffer ">Pytorch</a>做深度学习，为了加快训练速度，需要用到GPU运算，故在此记录一下安装过程。<br>
+我的本机环境：</p>]]></description></item></channel></rss>

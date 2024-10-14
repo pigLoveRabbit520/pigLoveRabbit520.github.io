@@ -1,1 +1,10 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>OS - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/os/</link><description>OS - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 17 Apr 2022 23:12:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/os/" rel="self" type="application/rss+xml"/><item><title>bochs下启动自己的MBR</title><link>https://example.com/bochs%E4%B8%8B%E5%90%AF%E5%8A%A8/</link><pubDate>Sun, 17 Apr 2022 23:12:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/bochs%E4%B8%8B%E5%90%AF%E5%8A%A8/</guid><description>Bochs Bochs是一个x86硬件平台的开源模拟器。你可以当它是一台虚拟的x86的计算机。 本文环境： OS: Ubuntu 20.04.4 LTS Bochs： 2.6.9 安装Bochs 这个网上教</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>OS - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/os/</link><description>OS - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 17 Apr 2022 23:12:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/os/" rel="self" type="application/rss+xml"/><item><title>bochs下启动自己的MBR</title><link>https://example.com/bochs%E4%B8%8B%E5%90%AF%E5%8A%A8/</link><pubDate>Sun, 17 Apr 2022 23:12:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/bochs%E4%B8%8B%E5%90%AF%E5%8A%A8/</guid><description><![CDATA[<h1 id="bochs">Bochs</h1>
+<p>Bochs是一个x86硬件平台的开源模拟器。你可以当它是一台虚拟的x86的计算机。</p>
+<!-- more -->
+<p>本文环境：</p>
+<ul>
+<li>OS: Ubuntu 20.04.4 LTS</li>
+<li>Bochs： 2.6.9</li>
+</ul>
+<h2 id="安装bochs">安装Bochs</h2>
+<p>这个网上教程很多了，先去<a href="https://sourceforge.net/projects/bochs/files/bochs/" target="_blank" rel="noopener noreffer ">下载</a>，然后configure：</p>]]></description></item></channel></rss>

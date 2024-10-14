@@ -1,1 +1,23 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>C++ - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/c++/</link><description>C++ - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 15 Aug 2022 09:30:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/c++/" rel="self" type="application/rss+xml"/><item><title>wxWidgets使用</title><link>https://example.com/wxwidgets%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 15 Aug 2022 09:30:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/wxwidgets%E4%BD%BF%E7%94%A8/</guid><description>源码编译安装 前往wxWidgets官网，下载wxWidgets 打开Developer Command Prompt for VS 2022工具，进入 build\msw 目录，编译 1 nmake /f makefile.vc BUILD=debug SHARED=0 TARGET_CPU=X64 这里</description></item><item><title>Qt之布局管理</title><link>https://example.com/qt%E4%B9%8B%E5%B8%83%E5%B1%80%E7%AE%A1%E7%90%86/</link><pubDate>Wed, 12 Feb 2020 21:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/qt%E4%B9%8B%E5%B8%83%E5%B1%80%E7%AE%A1%E7%90%86/</guid><description>本文环境： OS：Ubuntu 18.04.3 LTS Qt版本：5.14.1 Qt Creator版本：4.10.1 布局器概览 我们以下图的 Qt 设计师界面来说明布局功能，Q</description></item><item><title>Qt之初步尝试</title><link>https://example.com/qt_begin/</link><pubDate>Sat, 18 Jan 2020 10:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/qt_begin/</guid><description>本文环境： OS：Ubuntu 18.04.3 LTS Qt版本：5.14.1 Qt Creator版本：4.10.1 Qt安装 首先，我们得明白一些概念。 Qt是一个C++库</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>C++ - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/c++/</link><description>C++ - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Mon, 15 Aug 2022 09:30:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/c++/" rel="self" type="application/rss+xml"/><item><title>wxWidgets使用</title><link>https://example.com/wxwidgets%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 15 Aug 2022 09:30:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/wxwidgets%E4%BD%BF%E7%94%A8/</guid><description><![CDATA[<p></p>
+<!-- more -->
+<h2 id="源码编译安装">源码编译安装</h2>
+<p>前往wxWidgets<a href="https://www.wxwidgets.org/downloads/" target="_blank" rel="noopener noreffer ">官网</a>，下载wxWidgets</p>
+<p></p>
+<p>打开<code>Developer Command Prompt for VS 2022</code>工具，进入 <code>build\msw</code> 目录，编译</p>]]></description></item><item><title>Qt之布局管理</title><link>https://example.com/qt%E4%B9%8B%E5%B8%83%E5%B1%80%E7%AE%A1%E7%90%86/</link><pubDate>Wed, 12 Feb 2020 21:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/qt%E4%B9%8B%E5%B8%83%E5%B1%80%E7%AE%A1%E7%90%86/</guid><description><![CDATA[<p>本文环境：</p>
+<ul>
+<li>OS：Ubuntu 18.04.3 LTS</li>
+<li>Qt版本：5.14.1</li>
+<li>Qt Creator版本：4.10.1</li>
+</ul>
+<h2 id="布局器概览">布局器概览</h2>
+<p>我们以下图的 Qt 设计师界面来说明布局功能，QtCreator 设计模式的布局功能与 Qt 设计师是一样的。</p>]]></description></item><item><title>Qt之初步尝试</title><link>https://example.com/qt_begin/</link><pubDate>Sat, 18 Jan 2020 10:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/qt_begin/</guid><description><![CDATA[<p>本文环境：</p>
+<ul>
+<li>OS：Ubuntu 18.04.3 LTS</li>
+<li>Qt版本：5.14.1</li>
+<li>Qt Creator版本：4.10.1</li>
+</ul>
+<h2 id="qt安装">Qt安装</h2>
+<p>首先，我们得明白一些概念。<br>
+<strong>Qt</strong>是一个C++库，或者说是开发框架，里面集成了一些库函数，提高开发效率。<br>
+<strong>Qt Creator</strong>是Qt集成开发环境，你可以在这里编写，编译，运行你的程序。所以最开始写Qt只安装<strong>Qt Creator</strong>这个是不行的，因为还没有相关的Qt库呢，但是新版的<strong>Qt Creator</strong>（5.9开始）已经集成了Qt了，所以入门就方便很多了。<br>
+关于Qt下载，大家可以打开这里的<a href="http://download.qt.io/archive/qt/" target="_blank" rel="noopener noreffer ">链接</a>，里面有各版本Qt（<strong>Qt</strong>和<strong>Qt Creator</strong>的集成包），操作简单，最新版本是<strong>5.14</strong>。</p>]]></description></item></channel></rss>

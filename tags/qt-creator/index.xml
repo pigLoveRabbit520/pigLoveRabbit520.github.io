@@ -1,1 +1,11 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Qt Creator - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/qt-creator/</link><description>Qt Creator - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 18 Jan 2020 10:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/qt-creator/" rel="self" type="application/rss+xml"/><item><title>Qt之初步尝试</title><link>https://example.com/qt_begin/</link><pubDate>Sat, 18 Jan 2020 10:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/qt_begin/</guid><description>本文环境： OS：Ubuntu 18.04.3 LTS Qt版本：5.14.1 Qt Creator版本：4.10.1 Qt安装 首先，我们得明白一些概念。 Qt是一个C++库</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Qt Creator - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/qt-creator/</link><description>Qt Creator - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sat, 18 Jan 2020 10:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/qt-creator/" rel="self" type="application/rss+xml"/><item><title>Qt之初步尝试</title><link>https://example.com/qt_begin/</link><pubDate>Sat, 18 Jan 2020 10:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/qt_begin/</guid><description><![CDATA[<p>本文环境：</p>
+<ul>
+<li>OS：Ubuntu 18.04.3 LTS</li>
+<li>Qt版本：5.14.1</li>
+<li>Qt Creator版本：4.10.1</li>
+</ul>
+<h2 id="qt安装">Qt安装</h2>
+<p>首先，我们得明白一些概念。<br>
+<strong>Qt</strong>是一个C++库，或者说是开发框架，里面集成了一些库函数，提高开发效率。<br>
+<strong>Qt Creator</strong>是Qt集成开发环境，你可以在这里编写，编译，运行你的程序。所以最开始写Qt只安装<strong>Qt Creator</strong>这个是不行的，因为还没有相关的Qt库呢，但是新版的<strong>Qt Creator</strong>（5.9开始）已经集成了Qt了，所以入门就方便很多了。<br>
+关于Qt下载，大家可以打开这里的<a href="http://download.qt.io/archive/qt/" target="_blank" rel="noopener noreffer ">链接</a>，里面有各版本Qt（<strong>Qt</strong>和<strong>Qt Creator</strong>的集成包），操作简单，最新版本是<strong>5.14</strong>。</p>]]></description></item></channel></rss>

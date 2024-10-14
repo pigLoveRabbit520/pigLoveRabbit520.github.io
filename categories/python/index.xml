@@ -1,1 +1,9 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Python - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/python/</link><description>Python - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 12 Apr 2020 13:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/python/" rel="self" type="application/rss+xml"/><item><title>Python曲线拟合</title><link>https://example.com/python_curve_fit/</link><pubDate>Sun, 12 Apr 2020 13:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/python_curve_fit/</guid><description>Python曲线拟合 本文环境： OS：Ubuntu 18.04.4 LTS Python版本：3.6.9 曲线拟合 现在我们有一组数据，表达的含义是在不同的时间点的充值</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Python - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/python/</link><description>Python - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 12 Apr 2020 13:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/python/" rel="self" type="application/rss+xml"/><item><title>Python曲线拟合</title><link>https://example.com/python_curve_fit/</link><pubDate>Sun, 12 Apr 2020 13:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/python_curve_fit/</guid><description><![CDATA[<h2 id="python曲线拟合">Python曲线拟合</h2>
+<p></p>
+<p>本文环境：</p>
+<ul>
+<li>OS：Ubuntu 18.04.4 LTS</li>
+<li>Python版本：3.6.9</li>
+</ul>
+<h2 id="曲线拟合">曲线拟合</h2>
+<p>现在我们有一组数据，表达的含义是在不同的时间点的充值金额，反映在坐标上就是一系列的散点，我们希望选择适当的曲线类型（如<code>y = a*x^2 + b</code>）“最佳”地逼近或拟合已知数据，这便是<strong>曲线拟合</strong>（curve fitting）。当然，变量间未必都是线性关系，我们可能会用到指数函数、对数函数、幂函数等。</p>]]></description></item></channel></rss>

@@ -1,1 +1,11 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>GRPC - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/grpc/</link><description>GRPC - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Jun 2020 09:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/grpc/" rel="self" type="application/rss+xml"/><item><title>gRPC入门使用</title><link>https://example.com/grpc_learn/</link><pubDate>Tue, 02 Jun 2020 09:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/grpc_learn/</guid><description>gRPC是什么 官网如此写到 A high-performance, open source universal RPC framework 其实，gRPC是一个高性能的，通用的，面向服务端和移动端，基于 HTTP/2 设计的RPC框架。 RPC框架是什么？</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>GRPC - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/grpc/</link><description>GRPC - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 02 Jun 2020 09:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/grpc/" rel="self" type="application/rss+xml"/><item><title>gRPC入门使用</title><link>https://example.com/grpc_learn/</link><pubDate>Tue, 02 Jun 2020 09:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/grpc_learn/</guid><description><![CDATA[<h2 id="grpc是什么">gRPC是什么</h2>
+<p><a href="https://grpc.io" target="_blank" rel="noopener noreffer ">官网</a>如此写到</p>
+<blockquote>
+<p>A high-performance, open source universal RPC framework</p>
+</blockquote>
+<p>其实，gRPC是一个高性能的，通用的，面向服务端和移动端，基于 HTTP/2 设计的RPC框架。</p>
+<!-- more -->
+<h2 id="rpc框架是什么">RPC框架是什么？</h2>
+<p>RPC 框架说白了就是让你可以像调用本地方法一样调用远程服务提供的方法，而不需要关心底层的通信细节。简单地说就让远程服务调用更加简单、透明。
+RPC框架包含了客户端（Client）和服务端（Server）<br>
+常见的RPC框架有</p>]]></description></item></channel></rss>

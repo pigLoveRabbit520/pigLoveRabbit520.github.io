@@ -1,1 +1,12 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>PHP - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/php/</link><description>PHP - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 03 Jul 2020 20:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/php/" rel="self" type="application/rss+xml"/><item><title>调试PHP源码</title><link>https://example.com/debug_php_source_code/</link><pubDate>Fri, 03 Jul 2020 20:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/debug_php_source_code/</guid><description>缘由 有时候，我们想看看一个变量底层对应底层的数据结构或者PHP脚本是如何执行的，gdb就是这样一个好工具，之前有篇文章写过如何简单使用gdb</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>PHP - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/php/</link><description>PHP - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 03 Jul 2020 20:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/php/" rel="self" type="application/rss+xml"/><item><title>调试PHP源码</title><link>https://example.com/debug_php_source_code/</link><pubDate>Fri, 03 Jul 2020 20:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/debug_php_source_code/</guid><description><![CDATA[<p></p>
+<h2 id="缘由">缘由</h2>
+<p>有时候，我们想看看一个变量底层对应底层的数据结构或者PHP脚本是如何执行的，gdb就是这样一个好工具，之前有篇<a href="/2020/07/02/gdb_use/" rel="">文章写过</a>如何简单使用gdb。</p>
+<p>本文环境：</p>
+<ul>
+<li>PHP版本：PHP 7.1.16 (cli) (built: Apr  8 2020 11:56:59) ( ZTS )</li>
+<li>OS：Ubuntu 18.04.4 LTS</li>
+<li>gdb: GNU gdb (Ubuntu 8.1-0ubuntu3.2) 8.1.0.20180409-git</li>
+</ul>
+<!-- more -->
+<h2 id="编译">编译</h2>
+<p>你可以从<a href="https://www.php.net/downloads" target="_blank" rel="noopener noreffer ">PHP官网下载PHP源码的压缩包</a>，者是从git.php.net（或者是github的镜像）的git库clone最新的代码库，然后切换到对应的PHP版本的分支，本文使用的是PHP7.1，你可以使用下面的命令完成这些工作：</p>]]></description></item></channel></rss>

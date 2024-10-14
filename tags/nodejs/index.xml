@@ -1,1 +1,54 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Nodejs - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/nodejs/</link><description>Nodejs - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 18 Sep 2024 09:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/nodejs/" rel="self" type="application/rss+xml"/><item><title>JavaScript中的微任务、宏任务和Promise</title><link>https://example.com/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</link><pubDate>Wed, 18 Sep 2024 09:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</guid><description>JavaScript会将异步任务划分为微任务和宏任务，微任务会在宏任务之前执行（因为每次从主线程切换到任务队列时，都会优先遍历微任务队列，后</description></item><item><title>Node.js：容器中Core Dump</title><link>https://example.com/core_dump_in_docker/</link><pubDate>Tue, 27 Jul 2021 15:49:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/core_dump_in_docker/</guid><description>在开始之前，我们先了解下什么是 Core 和 Core Dump。 什么是 Core? 在使用半导体作为内存材料前，人类是利用线圈当作内存的材料，线圈就叫作 core ，用线圈做的内存</description></item><item><title>Puppeteer使用例子</title><link>https://example.com/puppeteer%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90/</link><pubDate>Fri, 05 Mar 2021 09:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/puppeteer%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90/</guid><description>这篇文章很简单呢，就是记录一下用Puppeteer的一些snippet。 访问网站后截图 1 2 3 4 5 6 7 8 9 10 11 12 13 14 15 16 17 18 19 20 const puppeteer = require(&amp;#39;puppeteer&amp;#39;); const url =</description></item></channel></rss>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Nodejs - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/nodejs/</link><description>Nodejs - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 18 Sep 2024 09:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/nodejs/" rel="self" type="application/rss+xml"/><item><title>JavaScript中的微任务、宏任务和Promise</title><link>https://example.com/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</link><pubDate>Wed, 18 Sep 2024 09:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</guid><description>&lt;p>JavaScript会将异步任务划分为微任务和宏任务，微任务会在宏任务之前执行（因为每次从主线程切换到任务队列时，都会优先遍历微任务队列，后遍历宏任务队列）。&lt;/p></description></item><item><title>Node.js：容器中Core Dump</title><link>https://example.com/core_dump_in_docker/</link><pubDate>Tue, 27 Jul 2021 15:49:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/core_dump_in_docker/</guid><description><![CDATA[<p>在开始之前，我们先了解下什么是 Core 和 Core Dump。<br>
+<strong>什么是 Core?</strong></p>
+<blockquote>
+<p>在使用半导体作为内存材料前，人类是利用线圈当作内存的材料，线圈就叫作 core ，用线圈做的内存就叫作 core memory。如今 ，半导体工业澎勃发展，已经没有人用 core memory 了，不过在许多情况下， 人们还是把记忆体叫作 core 。</p>]]></description></item><item><title>Puppeteer使用例子</title><link>https://example.com/puppeteer%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90/</link><pubDate>Fri, 05 Mar 2021 09:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/puppeteer%E4%BD%BF%E7%94%A8%E4%BE%8B%E5%AD%90/</guid><description><![CDATA[<p><br>
+这篇文章很简单呢，就是记录一下用<strong>Puppeteer</strong>的一些snippet。</p>
+<!-- more -->
+<h2 id="访问网站后截图">访问网站后截图</h2>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-CSharp" data-lang="CSharp"><span class="line"><span class="cl"><span class="kd">const</span> <span class="n">puppeteer</span> <span class="p">=</span> <span class="n">require</span><span class="p">(</span><span class="err">&#39;</span><span class="n">puppeteer</span><span class="err">&#39;</span><span class="p">);</span>
+</span></span><span class="line"><span class="cl"><span class="kd">const</span> <span class="n">url</span> <span class="p">=</span> <span class="err">&#39;</span><span class="n">https</span><span class="p">:</span><span class="c1">//segmentfault.com&#39;;</span>
+</span></span><span class="line"><span class="cl">
+</span></span><span class="line"><span class="cl"><span class="p">(</span><span class="kd">async</span><span class="p">()</span> <span class="p">=&gt;</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">const</span> <span class="n">browser</span> <span class="p">=</span> <span class="k">await</span> <span class="n">puppeteer</span><span class="p">.</span><span class="n">launch</span><span class="p">({</span>
+</span></span><span class="line"><span class="cl">        <span class="n">headless</span><span class="p">:</span> <span class="kc">true</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">args</span><span class="p">:</span> <span class="p">[</span><span class="s">&#34;--no-sandbox&#34;</span><span class="p">,</span> <span class="s">&#34;--single-process&#34;</span><span class="p">],</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="kd">const</span> <span class="n">page</span> <span class="p">=</span> <span class="k">await</span> <span class="n">browser</span><span class="p">.</span><span class="n">newPage</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">page</span><span class="p">.</span><span class="n">setViewport</span><span class="p">({</span> <span class="n">width</span><span class="p">:</span> <span class="m">1920</span><span class="p">,</span> <span class="n">height</span><span class="p">:</span> <span class="m">1080</span> <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// ‘networkidle2’ means that there are no more than 2 active requests open. </span>
+</span></span><span class="line"><span class="cl">    <span class="c1">// This is a good setting because for some websites (e.g. websites using websockets) there will always be connections open</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">page</span><span class="p">.</span><span class="k">goto</span><span class="p">(</span><span class="n">url</span><span class="p">,</span> <span class="p">{</span>
+</span></span><span class="line"><span class="cl">        <span class="n">waitUntil</span><span class="p">:</span> <span class="err">&#39;</span><span class="n">networkidle2</span><span class="err">&#39;</span><span class="p">,</span>
+</span></span><span class="line"><span class="cl">        <span class="n">timeout</span><span class="p">:</span> <span class="m">1000</span> <span class="p">*</span> <span class="m">60</span> <span class="p">*</span> <span class="m">5</span><span class="p">,</span> <span class="c1">// 毫秒 超时参数需要加上，有时候网络不好，会导致等着</span>
+</span></span><span class="line"><span class="cl">    <span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="k">await</span> <span class="n">page</span><span class="p">.</span><span class="n">screenshot</span><span class="p">({</span><span class="n">path</span><span class="p">:</span> <span class="err">&#39;</span><span class="p">./</span><span class="n">data</span><span class="p">/</span><span class="n">website</span><span class="p">.</span><span class="n">png</span><span class="err">&#39;</span><span class="p">,</span> <span class="n">type</span><span class="p">:</span> <span class="err">&#39;</span><span class="n">png</span><span class="err">&#39;</span><span class="p">});</span>
+</span></span><span class="line"><span class="cl">    <span class="n">page</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl">    <span class="n">browser</span><span class="p">.</span><span class="n">close</span><span class="p">();</span>
+</span></span><span class="line"><span class="cl"><span class="p">})();</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description></item></channel></rss>
