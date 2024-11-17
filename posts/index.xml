@@ -1,4 +1,63 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - pigLoveRabbit的网站</title><link>https://example.com/posts/</link><description>所有文章 | pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 08 Oct 2024 14:00:00 +0000</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml"/><item><title>最小二乘法和线性回归</title><link>https://example.com/least_square/</link><pubDate>Tue, 08 Oct 2024 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/least_square/</guid><description><![CDATA[<h2 id="最小二乘法">最小二乘法</h2>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - pigLoveRabbit的网站</title><link>https://example.com/posts/</link><description>所有文章 | pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 25 Oct 2024 19:00:00 +0000</lastBuildDate><atom:link href="https://example.com/posts/" rel="self" type="application/rss+xml"/><item><title>Keras 简单尝试</title><link>https://example.com/keras_first/</link><pubDate>Fri, 25 Oct 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/keras_first/</guid><description><![CDATA[<!-- more -->
+<h2 id="一个demo">一个demo</h2>
+<p>csv在这里<a href="https://github.com/npradaschnor/Pima-Indians-Diabetes-Dataset/blob/master/diabetes.csv" target="_blank" rel="noopener noreffer ">下载</a></p>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-Python" data-lang="Python"><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">os</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Create first network with Keras</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">keras.models</span> <span class="kn">import</span> <span class="n">Sequential</span>
+</span></span><span class="line"><span class="cl"><span class="kn">from</span> <span class="nn">keras.layers</span> <span class="kn">import</span> <span class="n">Dense</span>
+</span></span><span class="line"><span class="cl"><span class="kn">import</span> <span class="nn">numpy</span>
+</span></span><span class="line"><span class="cl"><span class="n">os</span><span class="o">.</span><span class="n">environ</span><span class="p">[</span><span class="s1">&#39;TF_CPP_MIN_LOG_LEVEL&#39;</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;2&#39;</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># fix random seed for reproducibility</span>
+</span></span><span class="line"><span class="cl"><span class="n">seed</span> <span class="o">=</span> <span class="mi">7</span>
+</span></span><span class="line"><span class="cl"><span class="n">numpy</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="n">seed</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># load pima indians dataset</span>
+</span></span><span class="line"><span class="cl"><span class="n">dataset</span> <span class="o">=</span> <span class="n">numpy</span><span class="o">.</span><span class="n">loadtxt</span><span class="p">(</span><span class="s2">&#34;pima-indians-diabetes.csv&#34;</span><span class="p">,</span> <span class="n">delimiter</span><span class="o">=</span><span class="s2">&#34;,&#34;</span><span class="p">,</span> <span class="n">skiprows</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># split into input (X) and output (Y) variables</span>
+</span></span><span class="line"><span class="cl"><span class="n">X</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[:,</span><span class="mi">0</span><span class="p">:</span><span class="mi">8</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="n">Y</span> <span class="o">=</span> <span class="n">dataset</span><span class="p">[:,</span><span class="mi">8</span><span class="p">]</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># create model</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span> <span class="o">=</span> <span class="n">Sequential</span><span class="p">()</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="n">input_dim</span><span class="o">=</span><span class="mi">8</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span> 
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">8</span><span class="p">,</span> <span class="n">bias_initializer</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">add</span><span class="p">(</span><span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">kernel_initializer</span><span class="o">=</span><span class="s1">&#39;uniform&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">))</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># Compile model</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span><span class="s1">&#39;binary_crossentropy&#39;</span><span class="p">,</span> <span class="n">optimizer</span><span class="o">=</span><span class="s1">&#39;adam&#39;</span><span class="p">,</span> <span class="n">metrics</span><span class="o">=</span><span class="p">[</span><span class="s1">&#39;accuracy&#39;</span><span class="p">])</span> <span class="c1"># Fit the model</span>
+</span></span><span class="line"><span class="cl"><span class="n">model</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">epochs</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span> <span class="n">batch_size</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="c1"># evaluate the model</span>
+</span></span><span class="line"><span class="cl"><span class="n">scores</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">evaluate</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+</span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%.2f%%</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metrics_names</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scores</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
+</span></span></code></pre></td></tr></table>
+</div>
+</div>]]></description></item><item><title>最小二乘法和线性回归</title><link>https://example.com/least_square/</link><pubDate>Tue, 08 Oct 2024 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/least_square/</guid><description><![CDATA[<h2 id="最小二乘法">最小二乘法</h2>
 <p>早在19世纪,勒让德就认为让&quot;误差的平方和最小&quot;估计出来的模型是最接近真实情形的。<br>
 按照勒让德的最佳原则,于是就是求:<br>
 $$
@@ -130,9 +189,4 @@ $$
 </span></span></code></pre></td></tr></table>
 </div>
 </div><p></p>]]></description></item><item><title>OpenGL中旋转矩阵</title><link>https://example.com/opengl_matrix/</link><pubDate>Tue, 21 Mar 2023 11:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/opengl_matrix/</guid><description><![CDATA[<h2 id="旋转矩阵">旋转矩阵</h2>
-<p>首先要说明的是，左右手旋转矩阵是不一样的，DirectX中是左手坐标系，而OpenGL用的是<strong>右手坐标系</strong>，这里给出的旋转矩阵也是基于右手坐标系的</p>]]></description></item><item><title>wxWidgets使用</title><link>https://example.com/wxwidgets%E4%BD%BF%E7%94%A8/</link><pubDate>Mon, 15 Aug 2022 09:30:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/wxwidgets%E4%BD%BF%E7%94%A8/</guid><description><![CDATA[<p></p>
-<!-- more -->
-<h2 id="源码编译安装">源码编译安装</h2>
-<p>前往wxWidgets<a href="https://www.wxwidgets.org/downloads/" target="_blank" rel="noopener noreffer ">官网</a>，下载wxWidgets</p>
-<p></p>
-<p>打开<code>Developer Command Prompt for VS 2022</code>工具，进入 <code>build\msw</code> 目录，编译</p>]]></description></item></channel></rss>
+<p>首先要说明的是，左右手旋转矩阵是不一样的，DirectX中是左手坐标系，而OpenGL用的是<strong>右手坐标系</strong>，这里给出的旋转矩阵也是基于右手坐标系的</p>]]></description></item></channel></rss>
