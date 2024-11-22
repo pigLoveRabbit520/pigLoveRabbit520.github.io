@@ -1,4 +1,5 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Keras - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/keras/</link><description>Keras - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 25 Oct 2024 19:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/keras/" rel="self" type="application/rss+xml"/><item><title>Keras 简单尝试</title><link>https://example.com/keras_first/</link><pubDate>Fri, 25 Oct 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/keras_first/</guid><description><![CDATA[<!-- more -->
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Keras - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/keras/</link><description>Keras - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 25 Oct 2024 19:00:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/keras/" rel="self" type="application/rss+xml"/><item><title>Keras 简单尝试</title><link>https://example.com/keras_first/</link><pubDate>Fri, 25 Oct 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/keras_first/</guid><description><![CDATA[<p></p>
+<!-- more -->
 <h2 id="一个demo">一个demo</h2>
 <p>csv在这里<a href="https://github.com/npradaschnor/Pima-Indians-Diabetes-Dataset/blob/master/diabetes.csv" target="_blank" rel="noopener noreffer ">下载</a></p>
 <div class="highlight"><div class="chroma">
@@ -57,4 +58,6 @@
 </span></span><span class="line"><span class="cl"><span class="nb">print</span><span class="p">(</span><span class="s2">&#34;</span><span class="si">%s</span><span class="s2">: </span><span class="si">%.2f%%</span><span class="s2">&#34;</span> <span class="o">%</span> <span class="p">(</span><span class="n">model</span><span class="o">.</span><span class="n">metrics_names</span><span class="p">[</span><span class="mi">1</span><span class="p">],</span> <span class="n">scores</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">*</span><span class="mi">100</span><span class="p">))</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div>]]></description></item></channel></rss>
+</div><h2 id="heading"></h2>
+<p><a href="https://www.bilibili.com/video/BV1Bp4y1D7YL/?p=8" target="_blank" rel="noopener noreffer ">视频课程</a><br>
+6w张图片的数据集</p>]]></description></item></channel></rss>
