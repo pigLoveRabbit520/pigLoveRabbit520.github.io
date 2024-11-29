@@ -1,4 +1,8 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>pigLoveRabbit的网站</title><link>https://example.com/</link><description>Javascript NodeJs C# software developer</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Tue, 29 Oct 2024 20:00:00 +0000</lastBuildDate><atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml"/><item><title>pytorch手写数字识别</title><link>https://example.com/my_pytorch/</link><pubDate>Tue, 29 Oct 2024 20:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/my_pytorch/</guid><description><![CDATA[<p></p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>pigLoveRabbit的网站</title><link>https://example.com/</link><description>Javascript NodeJs C# software developer</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 08 Nov 2024 19:00:00 +0000</lastBuildDate><atom:link href="https://example.com/index.xml" rel="self" type="application/rss+xml"/><item><title>Ascend C学习</title><link>https://example.com/ascend_c/</link><pubDate>Fri, 08 Nov 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/ascend_c/</guid><description><![CDATA[<p></p>
+<!-- more -->
+<h2 id="b站视频">B站视频</h2>
+<p><a href="https://www.bilibili.com/video/BV1bz421q7tg" target="_blank" rel="noopener noreffer ">Ascend C算子开发中级教程</a>
+Tiling过程可以在Host侧完成用于动态shape。</p>]]></description></item><item><title>pytorch手写数字识别</title><link>https://example.com/my_pytorch/</link><pubDate>Tue, 29 Oct 2024 20:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/my_pytorch/</guid><description><![CDATA[<p></p>
 <!-- more -->
 <h2 id="一个例子">一个例子</h2>
 <p>csv在这里<a href="https://github.com/npradaschnor/Pima-Indians-Diabetes-Dataset/blob/master/diabetes.csv" target="_blank" rel="noopener noreffer ">下载</a></p>
@@ -259,68 +263,4 @@ $$
 <br>
 然后点overlays下拉箭头，就能看到normal的选项了<br>
 <br>
-第一个Tab就是顶点法向，第三个Tab就是面法向。</p>]]></description></item><item><title>WebGL Shader</title><link>https://example.com/webgl-shader/</link><pubDate>Sun, 02 Jul 2023 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/webgl-shader/</guid><description><![CDATA[<h5 id="顶点着色器">顶点着色器</h5>
-<p>vertex.glsl</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span><span class="lnt">7
-</span><span class="lnt">8
-</span><span class="lnt">9
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">varying</span> <span class="n">vec3</span> <span class="n">vPosition</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">vPosition</span> <span class="o">=</span> <span class="n">position</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="o">//</span> <span class="n">MVP</span>
-</span></span><span class="line"><span class="cl">    <span class="n">vec4</span> <span class="n">modelViewPosition</span> <span class="o">=</span> <span class="n">modelViewMatrix</span> <span class="o">*</span> <span class="n">vec4</span><span class="p">(</span> <span class="n">position</span><span class="p">,</span> <span class="mf">1.0</span> <span class="p">);</span>
-</span></span><span class="line"><span class="cl">    <span class="n">vec4</span> <span class="n">projectedPosition</span> <span class="o">=</span> <span class="n">projectionMatrix</span> <span class="o">*</span> <span class="n">modelViewPosition</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">    <span class="n">gl_Position</span> <span class="o">=</span> <span class="n">projectedPosition</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h5 id="片段着色器">片段着色器</h5>
-<p>fragment.glsl</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="n">varying</span> <span class="n">vec3</span> <span class="n">vPosition</span><span class="p">;</span>
-</span></span><span class="line"><span class="cl">
-</span></span><span class="line"><span class="cl"><span class="n">void</span> <span class="n">main</span><span class="p">()</span> <span class="p">{</span>
-</span></span><span class="line"><span class="cl">    <span class="n">gl_FragColor</span> <span class="o">=</span> <span class="n">vec4</span><span class="p">(</span><span class="n">vPosition</span><span class="p">,</span> <span class="mi">1</span><span class="p">);</span>
-</span></span><span class="line"><span class="cl"><span class="p">}</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><h4 id="效果">效果</h4>
-<p>用了PlaneGeometry</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-gdscript3" data-lang="gdscript3"><span class="line"><span class="cl"><span class="o">//</span> <span class="n">meshes</span>
-</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">geometry</span> <span class="o">=</span> <span class="n">new</span> <span class="n">THREE</span><span class="o">.</span><span class="n">PlaneGeometry</span><span class="p">(</span><span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
-</span></span><span class="line"><span class="cl"><span class="k">const</span> <span class="n">material</span> <span class="o">=</span> <span class="n">new</span> <span class="n">THREE</span><span class="o">.</span><span class="n">ShaderMaterial</span><span class="p">({</span>
-</span></span><span class="line"><span class="cl">  <span class="n">vertexShader</span><span class="p">:</span> <span class="n">vertexShader</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl">  <span class="n">fragmentShader</span><span class="p">:</span> <span class="n">fragmentShader</span><span class="p">,</span>
-</span></span><span class="line"><span class="cl"><span class="p">})</span>
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p></p>]]></description></item></channel></rss>
+第一个Tab就是顶点法向，第三个Tab就是面法向。</p>]]></description></item></channel></rss>

@@ -1,6 +1,6 @@
 # Keras 简单尝试
 
-![Keras](https://i-blog.csdnimg.cn/blog_migrate/6236422092578e4462ea541ebf37fc8f.png)
+![Keras](/images/my-keras.png)
 <!-- more -->
 
 ## 一个demo
