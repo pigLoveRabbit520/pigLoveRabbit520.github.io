@@ -1,6 +1,6 @@
 # pytorch手写数字识别
 
-![pytorch](https://venturebeat.com/wp-content/uploads/2019/06/pytorch-e1576624094357.jpg)
+![pytorch](/images/PyTorchLogo.jpg)
 <!-- more -->
 
 ## 一个例子
