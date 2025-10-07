@@ -1,8 +1,8 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>深度学习 - 分类 - pigLoveRabbit的网站</title><link>https://example.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link><description>深度学习 - 分类 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 08 Nov 2024 19:00:00 +0000</lastBuildDate><atom:link href="https://example.com/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml"/><item><title>Ascend C学习</title><link>https://example.com/ascend_c/</link><pubDate>Fri, 08 Nov 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/ascend_c/</guid><description><![CDATA[<p></p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>深度学习 - 分类 - 猪爱兔的网站</title><link>https://pigLoveRabbit520.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/</link><description>深度学习 - 分类 - 猪爱兔的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Fri, 08 Nov 2024 19:00:00 +0000</lastBuildDate><atom:link href="https://pigLoveRabbit520.github.io/categories/%E6%B7%B1%E5%BA%A6%E5%AD%A6%E4%B9%A0/" rel="self" type="application/rss+xml"/><item><title>Ascend C学习</title><link>https://pigLoveRabbit520.github.io/ascend_c/</link><pubDate>Fri, 08 Nov 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/ascend_c/</guid><description><![CDATA[<p></p>
 <!-- more -->
 <h2 id="b站视频">B站视频</h2>
 <p><a href="https://www.bilibili.com/video/BV1bz421q7tg" target="_blank" rel="noopener noreffer ">Ascend C算子开发中级教程</a>
-Tiling过程可以在Host侧完成用于动态shape。</p>]]></description></item><item><title>pytorch手写数字识别</title><link>https://example.com/my_pytorch/</link><pubDate>Tue, 29 Oct 2024 20:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/my_pytorch/</guid><description><![CDATA[<p></p>
+Tiling过程可以在Host侧完成用于动态shape。</p>]]></description></item><item><title>pytorch手写数字识别</title><link>https://pigLoveRabbit520.github.io/my_pytorch/</link><pubDate>Tue, 29 Oct 2024 20:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/my_pytorch/</guid><description><![CDATA[<p></p>
 <!-- more -->
 <h2 id="一个例子">一个例子</h2>
 <p>csv在这里<a href="https://github.com/npradaschnor/Pima-Indians-Diabetes-Dataset/blob/master/diabetes.csv" target="_blank" rel="noopener noreffer ">下载</a></p>
@@ -134,7 +134,7 @@ Tiling过程可以在Host侧完成用于动态shape。</p>]]></description></ite
 </span></span><span class="line"><span class="cl">    <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Accuracy: </span><span class="si">{</span><span class="n">accuracy</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p>以上代码分为几个过程</p>]]></description></item><item><title>Keras 简单尝试</title><link>https://example.com/keras_first/</link><pubDate>Fri, 25 Oct 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/keras_first/</guid><description><![CDATA[<p></p>
+</div><p>以上代码分为几个过程</p>]]></description></item><item><title>Keras 简单尝试</title><link>https://pigLoveRabbit520.github.io/keras_first/</link><pubDate>Fri, 25 Oct 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/keras_first/</guid><description><![CDATA[<p></p>
 <!-- more -->
 <h2 id="一个demo">一个demo</h2>
 <p>csv在这里<a href="https://github.com/npradaschnor/Pima-Indians-Diabetes-Dataset/blob/master/diabetes.csv" target="_blank" rel="noopener noreffer ">下载</a></p>

@@ -1,5 +1,5 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Docker - 标签 - pigLoveRabbit的网站</title><link>https://example.com/tags/docker/</link><description>Docker - 标签 - pigLoveRabbit的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 11 May 2022 10:19:00 +0000</lastBuildDate><atom:link href="https://example.com/tags/docker/" rel="self" type="application/rss+xml"/><item><title>ASP.NET in Windows Container</title><link>https://example.com/asp-net-in-windows-container/</link><pubDate>Wed, 11 May 2022 10:19:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://example.com/asp-net-in-windows-container/</guid><description><![CDATA[<p>平常我们用的都是<code>Linux Container</code>，这些容器用的都是Linux的内核，而今天我们要记录的是<code>Windows Container</code>，就是讲这些容器用的是Windows的内核，Windows内核是啥？那就是<a href="https://zh.m.wikipedia.org/zh-hans/Windows_NT" target="_blank" rel="noopener noreffer ">Windows NT</a>。<br>
-查看你的Windows内核版本，可以用</p>]]></description></item><item><title>一步步自己做个Docker之Docker网络原理</title><link>https://example.com/step_to_step_docker%E4%B9%8Bdocker_network_underlying/</link><pubDate>Tue, 28 Apr 2020 15:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/step_to_step_docker%E4%B9%8Bdocker_network_underlying/</guid><description><![CDATA[<p></p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>Docker - 标签 - 猪爱兔的网站</title><link>https://pigLoveRabbit520.github.io/tags/docker/</link><description>Docker - 标签 - 猪爱兔的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Wed, 11 May 2022 10:19:00 +0000</lastBuildDate><atom:link href="https://pigLoveRabbit520.github.io/tags/docker/" rel="self" type="application/rss+xml"/><item><title>ASP.NET in Windows Container</title><link>https://pigLoveRabbit520.github.io/asp-net-in-windows-container/</link><pubDate>Wed, 11 May 2022 10:19:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/asp-net-in-windows-container/</guid><description><![CDATA[<p>平常我们用的都是<code>Linux Container</code>，这些容器用的都是Linux的内核，而今天我们要记录的是<code>Windows Container</code>，就是讲这些容器用的是Windows的内核，Windows内核是啥？那就是<a href="https://zh.m.wikipedia.org/zh-hans/Windows_NT" target="_blank" rel="noopener noreffer ">Windows NT</a>。<br>
+查看你的Windows内核版本，可以用</p>]]></description></item><item><title>一步步自己做个Docker之Docker网络原理</title><link>https://pigLoveRabbit520.github.io/step_to_step_docker%E4%B9%8Bdocker_network_underlying/</link><pubDate>Tue, 28 Apr 2020 15:00:00 +0000</pubDate><author>Salamander</author><guid>https://pigLoveRabbit520.github.io/step_to_step_docker%E4%B9%8Bdocker_network_underlying/</guid><description><![CDATA[<p></p>
 <p>本文环境：</p>
 <ul>
 <li>OS：Ubuntu 18.04.4 LTS</li>
@@ -9,14 +9,14 @@
 <h2 id="自己创建docker网络">自己创建Docker网络</h2>
 <blockquote>
 <p>当 Docker 启动时，会自动在主机上创建一个 docker0 虚拟网桥，实际上是 Linux 的一个 bridge，可以理解为一个软件交换机。它会在挂载到它的网口之间进行转发。 同时，Docker 随机分配一个本地未占用的私有网段（在 RFC1918 中定义）中的一个地址给 docker0 接口。比如典型的 172.17.42.1，掩码为 255.255.0.0。此后启动的容器内的网口也会自动分配一个同一网段（172.17.0.0/16）的地址。 当创建一个 Docker 容器的时候，同时会创建了一对 veth pair 接口（当数据包发送到一个接口时，另外一个接口也可以收到相同的数据包）。这对接口一端在容器内，即 eth0；另一端在本地并被挂载到 docker0 网桥，名称以 veth 开头（例如 vethAQI2QT）。通过这种方式，主机可以跟容器通信，容器之间也可以相互通信。Docker 就创建了在主机和所有容器之间一个虚拟共享网络。如图
-</p>]]></description></item><item><title>一步步自己做个Docker之Cgroups</title><link>https://example.com/docker_cgroups/</link><pubDate>Mon, 06 Apr 2020 20:30:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/docker_cgroups/</guid><description><![CDATA[<p></p>
+</p>]]></description></item><item><title>一步步自己做个Docker之Cgroups</title><link>https://pigLoveRabbit520.github.io/docker_cgroups/</link><pubDate>Mon, 06 Apr 2020 20:30:00 +0000</pubDate><author>Salamander</author><guid>https://pigLoveRabbit520.github.io/docker_cgroups/</guid><description><![CDATA[<p></p>
 <p>本文环境：</p>
 <ul>
 <li>OS：Ubuntu 18.04.4 LTS</li>
 <li>Golang版本：1.12.13</li>
 </ul>
 <h2 id="什么是linux-cgroups">什么是Linux Cgroups</h2>
-<p><strong>Linux Cgroups</strong>（Control Groups）提供了对一组进程及将来的子进程的资源限制、控制和统计的能力，这些资源包括CPU、内存、存储、网络等。本质上来说，<strong>Cgroups</strong> 是内核附加在程序上的一系列钩子(hook)，通过程序运行时对资源的调度触发相应的钩子以达到资源追踪和限制的目的。</p>]]></description></item><item><title>一步步自己做个Docker之Go调用Namespace</title><link>https://example.com/docker_go_namespace/</link><pubDate>Thu, 26 Mar 2020 21:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/docker_go_namespace/</guid><description><![CDATA[<p></p>
+<p><strong>Linux Cgroups</strong>（Control Groups）提供了对一组进程及将来的子进程的资源限制、控制和统计的能力，这些资源包括CPU、内存、存储、网络等。本质上来说，<strong>Cgroups</strong> 是内核附加在程序上的一系列钩子(hook)，通过程序运行时对资源的调度触发相应的钩子以达到资源追踪和限制的目的。</p>]]></description></item><item><title>一步步自己做个Docker之Go调用Namespace</title><link>https://pigLoveRabbit520.github.io/docker_go_namespace/</link><pubDate>Thu, 26 Mar 2020 21:00:00 +0000</pubDate><author>Salamander</author><guid>https://pigLoveRabbit520.github.io/docker_go_namespace/</guid><description><![CDATA[<p></p>
 <p>本文环境：</p>
 <ul>
 <li>OS：Ubuntu 18.04.4 LTS</li>
@@ -25,7 +25,7 @@
 <h2 id="golang">Golang</h2>
 <p>Go语言是Google开发的一种静态类型、编译型的高级语言，它设计的蛮简单的，学过C的话，其实上手Go很快的，当然相比于C的话，Go有垃圾回收和并发支持，所以写起来心智负担更低一点。<br>
 对于Go的安装和配置，我以前写过一篇文章——<a href="https://segmentfault.com/a/1190000008487280" target="_blank" rel="noopener noreffer ">go语言基本配置</a>，我这里就不在赘述了。Go1.11增加了<code>go modules</code>，使用它的话，就没必要一定要把代码放到<code>GOPATH</code>下面啦~(≧▽≦)/~。 <code>go modules</code>详细
-使用请参考<a href="https://juejin.im/post/5c8e503a6fb9a070d878184a" target="_blank" rel="noopener noreffer ">go mod 使用</a>。</p>]]></description></item><item><title>一步步自己做个Docker之Linux Namespace 简介</title><link>https://example.com/docker-linux-namespace-intro/</link><pubDate>Thu, 28 Nov 2019 16:10:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/docker-linux-namespace-intro/</guid><description><![CDATA[<p></p>
+使用请参考<a href="https://juejin.im/post/5c8e503a6fb9a070d878184a" target="_blank" rel="noopener noreffer ">go mod 使用</a>。</p>]]></description></item><item><title>一步步自己做个Docker之Linux Namespace 简介</title><link>https://pigLoveRabbit520.github.io/docker-linux-namespace-intro/</link><pubDate>Thu, 28 Nov 2019 16:10:00 +0000</pubDate><author>Salamander</author><guid>https://pigLoveRabbit520.github.io/docker-linux-namespace-intro/</guid><description><![CDATA[<p></p>
 <p>本文环境：</p>
 <ul>
 <li>OS：Ubuntu 18.04.3 LTS</li>
@@ -33,6 +33,6 @@
 </ul>
 <h2 id="linux-namespaces">Linux Namespaces</h2>
 <p>Docker的所用的两个关键技术，一个是<code>Namespaces</code>，一个是<code>Cgroups</code>。它俩都不是新技术，Linux内核很早就支持，但是Docker把它们有机地结合起来，加上自己创新，使得现在容器技术非常流行。<br>
-<code>Linux Namespaces</code>其实是做到了进程之间全局资源的隔离，譬如，<code>UTS Namespace</code>隔离了Hostname空间。这意味着在新的<code>UTS Namespace</code>中的进程，可以拥有不同于宿主机的主机名。</p>]]></description></item><item><title>Jenkins在Docker中运行中的坑</title><link>https://example.com/jenkin_and_docker/</link><pubDate>Thu, 07 Nov 2019 20:00:00 +0000</pubDate><author>Salamander</author><guid>https://example.com/jenkin_and_docker/</guid><description><![CDATA[<h2 id="jenkins是什么">jenkins是什么？</h2>
+<code>Linux Namespaces</code>其实是做到了进程之间全局资源的隔离，譬如，<code>UTS Namespace</code>隔离了Hostname空间。这意味着在新的<code>UTS Namespace</code>中的进程，可以拥有不同于宿主机的主机名。</p>]]></description></item><item><title>Jenkins在Docker中运行中的坑</title><link>https://pigLoveRabbit520.github.io/jenkin_and_docker/</link><pubDate>Thu, 07 Nov 2019 20:00:00 +0000</pubDate><author>Salamander</author><guid>https://pigLoveRabbit520.github.io/jenkin_and_docker/</guid><description><![CDATA[<h2 id="jenkins是什么">jenkins是什么？</h2>
 <p>  Jenkins是一个开源的、提供友好操作界面的持续集成(CI)工具，起源于Hudson（Hudson是商用的），主要用于持续、自动的构建/测试软件项目、监控外部任务的运行。Jenkins用Java语言编写，可在Tomcat等流行的servlet容器中运行，也可独立运行。通常与版本管理工具(SCM)、构建工具结合使用。常用的版本控制工具有SVN、GIT，构建工具有Maven、Ant、Gradle。<br>
 上面的介绍是抄的（逃，简单讲，就是Jenkins能帮我们<strong>自动编译，测试，发布软件</strong>。</p>]]></description></item></channel></rss>
