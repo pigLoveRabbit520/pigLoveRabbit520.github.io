@@ -71,6 +71,36 @@ True
 
 
 ## Softmax算子
+### Naive Softmax实现
+首先，使用pytorch实现一个row-wise的naive softmax:
+```python
+import torch
+
+def naive_softmax(x):
+    """Compute row-wise softmax of X using native pytorch
+
+    We subtract the maximum element in order to avoid overflows. Softmax is invariant to
+    this shift.
+    """
+    # read  MN elements ; write M  elements; 读取MN元素；写M个元素
+    x_max = x.max(dim=1)[0]
+    # read MN + M elements ; write MN elements; 读取MN+M元素；写入MN元素
+    z = x - x_max[:, None]
+    # read  MN elements ; write MN elements; 读取MN元素；写入MN元素
+    numerator = torch.exp(z)
+    # read  MN elements ; write M  elements; 读取MN元素；写M个元素
+    denominator = numerator.sum(dim=1)
+    # read MN + M elements ; write MN elements; 读取MN M元素；写入MN元素
+    ret = numerator / denominator[:, None]
+    # in total: read 5MN + 2M elements ; wrote 3MN + 2M elements;
+    return ret # 共：读取5MN+2M元素；写了3MN+2M个元素
+```
+为什么叫 “naive”（朴素）？
+* 它使用了 多个中间张量（x_max, z, numerator, denominator, ret），每个都占用显存。
+* 每一步都是独立的 PyTorch 操作，无法融合（kernel fusion），导致多次读写全局内存。
+* 在 GPU 上，这会带来 较高的内存带宽压力 和 较低的计算效率。
+
+### N较小的Triton版softmax
 ```python
 import triton
 import triton.language as tl
@@ -150,9 +180,9 @@ def softmax(x: torch.Tensor):
     return output
 ```
 
-
 ### 说明
 * 数值稳定性：通过减去每行最大值避免 exp 溢出。
 * 并行性：每行由一个 Triton 程序（program）处理，利用 BLOCK_SIZE 个线程并行加载/计算该行。
 * 内存访问：使用 mask 避免越界读写，适用于 N 不是 BLOCK_SIZE 整数倍的情况。
 * BLOCK_SIZE：自动选择最接近 N 的 2 的幂，但不超过 4096（Triton 的限制）。
+
