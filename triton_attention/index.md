@@ -220,3 +220,7 @@ Input
 
 如果你看到图中每个方框（Attention / FFN）后面都跟着一个 “Add & Norm”，现在你就知道它在做什么啦 😊
 
+
+## 参考
+* [Transformer 模型](https://transformers.run/c1/transformer/#transformer-%E7%9A%84%E7%BB%93%E6%9E%84)
+
