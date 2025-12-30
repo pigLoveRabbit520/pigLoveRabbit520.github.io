@@ -4,7 +4,10 @@
 简单讲，就是可以用Python写GPU算子。</p>]]></description></item><item><title>Triton写简单算子</title><link>https://pigLoveRabbit520.github.io/triton_learning/</link><pubDate>Thu, 02 Oct 2025 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/triton_learning/</guid><description><![CDATA[<p></p>
 <h2 id="triton">Triton</h2>
 <p><a href="https://triton.hyper.ai/" target="_blank" rel="noopener noreffer ">官网介绍</a>：Triton 是一种用于并行编程的语言和编译器。它旨在提供一个基于 Python 的编程环境，以高效编写自定义 DNN 计算内核，并能够在现代 GPU 硬件上以最大吞吐量运行。<br>
-简单讲，就是可以用Python写GPU算子。</p>]]></description></item><item><title>Attention机制学习</title><link>https://pigLoveRabbit520.github.io/llm_learning/</link><pubDate>Sun, 01 Dec 2024 20:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/llm_learning/</guid><description><![CDATA[<p></p>
+简单讲，就是可以用Python写GPU算子。</p>]]></description></item><item><title>pytorch学习哈</title><link>https://pigLoveRabbit520.github.io/torch_learning/</link><pubDate>Mon, 30 Dec 2024 22:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/torch_learning/</guid><description><![CDATA[<p></p>
+<!-- more -->
+<h2 id="backward函数">backward函数</h2>
+<p><code>backward()</code> 是深度学习框架（如 <strong>PyTorch</strong>）中的一个核心方法，它的作用是：<strong>自动计算损失函数对模型参数的梯度（gradient）</strong>，为后续的参数更新（比如用 SGD、Adam 等优化器）提供依据。</p>]]></description></item><item><title>Attention机制学习</title><link>https://pigLoveRabbit520.github.io/llm_learning/</link><pubDate>Sun, 01 Dec 2024 20:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/llm_learning/</guid><description><![CDATA[<p></p>
 <!-- more -->
 <h2 id="q-k-v">Q K V</h2>
 <p>在深度学习中，很多 LLM 的训练都使用 Transformer 架构，而在 Transformer 架构中计算的过程涉及到的最关键的就是注意力，它是整个过程中重要的基础。注意力抽象出了 3 个重要的概念，在计算过程中对应着 3 个矩阵，如下所示：</p>]]></description></item><item><title>Ascend C学习</title><link>https://pigLoveRabbit520.github.io/ascend_c/</link><pubDate>Fri, 08 Nov 2024 19:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/ascend_c/</guid><description><![CDATA[<p></p>
@@ -183,5 +186,4 @@ $$
 </span></span><span class="line"><span class="cl">    └── FindOptiX80.cmake
 </span></span></code></pre></td></tr></table>
 </div>
-</div><p><code>CMakeLists.txt</code>文件：</p>]]></description></item><item><title>二维异形件排版算法（摘抄）</title><link>https://pigLoveRabbit520.github.io/irregular_packing_nesting_problem/</link><pubDate>Thu, 15 Feb 2024 16:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/irregular_packing_nesting_problem/</guid><description>&lt;h3 id="算法简介">算法简介&lt;/h3>
-&lt;p>排样问题（Nesting Problem）又称为下料问题(Cutting and stock problems)或填充问题(Packing Problem)，其目标是在材料切割过程中寻找一个较高的材料利用率。排样问题属于经典的NP-Hard问题，其时间复杂度随着问题规模的增加迅速上升，难以在合理时间内精确求解大规模实例。相较于矩形排样问题，异形件排样问题的突出特点是裁片的边界轮廓复杂，计算过程中需要复杂的几何运算，其算法复杂度将进一步上升，是学术界和工业界公认的难以求解的问题。因此在大多数情况下，不规则形状排样算法主要是以启发式算法和智能搜索算法为主。&lt;/p></description></item></channel></rss>
+</div><p><code>CMakeLists.txt</code>文件：</p>]]></description></item></channel></rss>
