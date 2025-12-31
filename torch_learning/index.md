@@ -106,3 +106,13 @@ result = w.t() @ x     # (1, 1) 标量，
 print(result)
 ```
 
+### 底层对应关系
+
+| 表达式 | 等价函数 |
+|--------|--------|
+| `a @ b`（1D @ 1D） | `torch.dot(a, b)` |
+| `a @ b`（1D @ 2D） | `torch.mv(b.t(), a).t()` 或自动处理 |
+| `a @ b`（2D @ 2D） | `torch.mm(a, b)` |
+| `a @ b`（3D @ 3D） | `torch.bmm(a, b)` |
+| `a @ b`（高维） | `torch.matmul(a, b)` |
+
