@@ -1,4 +1,9 @@
-<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 猪爱兔的网站</title><link>https://pigLoveRabbit520.github.io/posts/</link><description>所有文章 | 猪爱兔的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 26 Oct 2025 14:00:00 +0000</lastBuildDate><atom:link href="https://pigLoveRabbit520.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>Triton写Attention算子</title><link>https://pigLoveRabbit520.github.io/triton_attention/</link><pubDate>Sun, 26 Oct 2025 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/triton_attention/</guid><description><![CDATA[<p></p>
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0"><channel><title>所有文章 - 猪爱兔的网站</title><link>https://pigLoveRabbit520.github.io/posts/</link><description>所有文章 | 猪爱兔的网站</description><generator>Hugo -- gohugo.io</generator><language>zh-CN</language><copyright>This work is licensed under a Creative Commons Attribution-NonCommercial 4.0 International License.</copyright><lastBuildDate>Sun, 18 Jan 2026 21:00:00 +0000</lastBuildDate><atom:link href="https://pigLoveRabbit520.github.io/posts/" rel="self" type="application/rss+xml"/><item><title>Verilog学习</title><link>https://pigLoveRabbit520.github.io/verilog_learning/</link><pubDate>Sun, 18 Jan 2026 21:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/verilog_learning/</guid><description><![CDATA[<p></p>
+<!-- more -->
+<h2 id="基本语法">基本语法</h2>
+<p>Verilog HDL（简称 Verilog ）是一种硬件描述语言，用于数字电路的系统设计。可对算法级、门级、开关级等多种抽象设计层次进行建模。<br>
+Verilog 继承了 C 语言的多种操作符和结构，与另一种硬件描述语言 VHDL 相比，语法不是很严格，代码更加简洁，更容易上手。<br>
+Verilog 不仅定义了语法，还对语法结构都定义了清晰的仿真语义。因此，Verilog 编写的数字模型就能够使用 Verilog 仿真器进行验证。</p>]]></description></item><item><title>Triton写Attention算子</title><link>https://pigLoveRabbit520.github.io/triton_attention/</link><pubDate>Sun, 26 Oct 2025 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/triton_attention/</guid><description><![CDATA[<p></p>
 <h2 id="triton">Triton</h2>
 <p><a href="https://triton.hyper.ai/" target="_blank" rel="noopener noreffer ">官网介绍</a>：Triton 是一种用于并行编程的语言和编译器。它旨在提供一个基于 Python 的编程环境，以高效编写自定义 DNN 计算内核，并能够在现代 GPU 硬件上以最大吞吐量运行。<br>
 简单讲，就是可以用Python写GPU算子。</p>]]></description></item><item><title>Triton写简单算子</title><link>https://pigLoveRabbit520.github.io/triton_learning/</link><pubDate>Thu, 02 Oct 2025 14:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/triton_learning/</guid><description><![CDATA[<p></p>
@@ -164,26 +169,4 @@ $$
 $$
 \text{L} = \frac{1}{2n} \sum_{i=1}^{n} \left( y_i - f(x_i) \right)^2
 $$
-其实就是多了个1/2n。</p>]]></description></item><item><title>JavaScript中的微任务、宏任务和Promise</title><link>https://pigLoveRabbit520.github.io/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</link><pubDate>Wed, 18 Sep 2024 09:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</guid><description>&lt;p>JavaScript会将异步任务划分为微任务和宏任务，微任务会在宏任务之前执行（因为每次从主线程切换到任务队列时，都会优先遍历微任务队列，后遍历宏任务队列）。&lt;/p></description></item><item><title>Ubuntu上OptiX8 简单尝试</title><link>https://pigLoveRabbit520.github.io/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</link><pubDate>Fri, 05 Jul 2024 16:00:00 +0000</pubDate><author>pigRabbit</author><guid>https://pigLoveRabbit520.github.io/ubuntu-optix-8%E7%AE%80%E5%8D%95%E5%B0%9D%E8%AF%95/</guid><description><![CDATA[<p>CUDA 的安装参考之前的<a href="/wsl2-install-cuda/" rel="">文章</a><br>
-需要安装 <a href="https://developer.nvidia.com/designworks/optix/download" target="_blank" rel="noopener noreffer ">OptiX 8</a><br>
-这是<a href="https://raytracing-docs.nvidia.com/optix8/api/OptiX_API_Reference.pdf" target="_blank" rel="noopener noreffer ">Reference.pdf</a></p>
-<p>新建一个 CMake 项目，目录结构是这样的</p>
-<div class="highlight"><div class="chroma">
-<table class="lntable"><tr><td class="lntd">
-<pre tabindex="0" class="chroma"><code><span class="lnt">1
-</span><span class="lnt">2
-</span><span class="lnt">3
-</span><span class="lnt">4
-</span><span class="lnt">5
-</span><span class="lnt">6
-</span></code></pre></td>
-<td class="lntd">
-<pre tabindex="0" class="chroma"><code class="language-fallback" data-lang="fallback"><span class="line"><span class="cl">optix_example/
-</span></span><span class="line"><span class="cl">├── CMakeLists.txt
-</span></span><span class="line"><span class="cl">├── src
-</span></span><span class="line"><span class="cl">    └── main.cpp
-</span></span><span class="line"><span class="cl">└── cmake
-</span></span><span class="line"><span class="cl">    └── FindOptiX80.cmake
-</span></span></code></pre></td></tr></table>
-</div>
-</div><p><code>CMakeLists.txt</code>文件：</p>]]></description></item></channel></rss>
+其实就是多了个1/2n。</p>]]></description></item><item><title>JavaScript中的微任务、宏任务和Promise</title><link>https://pigLoveRabbit520.github.io/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</link><pubDate>Wed, 18 Sep 2024 09:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/javascript_%E4%BB%BB%E5%8A%A1%E9%98%9F%E5%88%97_promise/</guid><description>&lt;p>JavaScript会将异步任务划分为微任务和宏任务，微任务会在宏任务之前执行（因为每次从主线程切换到任务队列时，都会优先遍历微任务队列，后遍历宏任务队列）。&lt;/p></description></item></channel></rss>
