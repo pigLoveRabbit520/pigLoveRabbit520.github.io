@@ -3,7 +3,8 @@
 <h2 id="基本语法">基本语法</h2>
 <p>Verilog HDL（简称 Verilog ）是一种硬件描述语言，用于数字电路的系统设计。可对算法级、门级、开关级等多种抽象设计层次进行建模。<br>
 Verilog 继承了 C 语言的多种操作符和结构，与另一种硬件描述语言 VHDL 相比，语法不是很严格，代码更加简洁，更容易上手。<br>
-Verilog 不仅定义了语法，还对语法结构都定义了清晰的仿真语义。因此，Verilog 编写的数字模型就能够使用 Verilog 仿真器进行验证。</p>]]></description></item><item><title>pytorch学习哈</title><link>https://pigLoveRabbit520.github.io/torch_learning/</link><pubDate>Mon, 30 Dec 2024 22:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/torch_learning/</guid><description><![CDATA[<p></p>
+Verilog 不仅定义了语法，还对语法结构都定义了清晰的仿真语义。因此，Verilog 编写的数字模型就能够使用 Verilog 仿真器进行验证。
+当然可以！以下是 <strong>Verilog HDL（硬件描述语言）的基础语法总结</strong>，适合初学者快速掌握核心概念，也方便你后续进行数字电路设计、仿真和综合。</p>]]></description></item><item><title>pytorch学习哈</title><link>https://pigLoveRabbit520.github.io/torch_learning/</link><pubDate>Mon, 30 Dec 2024 22:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/torch_learning/</guid><description><![CDATA[<p></p>
 <!-- more -->
 <h2 id="backward函数">backward函数</h2>
 <p><code>backward()</code> 是深度学习框架（如 <strong>PyTorch</strong>）中的一个核心方法，它的作用是：<strong>自动计算损失函数对模型参数的梯度（gradient）</strong>，为后续的参数更新（比如用 SGD、Adam 等优化器）提供依据。</p>]]></description></item><item><title>pytorch手写数字识别</title><link>https://pigLoveRabbit520.github.io/my_pytorch/</link><pubDate>Tue, 29 Oct 2024 20:00:00 +0000</pubDate><author>pigLoveRabbit</author><guid>https://pigLoveRabbit520.github.io/my_pytorch/</guid><description><![CDATA[<p></p>
